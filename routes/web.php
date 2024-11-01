@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,4 +18,5 @@ Route::get('/test-route', function () {
     return 'Test route is working!';
 });
 Route::get('/test', [TestController::class, 'test']);
+Route::get('/products', [ProductController::class, 'index']);
 
