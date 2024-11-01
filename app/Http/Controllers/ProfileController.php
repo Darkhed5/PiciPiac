@@ -6,11 +6,22 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
+    /**
+     * Megjeleníti a profil szerkesztő űrlapot.
+     *
+     * @return \Illuminate\View\View
+     */
     public function edit()
     {
         return view('profile.edit', ['user' => auth()->user()]);
     }
 
+    /**
+     * Frissíti a felhasználói profil adatokat.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request)
     {
         $request->validate([

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TestController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,4 +16,5 @@ Route::post('/profile', [ProfileController::class, 'update'])->middleware('auth'
 Route::get('/test-route', function () {
     return 'Test route is working!';
 });
+Route::get('/test', [TestController::class, 'test']);
 
