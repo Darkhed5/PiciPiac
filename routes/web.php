@@ -19,4 +19,6 @@ Route::get('/test-route', function () {
 });
 Route::get('/test', [TestController::class, 'test']);
 Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/create', [ProductController::class, 'create'])->middleware('auth');
+Route::post('/products', [ProductController::class, 'store'])->middleware('auth');
 
