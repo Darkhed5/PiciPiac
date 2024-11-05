@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product; // Ezzel importáljuk a Product modellt
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     /**
-     * Megjeleníti a termékkatalógust.
+     * Termékkatalógus megjelenítése.
      */
     public function index(Request $request)
     {
@@ -26,7 +26,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Megjeleníti az új termék hozzáadásának űrlapját.
+     * Új termék hozzáadása űrlap megjelenítése.
      */
     public function create()
     {
@@ -34,7 +34,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Elmenti az újonnan hozzáadott terméket az adatbázisba.
+     * Új termék mentése az adatbázisba.
      */
     public function store(Request $request)
     {
@@ -56,4 +56,45 @@ class ProductController extends Controller
 
         return redirect('/products')->with('status', 'Termék sikeresen hozzáadva!');
     }
+
+    /**
+     * Termékszerkesztő űrlap megjelenítése.
+     */
+    public function edit($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('products.edit', compact('product'));
+    }
+
+    /**
+     * A szerkesztett termék mentése.
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'category' => 'required|string',
+            'stock' => 'required|integer|min:0',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'category' => $request->category,
+            'stock' => $request->stock,
+        ]);
+
+        return redirect('/products')->with('status', 'Termék sikeresen frissítve!');
+    }
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+    
+        return redirect('/products')->with('status', 'Termék sikeresen törölve!');
+    }    
 }

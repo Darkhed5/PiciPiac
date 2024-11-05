@@ -31,6 +31,15 @@
                         <p class="card-text"><strong>Ár:</strong> {{ $product->price }} Ft</p>
                         <p class="card-text"><strong>Kategória:</strong> {{ $product->category }}</p>
                         <p class="card-text"><strong>Készlet:</strong> {{ $product->stock > 0 ? 'Raktáron' : 'Elfogyott' }}</p>
+
+                        <!-- Szerkesztés és Törlés Gombok -->
+                        <a href="{{ url('/products/' . $product->id . '/edit') }}" class="btn btn-primary">Szerkesztés</a>
+
+                        <form action="{{ url('/products/' . $product->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket?')">Törlés</button>
+                        </form>
                     </div>
                 </div>
             </div>

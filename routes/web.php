@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,3 +23,11 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/create', [ProductController::class, 'create'])->middleware('auth');
 Route::post('/products', [ProductController::class, 'store'])->middleware('auth');
 
+Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->middleware('auth');
+Route::put('/products/{id}', [ProductController::class, 'update'])->middleware('auth');
+
+Route::delete('/products/{id}', [ProductController::class, 'destroy'])->middleware('auth');
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index')->middleware('auth');
+Route::post('/cart/add/{productId}', [CartController::class, 'add'])->name('cart.add')->middleware('auth');
+Route::delete('/cart/remove/{cartId}', [CartController::class, 'remove'])->name('cart.remove')->middleware('auth');
