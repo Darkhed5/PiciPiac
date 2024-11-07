@@ -4,12 +4,14 @@
 <div class="container">
     <h1>Kosár</h1>
 
+    <!-- Sikeres üzenet megjelenítése -->
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
         </div>
     @endif
 
+    <!-- Kosár tartalmának ellenőrzése -->
     @if ($cartItems->isEmpty())
         <p>A kosarad üres.</p>
     @else
@@ -31,6 +33,7 @@
                         <td>{{ $item->product->price }} Ft</td>
                         <td>{{ $item->product->price * $item->quantity }} Ft</td>
                         <td>
+                            <!-- Termék törlése a kosárból -->
                             <form action="{{ route('cart.remove', $item->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -41,6 +44,17 @@
                 @endforeach
             </tbody>
         </table>
+
+        <!-- Kosár összesített ára -->
+        <div class="mb-3">
+            <h4>Összesen: {{ $cartItems->sum(fn($item) => $item->product->price * $item->quantity) }} Ft</h4>
+        </div>
+
+        <!-- Megrendelés leadása gomb -->
+        <form action="{{ route('order.store') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-success">Megrendelés Leadása</button>
+        </form>
     @endif
 </div>
 @endsection

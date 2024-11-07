@@ -2,22 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Cart extends Model
 {
-    public function up()
+    use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'product_id',
+        'quantity',
+    ];
+
+    // Kapcsolat a termékekkel (Product modell)
+    public function product()
     {
-        Schema::create('carts', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id'); // Felhasználó ID
-            $table->unsignedBigInteger('product_id'); // Termék ID
-            $table->integer('quantity'); // Mennyiség
-            $table->timestamps();
-    
-            // Külső kulcsok
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-        });
-    }    
+        return $this->belongsTo(Product::class);
+    }
 }

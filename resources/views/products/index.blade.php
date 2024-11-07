@@ -35,6 +35,11 @@
                         <!-- Szerkesztés és Törlés Gombok -->
                         <a href="{{ url('/products/' . $product->id . '/edit') }}" class="btn btn-primary">Szerkesztés</a>
 
+                        <form action="{{ route('cart.add', $product->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-success">Hozzáadás a kosárhoz</button>
+                        </form>
+
                         <form action="{{ url('/products/' . $product->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
