@@ -47,4 +47,11 @@ class OrderController extends Controller
 
         return redirect()->route('home')->with('status', 'Rendelés sikeresen leadva!');
     }
+
+    // Rendelési előzmények megtekintése
+    public function history()
+    {
+        $orders = Order::where('user_id', Auth::id())->with('items.product')->orderBy('created_at', 'desc')->get();
+        return view('orders.history', compact('orders'));
+    }
 }
