@@ -25,6 +25,11 @@
         @forelse($products as $product)
             <div class="col-md-4 mb-4">
                 <div class="card">
+                    @if($product->image_path)
+                        <img src="{{ asset('storage/' . $product->image_path) }}" class="card-img-top" alt="Product Image">
+                    @else
+                        <p class="text-center mt-3">Nincs kép feltöltve</p>
+                    @endif
                     <div class="card-body">
                         <h5 class="card-title">{{ $product->name }}</h5>
                         <p class="card-text">{{ $product->description }}</p>
@@ -33,6 +38,7 @@
                         <p class="card-text"><strong>Készlet:</strong> {{ $product->stock > 0 ? 'Raktáron' : 'Elfogyott' }}</p>
 
                         <!-- Szerkesztés és Törlés Gombok -->
+                        <a href="{{ url('/products/' . $product->id) }}" class="btn btn-info">Részletek</a>
                         <a href="{{ url('/products/' . $product->id . '/edit') }}" class="btn btn-primary">Szerkesztés</a>
 
                         <form action="{{ route('cart.add', $product->id) }}" method="POST" style="display:inline;">

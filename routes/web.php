@@ -31,4 +31,3 @@ Route::delete('/cart/remove/{cartId}', [CartController::class, 'remove'])->name(
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
 Route::post('/order', [OrderController::class, 'store'])->name('order.store')->middleware('auth');
 Route::get('/order-history', [OrderController::class, 'history'])->name('order.history')->middleware('auth');
-Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus'])->middleware('auth')->name('orders.updateStatus');
