@@ -28,8 +28,5 @@ Route::delete('/cart/remove/{cartId}', [CartController::class, 'remove'])->name(
 
 // Útvonalak a rendeléshez
 Route::post('/order', [OrderController::class, 'store'])->name('order.store')->middleware('auth');
-<<<<<<< HEAD
 Route::resource('products', ProductController::class);
-=======
 Route::get('/order-history', [OrderController::class, 'history'])->name('order.history')->middleware('auth');
->>>>>>> 8d153a246199fbc9b59842c310ec86835b0b8550
