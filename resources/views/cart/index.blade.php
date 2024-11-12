@@ -4,57 +4,48 @@
 <div class="container">
     <h1>Kosár</h1>
 
-    <!-- Sikeres üzenet megjelenítése -->
-    @if (session('status'))
+    @if(session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
         </div>
     @endif
 
-    <!-- Kosár tartalmának ellenőrzése -->
-    @if ($cartItems->isEmpty())
-        <p>A kosarad üres.</p>
+    @if($cartItems->isEmpty())
+        <p>A kosár üres.</p>
     @else
         <table class="table">
             <thead>
                 <tr>
                     <th>Termék</th>
-                    <th>Mennyiség</th>
+                    <th>Darabszám</th>
                     <th>Ár</th>
-                    <th>Összesen</th>
-                    <th>Művelet</th>
+                    <th>Műveletek</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($cartItems as $item)
+                @foreach($cartItems as $cartItem)
                     <tr>
-                        <td>{{ $item->product->name }}</td>
-                        <td>{{ $item->quantity }}</td>
-                        <td>{{ $item->product->price }} Ft</td>
-                        <td>{{ $item->product->price * $item->quantity }} Ft</td>
+                        <td>{{ $cartItem->product->name }}</td>
                         <td>
-                            <!-- Termék törlése a kosárból -->
-                            <form action="{{ route('cart.remove', $item->id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('cart.update', $cartItem->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <input type="number" name="quantity" value="{{ $cartItem->quantity }}" min="1">
+                                <button type="submit" class="btn btn-primary">Frissítés</button>
+                            </form>
+                        </td>
+                        <td>{{ $cartItem->product->price * $cartItem->quantity }} Ft</td>
+                        <td>
+                            <form action="{{ route('cart.remove', $cartItem->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket a kosárból?')">Törlés</button>
+                                <button type="submit" class="btn btn-danger">Eltávolítás</button>
                             </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-
-        <!-- Kosár összesített ára -->
-        <div class="mb-3">
-            <h4>Összesen: {{ $cartItems->sum(fn($item) => $item->product->price * $item->quantity) }} Ft</h4>
-        </div>
-
-        <!-- Megrendelés leadása gomb -->
-        <form action="{{ route('order.store') }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-success">Megrendelés Leadása</button>
-        </form>
     @endif
 </div>
 @endsection

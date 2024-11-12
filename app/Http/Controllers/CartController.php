@@ -9,42 +9,49 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    // Kosár tartalmának megjelenítése
     public function index()
     {
-        $cartItems = Cart::where('user_id', Auth::id())->with('product')->get();
+        $cartItems = Cart::where('user_id', Auth::id())->get();
         return view('cart.index', compact('cartItems'));
     }
 
-    // Termék hozzáadása a kosárhoz
     public function add(Request $request, $productId)
     {
-        $product = Product::findOrFail($productId);
-
-        $cartItem = Cart::where('user_id', Auth::id())->where('product_id', $productId)->first();
+        $cartItem = Cart::firstOrCreate(
+            ['user_id' => Auth::id(), 'product_id' => $productId],
+            ['quantity' => 0]
+        );
         
-        if ($cartItem) {
-            // Ha a termék már a kosárban van, növeljük a mennyiséget
-            $cartItem->quantity += $request->input('quantity', 1);
-            $cartItem->save();
-        } else {
-            // Új termék hozzáadása a kosárhoz
-            Cart::create([
-                'user_id' => Auth::id(),
-                'product_id' => $productId,
-                'quantity' => $request->input('quantity', 1),
-            ]);
-        }
+        $cartItem->quantity += $request->input('quantity', 1);
+        $cartItem->save();
 
-        return redirect()->route('cart.index')->with('status', 'Termék sikeresen hozzáadva a kosárhoz!');
+        return redirect()->route('cart.index')->with('status', 'Termék hozzáadva a kosárhoz!');
     }
 
-    // Termék eltávolítása a kosárból
+    public function update(Request $request, $cartId)
+    {
+        $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $cartItem = Cart::findOrFail($cartId);
+        $cartItem->quantity = $request->quantity;
+        $cartItem->save();
+
+        return redirect()->route('cart.index')->with('status', 'Darabszám sikeresen frissítve!');
+    }
+
     public function remove($cartId)
     {
-        $cartItem = Cart::where('user_id', Auth::id())->where('id', $cartId)->firstOrFail();
+        $cartItem = Cart::findOrFail($cartId);
         $cartItem->delete();
 
         return redirect()->route('cart.index')->with('status', 'Termék eltávolítva a kosárból!');
+    }
+
+    public function checkout()
+    {
+        $cartItems = Cart::where('user_id', Auth::id())->get();
+        return view('cart.checkout', compact('cartItems'));
     }
 }
