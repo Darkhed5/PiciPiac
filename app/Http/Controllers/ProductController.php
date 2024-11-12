@@ -116,7 +116,14 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+<<<<<<< HEAD
 
         return redirect()->route('products.index')->with('success', 'Termék sikeresen törölve.');
     }
 }
+=======
+    
+        return redirect('/products')->with('status', 'Termék sikeresen törölve!');
+    }    
+}
+>>>>>>> 8d153a246199fbc9b59842c310ec86835b0b8550

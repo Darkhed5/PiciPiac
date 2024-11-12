@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+<<<<<<< HEAD
 class CreateProductsTable extends Migration
 {
     /**
@@ -30,8 +31,30 @@ class CreateProductsTable extends Migration
      *
      * @return void
      */
+=======
+return new class extends Migration {
+    public function up()
+    {
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->decimal('price', 8, 2);
+            $table->unsignedBigInteger('user_id'); // Kapcsolódik a felhasználóhoz
+            $table->timestamps();
+
+            // Külső kulcs beállítása a felhasználóra
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+    }
+
+>>>>>>> 8d153a246199fbc9b59842c310ec86835b0b8550
     public function down()
     {
         Schema::dropIfExists('products');
     }
+<<<<<<< HEAD
 }
+=======
+};
+>>>>>>> 8d153a246199fbc9b59842c310ec86835b0b8550
