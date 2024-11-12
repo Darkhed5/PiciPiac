@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ url('/products/' . $product->id) }}">
+    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         
@@ -51,6 +51,18 @@
             <label for="stock">Készlet:</label>
             <input type="number" class="form-control" id="stock" name="stock" value="{{ $product->stock }}" required min="0">
         </div>
+
+        <div class="form-group">
+            <label for="image">Új kép feltöltése:</label>
+            <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
+        </div>
+
+        @if($product->image_path)
+            <div class="form-group">
+                <label>Jelenlegi kép:</label>
+                <img src="{{ asset('storage/' . $product->image_path) }}" alt="Termék Képe" style="width: 200px; height: auto;">
+            </div>
+        @endif
 
         <button type="submit" class="btn btn-primary">Termék Frissítése</button>
     </form>

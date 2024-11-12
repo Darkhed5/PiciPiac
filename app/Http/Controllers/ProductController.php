@@ -2,31 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
     /**
-     * Termékkatalógus megjelenítése.
+     * Display a listing of the products.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $query = Product::query();
-
-        // Szűrés kategória alapján
-        if ($request->has('category') && $request->category) {
-            $query->where('category', $request->category);
-        }
-
-        // Lekérdezzük a termékeket és átadjuk a nézetnek
-        $products = $query->get();
-
+        $products = Product::all();
         return view('products.index', compact('products'));
     }
 
     /**
-     * Új termék hozzáadása űrlap megjelenítése.
+     * Show the form for creating a new product.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -34,67 +29,94 @@ class ProductController extends Controller
     }
 
     /**
-     * Új termék mentése az adatbázisba.
+     * Store a newly created product in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'category' => 'required|string',
+            'price' => 'required|numeric',
+            'category' => 'required|string|max:255',
             'stock' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        Product::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'category' => $request->category,
-            'stock' => $request->stock,
-        ]);
+        $product = new Product();
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->category = $request->category;
+        $product->stock = $request->stock;
 
-        return redirect('/products')->with('status', 'Termék sikeresen hozzáadva!');
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $product->image_path = $imagePath;
+        }
+
+        $product->save();
+
+        return redirect()->route('products.index')->with('success', 'Termék sikeresen hozzáadva.');
     }
 
     /**
-     * Termékszerkesztő űrlap megjelenítése.
+     * Show the form for editing the specified product.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        $product = Product::findOrFail($id);
         return view('products.edit', compact('product'));
     }
 
     /**
-     * A szerkesztett termék mentése.
+     * Update the specified product in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'category' => 'required|string',
+            'price' => 'required|numeric',
+            'category' => 'required|string|max:255',
             'stock' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $product = Product::findOrFail($id);
-        $product->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'category' => $request->category,
-            'stock' => $request->stock,
-        ]);
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->category = $request->category;
+        $product->stock = $request->stock;
 
-        return redirect('/products')->with('status', 'Termék sikeresen frissítve!');
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $product->image_path = $imagePath;
+        }
+
+        $product->save();
+
+        return redirect()->route('products.index')->with('success', 'Termék sikeresen frissítve.');
     }
-    public function destroy($id)
+
+    /**
+     * Remove the specified product from storage.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Product $product)
     {
-        $product = Product::findOrFail($id);
         $product->delete();
-    
-        return redirect('/products')->with('status', 'Termék sikeresen törölve!');
-    }    
+
+        return redirect()->route('products.index')->with('success', 'Termék sikeresen törölve.');
+    }
 }

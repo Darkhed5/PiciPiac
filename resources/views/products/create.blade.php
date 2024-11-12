@@ -14,8 +14,9 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ url('/products') }}">
+    <form method="POST" action="{{ url('/products') }}" enctype="multipart/form-data">
         @csrf
+
         <div class="form-group">
             <label for="name">Termék Neve:</label>
             <input type="text" class="form-control" id="name" name="name" required>
@@ -48,6 +49,11 @@
         <div class="form-group">
             <label for="stock">Készlet:</label>
             <input type="number" class="form-control" id="stock" name="stock" required min="0">
+        </div>
+
+        <div class="form-group">
+            <label for="image">Kép:</label>
+            <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
         </div>
 
         <button type="submit" class="btn btn-primary">Termék Hozzáadása</button>

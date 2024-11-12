@@ -31,3 +31,4 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index')->middl
 Route::post('/cart/add/{productId}', [CartController::class, 'add'])->name('cart.add')->middleware('auth');
 Route::delete('/cart/remove/{cartId}', [CartController::class, 'remove'])->name('cart.remove')->middleware('auth');
 Route::post('/order', [OrderController::class, 'store'])->name('order.store')->middleware('auth');
+Route::resource('products', ProductController::class);
