@@ -32,10 +32,3 @@ Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.ch
 Route::post('/order', [OrderController::class, 'store'])->name('order.store')->middleware('auth');
 Route::get('/order-history', [OrderController::class, 'history'])->name('order.history')->middleware('auth');
 Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus'])->middleware('auth')->name('orders.updateStatus');
-
-// Debug route to check if the 'notes' column exists
-Route::get('/debug-orders', function () {
-    return \Illuminate\Support\Facades\Schema::hasColumn('orders', 'notes') 
-        ? 'notes oszlop létezik' 
-        : 'notes oszlop nem létezik';
-});
