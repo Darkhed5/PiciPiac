@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('status')->default('feldolgozás alatt'); // Alapértelmezett státusz
+            $table->string('status')->default('feldolgozás alatt')->after('total_price'); // Alapértelmezett státusz hozzáadása a total_price után
         });
     }
 

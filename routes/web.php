@@ -30,8 +30,12 @@ Route::delete('/cart/remove/{cartId}', [CartController::class, 'remove'])->name(
 
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
 Route::post('/order', [OrderController::class, 'store'])->name('order.store')->middleware('auth');
-<<<<<<< HEAD
-=======
-Route::resource('products', ProductController::class);
->>>>>>> 5f4345b7bdb3d240c8187a2c29f7fb82ecddc084
 Route::get('/order-history', [OrderController::class, 'history'])->name('order.history')->middleware('auth');
+Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus'])->middleware('auth')->name('orders.updateStatus');
+
+// Debug route to check if the 'notes' column exists
+Route::get('/debug-orders', function () {
+    return \Illuminate\Support\Facades\Schema::hasColumn('orders', 'notes') 
+        ? 'notes oszlop létezik' 
+        : 'notes oszlop nem létezik';
+});
