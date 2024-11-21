@@ -4,11 +4,33 @@
 <div class="container">
     <h1>Termékkatalógus</h1>
 
+    <!-- Keresőmező és Kategória szűrő -->
+    <form method="GET" action="{{ url('/products') }}" class="mb-4 d-flex align-items-center">
+        <!-- Keresőmező -->
+        <input
+            type="text"
+            name="search"
+            class="form-control me-2"
+            placeholder="Keresés termékek között..."
+            value="{{ request('search') }}"
+        >
+
+    <!-- Keresőmező és Kategória szűrő -->
+    <form method="GET" action="{{ url('/products') }}" class="mb-4 d-flex align-items-center">
+        <!-- Keresőmező -->
+        <input
+            type="text"
+            name="search"
+            class="form-control me-2"
+            placeholder="Keresés termékek között..."
+            value="{{ request('search') }}"
+        >
+
     <!-- Kategória szűrő -->
     <form method="GET" action="{{ url('/products') }}" class="mb-4">
         <label for="category">Kategória:</label>
         <select name="category" id="category" onchange="this.form.submit()">
-            <option value="">Összes</option>
+            <option value="">Minden kategória</option>
             <option value="gyumolcsok" {{ request('category') == 'gyumolcsok' ? 'selected' : '' }}>Gyümölcsök</option>
             <option value="zoldsegek" {{ request('category') == 'zoldsegek' ? 'selected' : '' }}>Zöldségek</option>
             <option value="tejtermekek" {{ request('category') == 'tejtermekek' ? 'selected' : '' }}>Tejtermékek</option>
@@ -18,7 +40,15 @@
             <option value="pekaruk" {{ request('category') == 'pekaruk' ? 'selected' : '' }}>Pékáruk</option>
             <option value="fuszerek-es-gyogynovenyek" {{ request('category') == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és gyógynövények</option>
         </select>
+
+        <!-- Keresés gomb -->
+        <button type="submit" class="btn btn-primary">Keresés</button>
     </form>
+
+    <!-- Keresés eredményének ellenőrzése -->
+    @if(request('search') && $products->isEmpty())
+        <p class="text-center text-danger">Nincs találat a keresésre: "{{ request('search') }}"</p>
+    @endif
 
     <!-- Termékek listája -->
     <div class="row">
@@ -56,6 +86,11 @@
         @empty
             <p>Nincsenek elérhető termékek ebben a kategóriában.</p>
         @endforelse
+    </div>
+
+    <!-- Lapozás Bootstrap-stílusban -->
+    <div class="d-flex justify-content-center mt-4">
+        {{ $products->onEachSide(1)->links('pagination::bootstrap-4') }}
     </div>
 </div>
 @endsection

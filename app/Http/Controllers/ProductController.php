@@ -8,12 +8,37 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of the products.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
     {
-        $products = Product::all();
-        return view('products.index', compact('products'));
+        // Lekérdezzük a keresési kulcsszót (ha van megadva)
+        $search = $request->input('search');
+    
+        // Alapvetően az összes terméket lekérdezzük
+        $query = Product::query();
+    
+        // Ha van keresési kulcsszó, szűrünk a név és a leírás alapján
+        if ($search) {
+            $query->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%");
+        }
+    
+        // Lekérdezzük a termékeket
+        $products = $query->paginate(10); // Paginálás 10 elem oldalanként
+    
+        // Visszaadjuk a termékeket a nézetnek
+        return view('products.index', compact('products', 'search'));
     }
 
+    /**
+     * Show the form for creating a new product.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         return view('products.create');
