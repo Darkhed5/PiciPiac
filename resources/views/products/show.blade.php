@@ -25,12 +25,12 @@
             <a href="{{ url('/products/' . $product->id . '/edit') }}" class="btn btn-primary mb-2">Szerkesztés</a>
 
             <!-- Törlés gomb -->
-            <form action="{{ url('/products/' . $product->id) }}" method="POST" style="display: inline-block;">
+            <form action="{{ url('/products/' . $product->id) }}" method="POST" class="d-inline">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-danger mb-2" onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket?')">Törlés</button>
             </form>
-
+            
             <!-- Vissza a termékekhez gomb -->
             <a href="{{ route('products.index') }}" class="btn btn-secondary">Vissza a termékekhez</a>
         </div>

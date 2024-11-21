@@ -68,10 +68,10 @@
                             <button type="submit" class="btn btn-success mb-2">Kosárba</button>
                         </form>
 
-                        <form action="{{ url('/products/' . $product->id) }}" method="POST" class="d-inline">
+                        <form action="{{ url('/products/' . $product->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger mb-2" onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket?')">Törlés</button>
+                            <button type="submit" class="btn btn-danger">Törlés</button>
                         </form>
                     </div>
                 </div>
