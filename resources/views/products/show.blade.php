@@ -2,28 +2,38 @@
 
 @section('content')
 <div class="container">
-    <h1>{{ $product->name }}</h1>
+    <h1 class="text-center my-4">{{ $product->name }}</h1>
 
-    <!-- Kép megjelenítése, ha van -->
-    @if($product->image_path)
-        <img src="{{ asset('storage/' . $product->image_path) }}" alt="Product Image" style="width: 300px; height: auto;" class="mb-4">
-    @else
-        <p>Nincs kép feltöltve</p>
-    @endif
+    <div class="row">
+        <!-- Termékkép megjelenítése -->
+        <div class="col-md-6 mb-4">
+            @if($product->image_path)
+                <img src="{{ asset('storage/' . $product->image_path) }}" alt="Product Image" class="img-fluid rounded shadow">
+            @else
+                <p class="text-center text-muted">Nincs kép feltöltve</p>
+            @endif
+        </div>
 
-    <p><strong>Leírás:</strong> {{ $product->description }}</p>
-    <p><strong>Ár:</strong> {{ $product->price }} Ft</p>
-    <p><strong>Kategória:</strong> {{ $product->category }}</p>
-    <p><strong>Készlet:</strong> {{ $product->stock > 0 ? 'Raktáron' : 'Elfogyott' }}</p>
+        <!-- Termékinformációk -->
+        <div class="col-md-6">
+            <p><strong>Leírás:</strong> {{ $product->description }}</p>
+            <p><strong>Ár:</strong> {{ $product->price }} Ft</p>
+            <p><strong>Kategória:</strong> {{ $product->category }}</p>
+            <p><strong>Készlet:</strong> {{ $product->stock > 0 ? 'Raktáron' : 'Elfogyott' }}</p>
 
-    <a href="{{ url('/products/' . $product->id . '/edit') }}" class="btn btn-warning">Szerkesztés</a>
+            <!-- Szerkesztés gomb -->
+            <a href="{{ url('/products/' . $product->id . '/edit') }}" class="btn btn-primary mb-2">Szerkesztés</a>
 
-    <form action="{{ url('/products/' . $product->id) }}" method="POST" style="display: inline-block;">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="btn btn-danger" onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket?')">Törlés</button>
-    </form>
-
-    <a href="{{ route('products.index') }}" class="btn btn-secondary">Vissza a termékekhez</a>
+            <!-- Törlés gomb -->
+            <form action="{{ url('/products/' . $product->id) }}" method="POST" class="d-inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger mb-2" onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket?')">Törlés</button>
+            </form>
+            
+            <!-- Vissza a termékekhez gomb -->
+            <a href="{{ route('products.index') }}" class="btn btn-secondary">Vissza a termékekhez</a>
+        </div>
+    </div>
 </div>
 @endsection
