@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the products.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -32,7 +34,7 @@ class ProductController extends Controller
         // Visszaadjuk a termékeket a nézetnek
         return view('products.index', compact('products', 'search'));
     }
-    
+
     /**
      * Show the form for creating a new product.
      *
@@ -46,7 +48,7 @@ class ProductController extends Controller
     /**
      * Store a newly created product in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -54,7 +56,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:0',
             'category' => 'required|string|max:255',
             'stock' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -66,6 +68,7 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->category = $request->category;
         $product->stock = $request->stock;
+        $product->user_id = Auth::id(); // Bejelentkezett felhasználó ID-ja
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
@@ -80,7 +83,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified product.
      *
-     * @param  \App\Models\Product  $product
+     * @param Product $product
      * @return \Illuminate\Http\Response
      */
     public function edit(Product $product)
@@ -91,8 +94,8 @@ class ProductController extends Controller
     /**
      * Update the specified product in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
+     * @param Request $request
+     * @param Product $product
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Product $product)
@@ -100,7 +103,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:0',
             'category' => 'required|string|max:255',
             'stock' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -125,12 +128,12 @@ class ProductController extends Controller
     /**
      * Remove the specified product from storage.
      *
-     * @param  \App\Models\Product  $product
+     * @param Product $product
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect('/products')->with('status', 'Termék sikeresen törölve!');
+        return redirect()->route('products.index')->with('success', 'Termék sikeresen törölve.');
     }
 }
