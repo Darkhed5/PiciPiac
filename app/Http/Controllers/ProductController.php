@@ -8,17 +8,49 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of the products.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
     {
-        $products = Product::all();
-        return view('products.index', compact('products'));
+        // Lekérdezzük a keresési kulcsszót (ha van megadva)
+        $search = $request->input('search');
+    
+        // Alapvetően az összes terméket lekérdezzük
+        $query = Product::query();
+    
+        // Ha van keresési kulcsszó, szűrünk a név és a leírás alapján
+        if ($search) {
+            $query->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('description', 'LIKE', "%{$search}%");
+        }
+    
+        // Lekérdezzük a termékeket
+        $products = $query->paginate(10); // Paginálás 10 elem oldalanként
+    
+        // Visszaadjuk a termékeket a nézetnek
+        return view('products.index', compact('products', 'search'));
     }
 
+    /**
+     * Show the form for creating a new product.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         return view('products.create');
     }
 
+    /**
+     * Store a newly created product in storage.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -48,11 +80,24 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Termék sikeresen hozzáadva.');
     }
 
+    /**
+     * Show the form for editing the specified product.
+     *
+     * @param Product $product
+     * @return \Illuminate\Http\Response
+     */
     public function edit(Product $product)
     {
         return view('products.edit', compact('product'));
     }
 
+    /**
+     * Update the specified product in storage.
+     *
+     * @param Request $request
+     * @param Product $product
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, Product $product)
     {
         $request->validate([
@@ -80,10 +125,15 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Termék sikeresen frissítve.');
     }
 
+    /**
+     * Remove the specified product from storage.
+     *
+     * @param Product $product
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Product $product)
     {
         $product->delete();
-
         return redirect()->route('products.index')->with('success', 'Termék sikeresen törölve.');
     }
 }
