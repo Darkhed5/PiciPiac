@@ -130,4 +130,15 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Termék sikeresen törölve.');
     }
+
+    /**
+     * Display the specified product details.
+     *
+     * @param Product $product
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Product $product)
+    {
+        return view('products.show', compact('product'));
+    }
 }

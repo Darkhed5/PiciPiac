@@ -1,26 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1 class="text-center my-4">Termékkatalógus</h1>
+<div class="container mx-auto px-4">
+    <h1 class="text-center text-3xl font-bold my-6">Termékkatalógus</h1>
 
     <!-- Keresőmező és Kategória szűrő -->
-    <form method="GET" action="{{ url('/products') }}" class="mb-4 d-flex flex-wrap justify-content-between align-items-center">
+    <form method="GET" action="{{ url('/products') }}" class="mb-6 flex flex-wrap justify-between items-center gap-4">
         <!-- Keresőmező -->
-        <div class="flex-grow-1 me-3">
-            <input
-                type="text"
-                name="search"
-                class="form-control"
-                placeholder="Keresés termékek között..."
-                value="{{ request('search') }}"
-            >
+        <div class="flex-grow">
+            <input type="text" name="search" class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" placeholder="Keresés termékek között..." value="{{ request('search') }}">
         </div>
-
         <!-- Kategória szűrő -->
-        <div class="me-3">
-            <label for="category" class="me-2">Kategória:</label>
-            <select name="category" id="category" class="form-select" onchange="this.form.submit()">
+        <div>
+            <label for="category" class="block text-sm font-medium text-gray-700">Kategória:</label>
+            <select name="category" id="category" class="w-full p-2 border rounded-lg shadow-sm" onchange="this.form.submit()">
                 <option value="">Összes</option>
                 <option value="gyumolcsok" {{ request('category') == 'gyumolcsok' ? 'selected' : '' }}>Gyümölcsök</option>
                 <option value="zoldsegek" {{ request('category') == 'zoldsegek' ? 'selected' : '' }}>Zöldségek</option>
@@ -32,56 +25,55 @@
                 <option value="fuszerek-es-gyogynovenyek" {{ request('category') == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és gyógynövények</option>
             </select>
         </div>
-
         <!-- Keresés gomb -->
-        <button type="submit" class="btn btn-primary">Keresés</button>
+        <button type="submit" class="btn bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark">Keresés</button>
     </form>
 
     <!-- Keresés eredményének ellenőrzése -->
     @if(request('search') && $products->isEmpty())
-        <p class="text-center text-danger">Nincs találat a keresésre: "{{ request('search') }}"</p>
+        <p class="text-center text-red-500">Nincs találat a keresésre: "{{ request('search') }}"</p>
     @endif
 
     <!-- Termékek listája -->
-    <div class="row">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         @forelse($products as $product)
-            <div class="col-md-4 col-sm-6 mb-4">
-                <div class="card h-100">
-                    @if($product->image_path)
-                        <img src="{{ asset('storage/' . $product->image_path) }}" class="card-img-top" alt="Product Image">
-                    @else
-                        <p class="text-center mt-3">Nincs kép feltöltve</p>
-                    @endif
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ $product->name }}</h5>
-                        <p class="card-text flex-grow-1">{{ $product->description }}</p>
-                        <p class="card-text"><strong>Ár:</strong> {{ $product->price }} Ft</p>
-                        <p class="card-text"><strong>Készlet:</strong> {{ $product->stock > 0 ? 'Raktáron' : 'Elfogyott' }}</p>
-
-                        <!-- Gombok -->
-                        <a href="{{ url('/products/' . $product->id) }}" class="btn btn-info mb-2">Részletek</a>
-                        <a href="{{ url('/products/' . $product->id . '/edit') }}" class="btn btn-primary mb-2">Szerkesztés</a>
-
-                        <form action="{{ route('cart.add', $product->id) }}" method="POST" class="d-inline">
+            <div class="bg-white shadow rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                @if($product->image_path)
+                    <div class="w-full h-32 bg-gray-100 flex items-center justify-center">
+                        <img src="{{ asset('storage/' . $product->image_path) }}" class="h-full w-full object-cover" alt="{{ $product->name }}">
+                    </div>
+                @else
+                    <div class="w-full h-32 bg-gray-100 flex items-center justify-center">
+                        <p class="text-gray-500">Nincs kép feltöltve</p>
+                    </div>
+                @endif
+                <div class="p-4 flex flex-col">
+                    <h5 class="text-lg font-bold text-gray-800 truncate">{{ $product->name }}</h5>
+                    <p class="text-sm text-gray-600 flex-grow truncate">{{ $product->description }}</p>
+                    <p class="font-semibold text-primary">Ár: {{ $product->price }} Ft</p>
+                    <p class="text-sm text-gray-600">Készlet: {{ $product->stock > 0 ? 'Raktáron' : 'Elfogyott' }}</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <a href="{{ url('/products/' . $product->id) }}" class="btn bg-info text-white px-4 py-2 rounded-lg">Részletek</a>
+                        <a href="{{ url('/products/' . $product->id . '/edit') }}" class="btn bg-primary text-white px-4 py-2 rounded-lg">Szerkesztés</a>
+                        <form action="{{ route('cart.add', $product->id) }}" method="POST" class="inline">
                             @csrf
-                            <button type="submit" class="btn btn-success mb-2">Kosárba</button>
+                            <button type="submit" class="btn bg-success text-white px-4 py-2 rounded-lg">Kosárba</button>
                         </form>
-
-                        <form action="{{ url('/products/' . $product->id) }}" method="POST" class="d-inline">
+                        <form action="{{ url('/products/' . $product->id) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger mb-2" onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket?')">Törlés</button>
+                            <button type="submit" class="btn bg-danger text-white px-4 py-2 rounded-lg" onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket?')">Törlés</button>
                         </form>
                     </div>
                 </div>
             </div>
         @empty
-            <p class="text-center text-muted">Nincsenek elérhető termékek.</p>
+            <p class="text-center text-gray-500">Nincsenek elérhető termékek.</p>
         @endforelse
     </div>
 
     <!-- Lapozás -->
-    <div class="d-flex justify-content-center mt-4">
+    <div class="mt-6 flex justify-center">
         {{ $products->onEachSide(1)->links('pagination::bootstrap-4') }}
     </div>
 </div>

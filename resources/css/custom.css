@@ -1,0 +1,35 @@
+.card {
+    max-width: 18rem; /* Kártyák maximális szélessége */
+    margin: auto; /* Középre helyezés */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Árnyék hozzáadása */
+    border-radius: 0.5rem; /* Lekerekített sarkok */
+}
+
+.card img {
+    height: 150px; /* Kép magasságának szabályozása */
+    object-fit: cover; /* Kép vágása, hogy illeszkedjen */
+    border-top-left-radius: 0.5rem; /* Lekerekítés illesztése */
+    border-top-right-radius: 0.5rem;
+}
+
+.card-body {
+    padding: 1rem; /* Szellősebb tartalom */
+}
+
+.card-title {
+    font-size: 1.25rem; /* Cím betűmérete */
+    font-weight: bold;
+    text-align: center;
+}
+
+.card-text {
+    font-size: 0.9rem; /* Leírás kisebb méretben */
+    color: #555;
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Kártya kicsit megemelkedik */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}

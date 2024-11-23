@@ -1,46 +1,55 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1 class="text-center my-4">{{ $product->name }}</h1>
+<div class="container mx-auto px-4">
+    <h1 class="text-center text-3xl font-bold my-6">{{ $product->name }}</h1>
 
-    <div class="row">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         <!-- Termékkép megjelenítése -->
-        <div class="col-md-6 mb-4">
+        <div>
             @if($product->image_path)
-                <img src="{{ asset('storage/' . $product->image_path) }}" alt="Product Image" class="img-fluid rounded shadow">
+                <img src="{{ asset('storage/' . $product->image_path) }}" alt="Product Image" class="w-full rounded-lg shadow-lg">
             @else
-                <div class="text-center text-muted bg-light p-5 rounded">
+                <div class="text-center text-gray-500 bg-gray-100 p-6 rounded-lg">
                     <p>Nincs kép feltöltve</p>
                 </div>
             @endif
         </div>
 
         <!-- Termékinformációk -->
-        <div class="col-md-6">
-            <div class="mb-3">
-                <p><strong>Leírás:</strong> {{ $product->description }}</p>
-                <p><strong>Ár:</strong> {{ $product->price }} Ft</p>
-                <p><strong>Kategória:</strong> {{ $product->category }}</p>
-                <p><strong>Készlet:</strong> {{ $product->stock > 0 ? 'Raktáron' : 'Elfogyott' }}</p>
+        <div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="mb-4"><strong>Leírás:</strong> {{ $product->description }}</p>
+                <p class="mb-4"><strong>Ár:</strong> <span class="text-primary font-semibold">{{ $product->price }} Ft</span></p>
+                <p class="mb-4"><strong>Kategória:</strong> {{ $product->category }}</p>
+                <p class="mb-4"><strong>Készlet:</strong> <span class="{{ $product->stock > 0 ? 'text-green-600' : 'text-red-600' }}">
+                    {{ $product->stock > 0 ? 'Raktáron' : 'Elfogyott' }}
+                </span></p>
             </div>
 
             <!-- Műveletek -->
-            <div class="d-flex flex-wrap gap-2">
+            <div class="mt-6 flex flex-wrap gap-4">
                 <!-- Szerkesztés gomb -->
-                <a href="{{ url('/products/' . $product->id . '/edit') }}" class="btn btn-primary">Szerkesztés</a>
+                <a href="{{ url('/products/' . $product->id . '/edit') }}" class="btn bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark">
+                    Szerkesztés
+                </a>
 
                 <!-- Törlés gomb -->
-                <form action="{{ url('/products/' . $product->id) }}" method="POST" class="d-inline">
+                <form action="{{ url('/products/' . $product->id) }}" method="POST" class="inline">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket?')">Törlés</button>
+                    <button type="submit" class="btn bg-danger text-white px-4 py-2 rounded-lg hover:bg-danger-dark"
+                        onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket?')">
+                        Törlés
+                    </button>
                 </form>
             </div>
 
             <!-- Vissza a termékekhez gomb -->
-            <div class="mt-3">
-                <a href="{{ route('products.index') }}" class="btn btn-secondary">Vissza a termékekhez</a>
+            <div class="mt-4">
+                <a href="{{ route('products.index') }}" class="btn bg-secondary text-white px-4 py-2 rounded-lg">
+                    Vissza a termékekhez
+                </a>
             </div>
         </div>
     </div>

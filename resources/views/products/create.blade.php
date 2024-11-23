@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1>Új Termék Hozzáadása</h1>
+<div class="container mx-auto px-4">
+    <h1 class="text-center text-3xl font-bold my-6">Új Termék Hozzáadása</h1>
 
+    <!-- Hibák megjelenítése -->
     @if ($errors->any())
-        <div class="alert alert-danger">
+        <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-6">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -14,27 +15,55 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ url('/products') }}" enctype="multipart/form-data">
+    <!-- Űrlap -->
+    <form method="POST" action="{{ url('/products') }}" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-lg">
         @csrf
 
-        <div class="form-group">
-            <label for="name">Termék Neve:</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+        <!-- Termék neve -->
+        <div class="mb-4">
+            <label for="name" class="block text-sm font-medium text-gray-700">Termék Neve:</label>
+            <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
+                required
+            >
         </div>
 
-        <div class="form-group">
-            <label for="description">Leírás:</label>
-            <textarea class="form-control" id="description" name="description"></textarea>
+        <!-- Leírás -->
+        <div class="mb-4">
+            <label for="description" class="block text-sm font-medium text-gray-700">Leírás:</label>
+            <textarea 
+                id="description" 
+                name="description" 
+                class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary"
+            ></textarea>
         </div>
 
-        <div class="form-group">
-            <label for="price">Ár (Ft):</label>
-            <input type="number" class="form-control" id="price" name="price" required min="0" step="0.01">
+        <!-- Ár -->
+        <div class="mb-4">
+            <label for="price" class="block text-sm font-medium text-gray-700">Ár (Ft):</label>
+            <input 
+                type="number" 
+                id="price" 
+                name="price" 
+                class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
+                required 
+                min="0" 
+                step="0.01"
+            >
         </div>
 
-        <div class="form-group">
-            <label for="category">Kategória:</label>
-            <select class="form-control" id="category" name="category" required>
+        <!-- Kategória -->
+        <div class="mb-4">
+            <label for="category" class="block text-sm font-medium text-gray-700">Kategória:</label>
+            <select 
+                id="category" 
+                name="category" 
+                class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
+                required
+            >
                 <option value="gyumolcsok">Gyümölcsök</option>
                 <option value="zoldsegek">Zöldségek</option>
                 <option value="tejtermekek">Tejtermékek</option>
@@ -46,17 +75,38 @@
             </select>
         </div>
 
-        <div class="form-group">
-            <label for="stock">Készlet:</label>
-            <input type="number" class="form-control" id="stock" name="stock" required min="0">
+        <!-- Készlet -->
+        <div class="mb-4">
+            <label for="stock" class="block text-sm font-medium text-gray-700">Készlet:</label>
+            <input 
+                type="number" 
+                id="stock" 
+                name="stock" 
+                class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
+                required 
+                min="0"
+            >
         </div>
 
-        <div class="form-group">
-            <label for="image">Kép:</label>
-            <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
+        <!-- Kép feltöltés -->
+        <div class="mb-6">
+            <label for="image" class="block text-sm font-medium text-gray-700">Kép:</label>
+            <input 
+                type="file" 
+                id="image" 
+                name="image" 
+                class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
+                accept="image/*"
+            >
         </div>
 
-        <button type="submit" class="btn btn-primary">Termék Hozzáadása</button>
+        <!-- Beküldés gomb -->
+        <button 
+            type="submit" 
+            class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark transition"
+        >
+            Termék Hozzáadása
+        </button>
     </form>
 </div>
 @endsection
