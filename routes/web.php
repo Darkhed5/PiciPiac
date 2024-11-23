@@ -6,29 +6,33 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Főoldal
+Route::get('/', [ProductController::class, 'index'])->name('home');
 
+// Hitelesítéshez kapcsolódó route-ok
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Profil szerkesztése (csak bejelentkezett felhasználóknak)
 Route::get('/profile', [ProfileController::class, 'edit'])->middleware('auth')->name('profile.edit');
 Route::post('/profile', [ProfileController::class, 'update'])->middleware('auth')->name('profile.update');
 
+// Termékekhez kapcsolódó route-ok
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/create', [ProductController::class, 'create'])->middleware('auth')->name('products.create');
 Route::post('/products', [ProductController::class, 'store'])->middleware('auth')->name('products.store');
 Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->middleware('auth')->name('products.edit');
 Route::put('/products/{id}', [ProductController::class, 'update'])->middleware('auth')->name('products.update');
 Route::delete('/products/{id}', [ProductController::class, 'destroy'])->middleware('auth')->name('products.destroy');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show'); // Termék részletei
 
+// Kosárhoz kapcsolódó route-ok
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index')->middleware('auth');
 Route::post('/cart/add/{productId}', [CartController::class, 'add'])->name('cart.add')->middleware('auth');
 Route::patch('/cart/update/{cartId}', [CartController::class, 'update'])->name('cart.update')->middleware('auth');
 Route::delete('/cart/remove/{cartId}', [CartController::class, 'remove'])->name('cart.remove')->middleware('auth');
-
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
+
+// Rendelésekhez kapcsolódó route-ok
 Route::post('/order', [OrderController::class, 'store'])->name('order.store')->middleware('auth');
 Route::get('/order-history', [OrderController::class, 'history'])->name('order.history')->middleware('auth');
 Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus'])->middleware('auth')->name('orders.updateStatus');

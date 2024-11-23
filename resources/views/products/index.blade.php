@@ -4,18 +4,6 @@
 <div class="container">
     <h1 class="text-center my-4">Termékkatalógus</h1>
 
-<<<<<<< HEAD
-    <!-- Keresőmező és Kategória szűrő -->
-    <form method="GET" action="{{ url('/products') }}" class="mb-4 d-flex align-items-center">
-        <!-- Keresőmező -->
-        <input
-            type="text"
-            name="search"
-            class="form-control me-2"
-            placeholder="Keresés termékek között..."
-            value="{{ request('search') }}"
-        >
-
     <!-- Keresőmező és Kategória szűrő -->
     <form method="GET" action="{{ url('/products') }}" class="mb-4 d-flex flex-wrap justify-content-between align-items-center">
         <!-- Keresőmező -->
@@ -33,36 +21,20 @@
         <div class="me-3">
             <label for="category" class="me-2">Kategória:</label>
             <select name="category" id="category" class="form-select" onchange="this.form.submit()">
-                <option value="">Minden kategória</option>
+                <option value="">Összes</option>
                 <option value="gyumolcsok" {{ request('category') == 'gyumolcsok' ? 'selected' : '' }}>Gyümölcsök</option>
                 <option value="zoldsegek" {{ request('category') == 'zoldsegek' ? 'selected' : '' }}>Zöldségek</option>
                 <option value="tejtermekek" {{ request('category') == 'tejtermekek' ? 'selected' : '' }}>Tejtermékek</option>
-                <option value="hus-es-huskeszitmenyek" {{ request('category') == 'hus-es-huskeszitmenyek' ? 'selected' : '' }}>Hús és Húskészítmények</option>
-                <option value="kezmuves-termekek" {{ request('category') == 'kezmuves-termekek' ? 'selected' : '' }}>Kézműves Termékek</option>
-                <option value="mezek-es-lekvarok" {{ request('category') == 'mezek-es-lekvarok' ? 'selected' : '' }}>Mézek és Lekvárok</option>
+                <option value="hus-es-huskeszitmenyek" {{ request('category') == 'hus-es-huskeszitmenyek' ? 'selected' : '' }}>Hús és húskészítmények</option>
+                <option value="kezmuves-termekek" {{ request('category') == 'kezmuves-termekek' ? 'selected' : '' }}>Kézműves termékek</option>
+                <option value="mezek-es-lekvarok" {{ request('category') == 'mezek-es-lekvarok' ? 'selected' : '' }}>Mézek és lekvárok</option>
                 <option value="pekaruk" {{ request('category') == 'pekaruk' ? 'selected' : '' }}>Pékáruk</option>
-                <option value="fuszerek-es-gyogynovenyek" {{ request('category') == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és Gyógynövények</option>
+                <option value="fuszerek-es-gyogynovenyek" {{ request('category') == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és gyógynövények</option>
             </select>
         </div>
 
         <!-- Keresés gomb -->
         <button type="submit" class="btn btn-primary">Keresés</button>
-=======
-    <!-- Kategória szűrő -->
-    <form method="GET" action="{{ url('/products') }}" class="mb-4">
-        <label for="category">Kategória:</label>
-        <select name="category" id="category" onchange="this.form.submit()">
-            <option value="">Összes</option>
-            <option value="gyumolcsok" {{ request('category') == 'gyumolcsok' ? 'selected' : '' }}>Gyümölcsök</option>
-            <option value="zoldsegek" {{ request('category') == 'zoldsegek' ? 'selected' : '' }}>Zöldségek</option>
-            <option value="tejtermekek" {{ request('category') == 'tejtermekek' ? 'selected' : '' }}>Tejtermékek</option>
-            <option value="hus-es-huskeszitmenyek" {{ request('category') == 'hus-es-huskeszitmenyek' ? 'selected' : '' }}>Hús és húskészítmények</option>
-            <option value="kezmuves-termekek" {{ request('category') == 'kezmuves-termekek' ? 'selected' : '' }}>Kézműves termékek</option>
-            <option value="mezek-es-lekvarok" {{ request('category') == 'mezek-es-lekvarok' ? 'selected' : '' }}>Mézek és lekvárok</option>
-            <option value="pekaruk" {{ request('category') == 'pekaruk' ? 'selected' : '' }}>Pékáruk</option>
-            <option value="fuszerek-es-gyogynovenyek" {{ request('category') == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és gyógynövények</option>
-        </select>
->>>>>>> b2e3abcec5486a3f31595f473bd3e39474a9ce9c
     </form>
 
     <!-- Keresés eredményének ellenőrzése -->
@@ -95,16 +67,16 @@
                             <button type="submit" class="btn btn-success mb-2">Kosárba</button>
                         </form>
 
-                        <form action="{{ url('/products/' . $product->id) }}" method="POST">
+                        <form action="{{ url('/products/' . $product->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Törlés</button>
+                            <button type="submit" class="btn btn-danger mb-2" onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket?')">Törlés</button>
                         </form>
                     </div>
                 </div>
             </div>
         @empty
-            <p>Nincsenek elérhető termékek ebben a kategóriában.</p>
+            <p class="text-center text-muted">Nincsenek elérhető termékek.</p>
         @endforelse
     </div>
 
