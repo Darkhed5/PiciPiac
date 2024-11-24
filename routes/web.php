@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdController;
 
 Route::get('/', [ProductController::class, 'index'])->name('home');
 
@@ -24,3 +26,5 @@ Route::get('/cart/checkout', [CartController::class, 'checkout'])->name('cart.ch
 Route::post('/order', [OrderController::class, 'store'])->name('order.store')->middleware('auth');
 Route::get('/order-history', [OrderController::class, 'history'])->name('order.history')->middleware('auth');
 Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus'])->middleware('auth')->name('orders.updateStatus');
+
+Route::get('/ads', [AdController::class, 'index'])->name('ads.index')->middleware('auth');

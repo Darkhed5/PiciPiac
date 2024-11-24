@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto px-4">
-    <h1 class="text-center text-3xl font-bold my-6">Új Termék Hozzáadása</h1>
+    <h1 class="text-center text-3xl font-bold my-6">Hirdetésfeladás</h1>
 
     <!-- Hibák megjelenítése -->
     @if ($errors->any())
@@ -67,11 +67,11 @@
                 <option value="gyumolcsok">Gyümölcsök</option>
                 <option value="zoldsegek">Zöldségek</option>
                 <option value="tejtermekek">Tejtermékek</option>
-                <option value="hus-es-huskeszitmenyek">Hús és Húskészítmények</option>
-                <option value="kezmuves-termekek">Kézműves Termékek</option>
-                <option value="mezek-es-lekvarok">Mézek és Lekvárok</option>
+                <option value="hus-es-huskeszitmenyek">Hús és húskészítmények</option>
+                <option value="kezmuves-termekek">Kézműves termékek</option>
+                <option value="mezek-es-lekvarok">Mézek és lekvárok</option>
                 <option value="pekaruk">Pékáruk</option>
-                <option value="fuszerek-es-gyogynovenyek">Fűszerek és Gyógynövények</option>
+                <option value="fuszerek-es-gyogynovenyek">Fűszerek és gyógynövények</option>
             </select>
         </div>
 
@@ -105,7 +105,7 @@
             type="submit" 
             class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark transition"
         >
-            Termék Hozzáadása
+            Termék hozzáadása
         </button>
     </form>
 </div>

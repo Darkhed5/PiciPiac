@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto px-4">
-    <h1 class="text-center text-3xl font-bold my-6">Termék Szerkesztése</h1>
+    <h1 class="text-center text-3xl font-bold my-6">Termék szerkesztése</h1>
 
     <!-- Hibák megjelenítése -->
     @if ($errors->any())
@@ -22,7 +22,7 @@
 
         <!-- Termék neve -->
         <div class="mb-4">
-            <label for="name" class="block text-sm font-medium text-gray-700">Termék Neve:</label>
+            <label for="name" class="block text-sm font-medium text-gray-700">Termék neve:</label>
             <input 
                 type="text" 
                 id="name" 
@@ -70,11 +70,11 @@
                 <option value="gyumolcsok" {{ $product->category == 'gyumolcsok' ? 'selected' : '' }}>Gyümölcsök</option>
                 <option value="zoldsegek" {{ $product->category == 'zoldsegek' ? 'selected' : '' }}>Zöldségek</option>
                 <option value="tejtermekek" {{ $product->category == 'tejtermekek' ? 'selected' : '' }}>Tejtermékek</option>
-                <option value="hus-es-huskeszitmenyek" {{ $product->category == 'hus-es-huskeszitmenyek' ? 'selected' : '' }}>Hús és Húskészítmények</option>
-                <option value="kezmuves-termekek" {{ $product->category == 'kezmuves-termekek' ? 'selected' : '' }}>Kézműves Termékek</option>
-                <option value="mezek-es-lekvarok" {{ $product->category == 'mezek-es-lekvarok' ? 'selected' : '' }}>Mézek és Lekvárok</option>
+                <option value="hus-es-huskeszitmenyek" {{ $product->category == 'hus-es-huskeszitmenyek' ? 'selected' : '' }}>Hús és húskészítmények</option>
+                <option value="kezmuves-termekek" {{ $product->category == 'kezmuves-termekek' ? 'selected' : '' }}>Kézműves termékek</option>
+                <option value="mezek-es-lekvarok" {{ $product->category == 'mezek-es-lekvarok' ? 'selected' : '' }}>Mézek és lekvárok</option>
                 <option value="pekaruk" {{ $product->category == 'pekaruk' ? 'selected' : '' }}>Pékáruk</option>
-                <option value="fuszerek-es-gyogynovenyek" {{ $product->category == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és Gyógynövények</option>
+                <option value="fuszerek-es-gyogynovenyek" {{ $product->category == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és gyógynövények</option>
             </select>
         </div>
 
@@ -117,7 +117,7 @@
             type="submit" 
             class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark transition"
         >
-            Termék Frissítése
+            Termék frissítése
         </button>
     </form>
 </div>

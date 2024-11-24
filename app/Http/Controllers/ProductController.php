@@ -12,11 +12,13 @@ class ProductController extends Controller
      * Display a listing of the products.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
         $search = $request->input('search');
+        $category = $request->input('category');
+
         $query = Product::query();
 
         if ($search) {
@@ -24,15 +26,19 @@ class ProductController extends Controller
                   ->orWhere('description', 'LIKE', "%{$search}%");
         }
 
+        if ($category) {
+            $query->where('category', $category);
+        }
+
         $products = $query->paginate(10);
 
-        return view('products.index', compact('products', 'search'));
+        return view('products.index', compact('products', 'search', 'category'));
     }
 
     /**
      * Show the form for creating a new product.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function create()
     {
@@ -43,7 +49,7 @@ class ProductController extends Controller
      * Store a newly created product in storage.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -78,7 +84,7 @@ class ProductController extends Controller
      * Show the form for editing the specified product.
      *
      * @param Product $product
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function edit(Product $product)
     {
@@ -90,7 +96,7 @@ class ProductController extends Controller
      *
      * @param Request $request
      * @param Product $product
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Product $product)
     {
@@ -123,7 +129,7 @@ class ProductController extends Controller
      * Remove the specified product from storage.
      *
      * @param Product $product
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Product $product)
     {
@@ -135,7 +141,7 @@ class ProductController extends Controller
      * Display the specified product details.
      *
      * @param Product $product
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function show(Product $product)
     {

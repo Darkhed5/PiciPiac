@@ -13,78 +13,53 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
-
-    <!-- Scripts -->
+    <!-- Styles -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
     <div id="app">
-        <!-- Navigációs sáv -->
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <!-- Alkalmazás neve -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+        <!-- Fejléc -->
+        <nav class="navbar navbar-light bg-light shadow-sm py-3">
+            <div class="container d-flex justify-content-between align-items-center">
+                <!-- Hirdetésfeladás gomb -->
+                <a href="{{ route('products.create') }}" class="btn btn-primary">Hirdetésfeladás</a>
 
-                <!-- Hamburger ikon mobilon -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Bal oldali navigáció -->
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('products.index') }}">Termékkatalógus</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('products.create') }}">Új Termék</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('cart.index') }}">Kosár</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('order.history') }}">Rendelési Előzmények</a>
-                        </li>
-                    </ul>
-
-                    <!-- Jobb oldali navigáció (Bejelentkezés/Kijelentkezés) -->
-                    <ul class="navbar-nav ms-auto">
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Bejelentkezés') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Regisztráció') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ Auth::user()->name }}
+                <!-- Felhasználó menü -->
+                @guest
+                    <!-- Bejelentkezési link -->
+                    <a href="{{ route('login') }}" class="btn btn-secondary">Bejelentkezés</a>
+                @else
+                    <!-- Dropdown menü -->
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ Auth::user()->name }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('order.history') }}">
+                                    Rendelési előzményeim
                                 </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        {{ __('Kijelentkezés') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
                             </li>
-                        @endguest
-                    </ul>
-                </div>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('ads.index') }}">
+                                    Hirdetéseim
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Kijelentkezés
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                @endguest
             </div>
         </nav>
 

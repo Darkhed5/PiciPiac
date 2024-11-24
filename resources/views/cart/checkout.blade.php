@@ -31,7 +31,7 @@
         </div>
 
         <!-- Rendelés Leadása Gomb -->
-        <button type="submit" class="btn btn-primary">Rendelés Leadása</button>
+        <button type="submit" class="btn btn-primary">Rendelés leadása</button>
     </form>
 </div>
 @endsection
