@@ -20,7 +20,6 @@
         @csrf
         @method('PUT')
 
-        <!-- Termék neve -->
         <div class="mb-4">
             <label for="name" class="block text-sm font-medium text-gray-700">Termék neve:</label>
             <input 
@@ -33,7 +32,6 @@
             >
         </div>
 
-        <!-- Leírás -->
         <div class="mb-4">
             <label for="description" class="block text-sm font-medium text-gray-700">Leírás:</label>
             <textarea 
@@ -43,7 +41,6 @@
             >{{ $product->description }}</textarea>
         </div>
 
-        <!-- Ár -->
         <div class="mb-4">
             <label for="price" class="block text-sm font-medium text-gray-700">Ár (Ft):</label>
             <input 
@@ -58,7 +55,6 @@
             >
         </div>
 
-        <!-- Kategória -->
         <div class="mb-4">
             <label for="category" class="block text-sm font-medium text-gray-700">Kategória:</label>
             <select 
@@ -70,55 +66,7 @@
                 <option value="gyumolcsok" {{ $product->category == 'gyumolcsok' ? 'selected' : '' }}>Gyümölcsök</option>
                 <option value="zoldsegek" {{ $product->category == 'zoldsegek' ? 'selected' : '' }}>Zöldségek</option>
                 <option value="tejtermekek" {{ $product->category == 'tejtermekek' ? 'selected' : '' }}>Tejtermékek</option>
-                <option value="hus-es-huskeszitmenyek" {{ $product->category == 'hus-es-huskeszitmenyek' ? 'selected' : '' }}>Hús és húskészítmények</option>
-                <option value="kezmuves-termekek" {{ $product->category == 'kezmuves-termekek' ? 'selected' : '' }}>Kézműves termékek</option>
+                <option value="hus-es-huskeszitmenyek" {{ $product->category == 'hus-es-huskeszitmenyek' ? 'selected' : '' }}>Húsok és húskészítmények</option>
                 <option value="mezek-es-lekvarok" {{ $product->category == 'mezek-es-lekvarok' ? 'selected' : '' }}>Mézek és lekvárok</option>
                 <option value="pekaruk" {{ $product->category == 'pekaruk' ? 'selected' : '' }}>Pékáruk</option>
-                <option value="fuszerek-es-gyogynovenyek" {{ $product->category == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és gyógynövények</option>
-            </select>
-        </div>
-
-        <!-- Készlet -->
-        <div class="mb-4">
-            <label for="stock" class="block text-sm font-medium text-gray-700">Készlet:</label>
-            <input 
-                type="number" 
-                id="stock" 
-                name="stock" 
-                value="{{ $product->stock }}" 
-                class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
-                required 
-                min="0"
-            >
-        </div>
-
-        <!-- Új kép feltöltése -->
-        <div class="mb-4">
-            <label for="image" class="block text-sm font-medium text-gray-700">Új kép feltöltése:</label>
-            <input 
-                type="file" 
-                id="image" 
-                name="image" 
-                class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
-                accept="image/*"
-            >
-        </div>
-
-        <!-- Jelenlegi kép -->
-        @if($product->image_path)
-            <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700">Jelenlegi kép:</label>
-                <img src="{{ asset('storage/' . $product->image_path) }}" alt="Termék Képe" class="w-48 rounded-lg shadow-md">
-            </div>
-        @endif
-
-        <!-- Beküldés gomb -->
-        <button 
-            type="submit" 
-            class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark transition"
-        >
-            Termék frissítése
-        </button>
-    </form>
-</div>
-@endsection
+                <option value="fuszerek-es-gyogynovenyek" {{ $product->category == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és gyógynövén

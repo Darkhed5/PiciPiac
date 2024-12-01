@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Rendelési Előzmények</h1>
+    <h1>Rendelési előzmények</h1>
 
     @if ($orders->isEmpty())
         <p>Nincsenek korábbi rendeléseid.</p>

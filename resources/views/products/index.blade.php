@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container py-4">
-    <h1 class="text-center mb-4">Termékkatalógus</h1>
 
     <!-- Keresősáv és kategória szűrő -->
     <form method="GET" action="{{ url('/products') }}" class="mb-4 d-flex flex-wrap gap-3 justify-content-between align-items-center">
@@ -35,7 +34,6 @@
                     <h5 class="card-title">{{ $product->name }}</h5>
                     <p class="card-text text-truncate">{{ $product->description }}</p>
                     <p class="text-muted">Ár: {{ $product->price }} Ft</p>
-                    <p class="text-muted">Készlet: {{ $product->stock > 0 ? 'Raktáron' : 'Elfogyott' }}</p>
                 </div>
                 <div class="card-footer bg-white text-center">
                     <form action="{{ route('cart.add', $product->id) }}" method="POST">

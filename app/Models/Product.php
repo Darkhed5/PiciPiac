@@ -14,8 +14,8 @@ class Product extends Model
         'description',
         'price',
         'category',
-        'stock',
         'user_id',
+        'image_path',
     ];
 
     public function user()

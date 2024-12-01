@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->decimal('price', 8, 2);
             $table->unsignedBigInteger('user_id'); // Kapcsolódik a felhasználóhoz
             $table->string('category');
-            $table->integer('stock');
             $table->timestamps();
 
             // Külső kulcs beállítása a felhasználóra
