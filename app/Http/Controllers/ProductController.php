@@ -8,12 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the products.
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\View
-     */
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -56,22 +50,11 @@ class ProductController extends Controller
         return view('products.index', compact('products', 'search', 'category', 'minPrice', 'maxPrice', 'inStock', 'orderBy', 'orderDirection'));
     }
 
-    /**
-     * Show the form for creating a new product.
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
     public function create()
     {
         return view('products.create');
     }
 
-    /**
-     * Store a newly created product in storage.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -79,7 +62,6 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category' => 'required|string|max:255',
-            'stock' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -88,7 +70,6 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->price = $request->price;
         $product->category = $request->category;
-        $product->stock = $request->stock;
         $product->user_id = Auth::id();
 
         if ($request->hasFile('image')) {
@@ -101,24 +82,11 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Termék sikeresen hozzáadva.');
     }
 
-    /**
-     * Show the form for editing the specified product.
-     *
-     * @param Product $product
-     * @return \Illuminate\Contracts\View\View
-     */
     public function edit(Product $product)
     {
         return view('products.edit', compact('product'));
     }
 
-    /**
-     * Update the specified product in storage.
-     *
-     * @param Request $request
-     * @param Product $product
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function update(Request $request, Product $product)
     {
         $request->validate([
@@ -126,7 +94,6 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category' => 'required|string|max:255',
-            'stock' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -134,7 +101,6 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->price = $request->price;
         $product->category = $request->category;
-        $product->stock = $request->stock;
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
@@ -143,29 +109,12 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect()->route('products.index')->with('success', 'Termék sikeresen frissítve.');
+        return redirect()->route('ads.index')->with('success', 'Termék sikeresen frissítve.');
     }
 
-    /**
-     * Remove the specified product from storage.
-     *
-     * @param Product $product
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Termék sikeresen törölve.');
-    }
-
-    /**
-     * Display the specified product details.
-     *
-     * @param Product $product
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function show(Product $product)
-    {
-        return view('products.show', compact('product'));
+        return redirect()->route('ads.index')->with('success', 'Termék sikeresen törölve.');
     }
 }
