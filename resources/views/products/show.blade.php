@@ -8,7 +8,7 @@
         <!-- Termékkép megjelenítése -->
         <div>
             @if($product->image_path)
-                <img src="{{ asset('storage/' . $product->image_path) }}" alt="Product Image" class="w-full rounded-lg shadow-lg">
+                <img src="{{ asset('storage/' . $product->image_path) }}" alt="Termék képe" class="w-full rounded-lg shadow-lg">
             @else
                 <div class="text-center text-gray-500 bg-gray-100 p-6 rounded-lg">
                     <p>Nincs kép feltöltve</p>
@@ -20,22 +20,24 @@
         <div>
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <p class="mb-4"><strong>Leírás:</strong> {{ $product->description }}</p>
-                <p class="mb-4"><strong>Ár:</strong> <span class="text-primary font-semibold">{{ $product->price }} Ft</span></p>
+                <p class="mb-4"><strong>Ár:</strong> <span class="text-primary font-semibold">{{ number_format($product->price, 0, ',', ' ') }} Ft</span></p>
                 <p class="mb-4"><strong>Kategória:</strong> {{ $product->category }}</p>
-                <p class="mb-4"><strong>Készlet:</strong> <span class="{{ $product->stock > 0 ? 'text-green-600' : 'text-red-600' }}">
-                    {{ $product->stock > 0 ? 'Raktáron' : 'Elfogyott' }}
-                </span></p>
+                <p class="mb-4"><strong>Készlet:</strong> 
+                    <span class="{{ $product->stock > 0 ? 'text-green-600' : 'text-red-600' }}">
+                        {{ $product->stock > 0 ? 'Raktáron' : 'Elfogyott' }}
+                    </span>
+                </p>
             </div>
 
             <!-- Műveletek -->
             <div class="mt-6 flex flex-wrap gap-4">
                 <!-- Szerkesztés gomb -->
-                <a href="{{ url('/products/' . $product->id . '/edit') }}" class="btn bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark">
+                <a href="{{ route('products.edit', $product->id) }}" class="btn bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark">
                     Szerkesztés
                 </a>
 
                 <!-- Törlés gomb -->
-                <form action="{{ url('/products/' . $product->id) }}" method="POST" class="inline">
+                <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn bg-danger text-white px-4 py-2 rounded-lg hover:bg-danger-dark"

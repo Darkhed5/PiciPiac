@@ -16,7 +16,7 @@
     @endif
 
     <!-- Űrlap -->
-    <form method="POST" action="{{ url('/products') }}" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-lg">
+    <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-lg">
         @csrf
 
         <!-- Termék neve -->
@@ -27,7 +27,8 @@
                 id="name" 
                 name="name" 
                 class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
-                required
+                required 
+                value="{{ old('name') }}"
             >
         </div>
 
@@ -38,7 +39,7 @@
                 id="description" 
                 name="description" 
                 class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary"
-            ></textarea>
+            >{{ old('description') }}</textarea>
         </div>
 
         <!-- Ár -->
@@ -52,6 +53,7 @@
                 required 
                 min="0" 
                 step="0.01"
+                value="{{ old('price') }}"
             >
         </div>
 
@@ -64,14 +66,14 @@
                 class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
                 required
             >
-                <option value="gyumolcsok">Gyümölcsök</option>
-                <option value="zoldsegek">Zöldségek</option>
-                <option value="tejtermekek">Tejtermékek</option>
-                <option value="hus-es-huskeszitmenyek">Hús és húskészítmények</option>
-                <option value="kezmuves-termekek">Kézműves termékek</option>
-                <option value="mezek-es-lekvarok">Mézek és lekvárok</option>
-                <option value="pekaruk">Pékáruk</option>
-                <option value="fuszerek-es-gyogynovenyek">Fűszerek és gyógynövények</option>
+                <option value="gyumolcsok" {{ old('category') == 'gyumolcsok' ? 'selected' : '' }}>Gyümölcsök</option>
+                <option value="zoldsegek" {{ old('category') == 'zoldsegek' ? 'selected' : '' }}>Zöldségek</option>
+                <option value="tejtermekek" {{ old('category') == 'tejtermekek' ? 'selected' : '' }}>Tejtermékek</option>
+                <option value="hus-es-huskeszitmenyek" {{ old('category') == 'hus-es-huskeszitmenyek' ? 'selected' : '' }}>Hús és húskészítmények</option>
+                <option value="kezmuves-termekek" {{ old('category') == 'kezmuves-termekek' ? 'selected' : '' }}>Kézműves termékek</option>
+                <option value="mezek-es-lekvarok" {{ old('category') == 'mezek-es-lekvarok' ? 'selected' : '' }}>Mézek és lekvárok</option>
+                <option value="pekaruk" {{ old('category') == 'pekaruk' ? 'selected' : '' }}>Pékáruk</option>
+                <option value="fuszerek-es-gyogynovenyek" {{ old('category') == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és gyógynövények</option>
             </select>
         </div>
 
@@ -85,6 +87,7 @@
                 class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
                 required 
                 min="0"
+                value="{{ old('stock') }}"
             >
         </div>
 

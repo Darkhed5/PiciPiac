@@ -18,21 +18,42 @@ class ProductController extends Controller
     {
         $search = $request->input('search');
         $category = $request->input('category');
+        $minPrice = $request->input('min_price');
+        $maxPrice = $request->input('max_price');
+        $inStock = $request->boolean('in_stock');
+        $orderBy = $request->input('order_by', 'name'); // Alapértelmezett rendezés: név szerint
+        $orderDirection = $request->input('order_direction', 'asc'); // Alapértelmezett: növekvő
 
         $query = Product::query();
 
         if ($search) {
-            $query->where('name', 'LIKE', "%{$search}%")
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
                   ->orWhere('description', 'LIKE', "%{$search}%");
+            });
         }
 
         if ($category) {
             $query->where('category', $category);
         }
 
+        if ($minPrice) {
+            $query->where('price', '>=', $minPrice);
+        }
+
+        if ($maxPrice) {
+            $query->where('price', '<=', $maxPrice);
+        }
+
+        if ($inStock) {
+            $query->where('stock', '>', 0);
+        }
+
+        $query->orderBy($orderBy, $orderDirection);
+
         $products = $query->paginate(10);
 
-        return view('products.index', compact('products', 'search', 'category'));
+        return view('products.index', compact('products', 'search', 'category', 'minPrice', 'maxPrice', 'inStock', 'orderBy', 'orderDirection'));
     }
 
     /**

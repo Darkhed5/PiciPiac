@@ -4,9 +4,10 @@
 <div class="container py-4">
     <h1 class="text-center mb-4">Termékkatalógus</h1>
 
-    <!-- Keresősáv és kategória szűrő -->
+    <!-- Keresősáv és szűrési opciók -->
     <form method="GET" action="{{ url('/products') }}" class="mb-4 d-flex flex-wrap gap-3 justify-content-between align-items-center">
         <input type="text" name="search" class="form-control w-50" placeholder="Keresés termékek között..." value="{{ request('search') }}">
+
         <select name="category" class="form-select w-25">
             <option value="">Minden kategóriában</option>
             <option value="gyumolcsok" {{ request('category') == 'gyumolcsok' ? 'selected' : '' }}>Gyümölcsök</option>
@@ -18,7 +19,27 @@
             <option value="fuszerek-es-gyogynovenyek" {{ request('category') == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és gyógynövények</option>
             <option value="kezmuves-termekek" {{ request('category') == 'kezmuves-termekek' ? 'selected' : '' }}>Kézműves termékek</option>
         </select>
-        <button type="submit" class="btn btn-primary">Keresés</button>
+
+        <input type="number" name="min_price" class="form-control w-25" placeholder="Min ár" value="{{ request('min_price') }}">
+        <input type="number" name="max_price" class="form-control w-25" placeholder="Max ár" value="{{ request('max_price') }}">
+
+        <div class="form-check">
+            <input type="checkbox" name="in_stock" class="form-check-input" id="in_stock" {{ request('in_stock') ? 'checked' : '' }}>
+            <label for="in_stock" class="form-check-label">Csak elérhető termékek</label>
+        </div>
+
+        <select name="order_by" class="form-select w-25">
+            <option value="name" {{ request('order_by') == 'name' ? 'selected' : '' }}>Név szerint</option>
+            <option value="price" {{ request('order_by') == 'price' ? 'selected' : '' }}>Ár szerint</option>
+            <option value="created_at" {{ request('order_by') == 'created_at' ? 'selected' : '' }}>Legújabbak</option>
+        </select>
+
+        <select name="order_direction" class="form-select w-25">
+            <option value="asc" {{ request('order_direction') == 'asc' ? 'selected' : '' }}>Növekvő</option>
+            <option value="desc" {{ request('order_direction') == 'desc' ? 'selected' : '' }}>Csökkenő</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">Szűrés</button>
     </form>
 
     <!-- Termékek listája -->
@@ -46,7 +67,7 @@
             </div>
         </div>
         @empty
-        <p class="text-center text-danger">Nincsenek elérhető termékek ebben a kategóriában.</p>
+        <p class="text-center text-danger">Nincsenek elérhető termékek a megadott feltételekkel.</p>
         @endforelse
     </div>
 

@@ -27,7 +27,7 @@
                 type="text" 
                 id="name" 
                 name="name" 
-                value="{{ $product->name }}" 
+                value="{{ old('name', $product->name) }}" 
                 class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
                 required
             >
@@ -40,7 +40,7 @@
                 id="description" 
                 name="description" 
                 class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary"
-            >{{ $product->description }}</textarea>
+            >{{ old('description', $product->description) }}</textarea>
         </div>
 
         <!-- Ár -->
@@ -50,7 +50,7 @@
                 type="number" 
                 id="price" 
                 name="price" 
-                value="{{ $product->price }}" 
+                value="{{ old('price', $product->price) }}" 
                 class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
                 required 
                 min="0" 
@@ -67,14 +67,14 @@
                 class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
                 required
             >
-                <option value="gyumolcsok" {{ $product->category == 'gyumolcsok' ? 'selected' : '' }}>Gyümölcsök</option>
-                <option value="zoldsegek" {{ $product->category == 'zoldsegek' ? 'selected' : '' }}>Zöldségek</option>
-                <option value="tejtermekek" {{ $product->category == 'tejtermekek' ? 'selected' : '' }}>Tejtermékek</option>
-                <option value="hus-es-huskeszitmenyek" {{ $product->category == 'hus-es-huskeszitmenyek' ? 'selected' : '' }}>Hús és húskészítmények</option>
-                <option value="kezmuves-termekek" {{ $product->category == 'kezmuves-termekek' ? 'selected' : '' }}>Kézműves termékek</option>
-                <option value="mezek-es-lekvarok" {{ $product->category == 'mezek-es-lekvarok' ? 'selected' : '' }}>Mézek és lekvárok</option>
-                <option value="pekaruk" {{ $product->category == 'pekaruk' ? 'selected' : '' }}>Pékáruk</option>
-                <option value="fuszerek-es-gyogynovenyek" {{ $product->category == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és gyógynövények</option>
+                <option value="gyumolcsok" {{ old('category', $product->category) == 'gyumolcsok' ? 'selected' : '' }}>Gyümölcsök</option>
+                <option value="zoldsegek" {{ old('category', $product->category) == 'zoldsegek' ? 'selected' : '' }}>Zöldségek</option>
+                <option value="tejtermekek" {{ old('category', $product->category) == 'tejtermekek' ? 'selected' : '' }}>Tejtermékek</option>
+                <option value="hus-es-huskeszitmenyek" {{ old('category', $product->category) == 'hus-es-huskeszitmenyek' ? 'selected' : '' }}>Hús és húskészítmények</option>
+                <option value="kezmuves-termekek" {{ old('category', $product->category) == 'kezmuves-termekek' ? 'selected' : '' }}>Kézműves termékek</option>
+                <option value="mezek-es-lekvarok" {{ old('category', $product->category) == 'mezek-es-lekvarok' ? 'selected' : '' }}>Mézek és lekvárok</option>
+                <option value="pekaruk" {{ old('category', $product->category) == 'pekaruk' ? 'selected' : '' }}>Pékáruk</option>
+                <option value="fuszerek-es-gyogynovenyek" {{ old('category', $product->category) == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és gyógynövények</option>
             </select>
         </div>
 
@@ -85,7 +85,7 @@
                 type="number" 
                 id="stock" 
                 name="stock" 
-                value="{{ $product->stock }}" 
+                value="{{ old('stock', $product->stock) }}" 
                 class="w-full p-2 border rounded-lg shadow-sm focus:ring focus:ring-primary" 
                 required 
                 min="0"
