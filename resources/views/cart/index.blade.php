@@ -46,6 +46,12 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="text-end">
+            <h4>Összesen: {{ $cartItems->sum(fn($item) => $item->product->price * $item->quantity) }} Ft</h4>
+        </div>
+        <div class="text-end mt-3">
+            <a href="{{ route('cart.checkout') }}" class="btn btn-success">Tovább a kasszához</a>
+        </div>
     @endif
 </div>
 @endsection

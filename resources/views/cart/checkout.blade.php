@@ -17,21 +17,41 @@
     <form action="{{ route('order.store') }}" method="POST">
         @csrf
 
-        <!-- Kosár tételek -->
-        @foreach($cartItems as $cartItem)
-            <input type="hidden" name="items[{{ $cartItem->id }}][product_id]" value="{{ $cartItem->product_id }}">
-            <input type="hidden" name="items[{{ $cartItem->id }}][quantity]" value="{{ $cartItem->quantity }}">
-            <p>{{ $cartItem->product->name }} - {{ $cartItem->quantity }} x {{ $cartItem->product->price }} Ft</p>
-        @endforeach
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Termék</th>
+                    <th>Darabszám</th>
+                    <th>Egységár</th>
+                    <th>Összeg</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($cartItems as $cartItem)
+                    <tr>
+                        <td>{{ $cartItem->product->name }}</td>
+                        <td>{{ $cartItem->quantity }}</td>
+                        <td>{{ $cartItem->product->price }} Ft</td>
+                        <td>{{ $cartItem->quantity * $cartItem->product->price }} Ft</td>
+                    </tr>
+                    <input type="hidden" name="items[{{ $cartItem->id }}][product_id]" value="{{ $cartItem->product_id }}">
+                    <input type="hidden" name="items[{{ $cartItem->id }}][quantity]" value="{{ $cartItem->quantity }}">
+                @endforeach
+            </tbody>
+        </table>
 
-        <!-- Megjegyzés mező -->
-        <div class="form-group mb-3">
+        <div class="text-end">
+            <h4>Összesen: {{ $cartItems->sum(fn($item) => $item->product->price * $item->quantity) }} Ft</h4>
+        </div>
+
+        <div class="form-group mt-3">
             <label for="notes">Megjegyzés az eladónak:</label>
             <textarea name="notes" id="notes" class="form-control" placeholder="Adjon hozzá megjegyzést..."></textarea>
         </div>
 
-        <!-- Rendelés Leadása Gomb -->
-        <button type="submit" class="btn btn-primary">Rendelés leadása</button>
+        <div class="text-end mt-4">
+            <button type="submit" class="btn btn-primary">Rendelés leadása</button>
+        </div>
     </form>
 </div>
 @endsection
