@@ -1,8 +1,16 @@
-// Fonts
+// Importálás helyes sorrendben
+
+// Sass modulok (mindig ezek legyenek legfelül)
+@use 'variables' as vars;
+@use 'bootstrap/scss/bootstrap';
+
+// Google Fonts importálása (ez nem Sass-specifikus, ezért maradhat lentebb)
 @import url('https://fonts.bunny.net/css?family=Nunito');
 
-// Variables
-@import 'variables';
-
-// Bootstrap
-@import 'bootstrap/scss/bootstrap';
+// Alap test stílusok
+body {
+    background-color: vars.$body-bg;
+    font-family: vars.$font-family-sans-serif;
+    font-size: vars.$font-size-base;
+    line-height: vars.$line-height-base;
+}
