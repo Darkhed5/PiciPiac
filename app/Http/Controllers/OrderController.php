@@ -69,4 +69,19 @@ class OrderController extends Controller
 
         return redirect()->back()->with('status', 'Rendelési státusz frissítve!');
     }
+
+    /**
+     * Megjeleníti egy rendelés részleteit.
+     *
+     * @param int $id
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function show($id)
+    {
+        $order = Order::where('user_id', Auth::id())
+                      ->with('items.product')
+                      ->findOrFail($id);
+
+        return view('orders.show', compact('order'));
+    }
 }

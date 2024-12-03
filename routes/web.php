@@ -27,4 +27,7 @@ Route::post('/order', [OrderController::class, 'store'])->name('order.store')->m
 Route::get('/order-history', [OrderController::class, 'history'])->name('order.history')->middleware('auth');
 Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus'])->middleware('auth')->name('orders.updateStatus');
 
+// Új route-ok a rendelési részletek megtekintéséhez
+Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
+
 Route::get('/ads', [AdController::class, 'index'])->name('ads.index')->middleware('auth');
