@@ -1,27 +1,37 @@
-.form-label {
-    font-weight: bold;
+/* Hero szekció */
+.hero-section {
+    background-color: #e6efe9;
+    color: #3b7f4b;
+    padding: 3rem 0;
 }
 
-.form-control, .form-select {
-    border-radius: 20px;
-    padding: 10px;
-    font-size: 16px;
-}
-
-.btn-success {
-    background-color: #00ac33;
-    border-color: #00ac33;
-    color: #ffffff;
-    font-weight: bold;
-}
-
-.btn-success:hover {
-    background-color: #028a0f;
-    border-color: #028a0f;
-}
-
-.alert {
+/* Kártyák */
+.card {
     border-radius: 10px;
-    padding: 15px;
-    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
+
+.card-title {
+    font-weight: bold;
+    color: #3b7f4b;
+}
+
+.card-text {
+    color: #6c757d;
+}
+
+/* Gombok */
+.btn-outline-success {
+    color: #3b7f4b;
+    border-color: #3b7f4b;
+}
+
+.btn-outline-success:hover {
+    background-color: #3b7f4b;
+    color: #fff;
 }
