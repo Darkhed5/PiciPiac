@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\OrderStatusUpdated;
+use App\Notifications\OrderPlaced;
 
 class OrderController extends Controller
 {
@@ -44,6 +45,10 @@ class OrderController extends Controller
 
         $order->total_price = $totalPrice;
         $order->save();
+
+        // Értesítés küldése rendelés leadásakor
+        $user = Auth::user();
+        $user->notify(new OrderPlaced($order));
 
         return redirect()->route('order.history')->with('status', 'Rendelés sikeresen leadva!');
     }
