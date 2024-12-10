@@ -44,11 +44,11 @@ class ProductController extends Controller
         }
 
         if ($minPrice) {
-            $query->where('price', '>=', $minPrice);
+            $query->where('price', '>=', (float) $minPrice);
         }
 
         if ($maxPrice) {
-            $query->where('price', '<=', $maxPrice);
+            $query->where('price', '<=', (float) $maxPrice);
         }
 
         if ($inStock) {
@@ -58,20 +58,13 @@ class ProductController extends Controller
         $query->orderBy($orderBy, $orderDirection);
 
         // Eredmények
-        try {
-            $products = $query->paginate(10);
+        $products = $query->paginate(10);
 
-            // Kategóriák lekérdezése (csak ha vannak termékek)
-            $categories = Product::select('category')->distinct()->get();
+        // Kategóriák lekérdezése
+        $categories = Product::select('category')->distinct()->get();
 
-            // Népszerű termékek lekérdezése (alapértelmezett 4)
-            $popularProducts = Product::orderBy('views', 'desc')->take(4)->get();
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-                'trace' => $e->getTrace(),
-            ]);
-        }
+        // Népszerű termékek lekérdezése
+        $popularProducts = Product::orderBy('views', 'desc')->take(4)->get();
 
         // Nézet visszatérése adatokkal
         return view('home', compact(
