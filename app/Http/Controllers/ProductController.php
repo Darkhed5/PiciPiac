@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -79,5 +80,39 @@ class ProductController extends Controller
             'orderBy',
             'orderDirection'
         ));
+    }
+
+    public function create()
+    {
+        // Új termék létrehozására szolgáló nézet megjelenítése
+        return view('products.create');
+    }
+
+    public function store(Request $request)
+    {
+        // Új termék mentése
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'category' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $product = new Product();
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->category = $request->category;
+        $product->user_id = Auth::id();
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('products', 'public');
+            $product->image_path = $path;
+        }
+
+        $product->save();
+
+        return redirect()->route('products.index')->with('success', 'Termék sikeresen létrehozva!');
     }
 }
