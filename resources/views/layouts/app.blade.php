@@ -3,8 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
@@ -15,14 +13,15 @@
 
     <!-- Styles -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
-        <!-- Fejléc -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm py-3">
+        <!-- Navigációs sáv -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-success py-3 shadow">
             <div class="container">
                 <!-- Logo -->
-                <a href="{{ route('home') }}" class="navbar-brand text-success fs-3 fw-bold">
+                <a href="{{ route('home') }}" class="navbar-brand text-white fw-bold">
                     PiciPiac
                 </a>
 
@@ -48,25 +47,25 @@
                                 <option value="kezmuves-termekek">Kézműves termékek</option>
                             </select>
                             <input type="text" name="search" class="form-control me-2 mb-2 mb-lg-0" placeholder="Keresés">
+                            <button class="btn btn-light">Keresés</button>
                         </div>
-                        <button class="btn btn-primary">Keresés</button>
                     </form>
 
                     <!-- Felhasználói opciók -->
                     <ul class="navbar-nav ms-auto">
                         @guest
                             <li class="nav-item">
-                                <a href="{{ route('login') }}" class="btn btn-outline-secondary me-2">Bejelentkezés</a>
+                                <a href="{{ route('login') }}" class="btn btn-outline-light me-2">Bejelentkezés</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('register') }}" class="btn btn-outline-primary">Regisztráció</a>
+                                <a href="{{ route('register') }}" class="btn btn-outline-warning">Regisztráció</a>
                             </li>
                         @else
                             <li class="nav-item">
-                                <a href="{{ route('products.create') }}" class="btn btn-primary me-2">Hirdetésfeladás</a>
+                                <a href="{{ route('products.create') }}" class="btn btn-warning me-2">Hirdetés feladása</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="btn btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -85,19 +84,17 @@
             </div>
         </nav>
 
-        <!-- Kategóriák -->
-        <div class="bg-light py-2">
-            <div class="container">
-                <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-2">
-                    <a href="{{ route('products.index', ['category' => 'gyumolcsok']) }}" class="col text-secondary">Gyümölcsök</a>
-                    <a href="{{ route('products.index', ['category' => 'zoldsegek']) }}" class="col text-secondary">Zöldségek</a>
-                    <a href="{{ route('products.index', ['category' => 'tejtermekek']) }}" class="col text-secondary">Tejtermékek</a>
-                    <a href="{{ route('products.index', ['category' => 'hus-es-huskeszitmenyek']) }}" class="col text-secondary">Húsok és húskészítmények</a>
-                    <a href="{{ route('products.index', ['category' => 'mezek-es-lekvarok']) }}" class="col text-secondary">Mézek és lekvárok</a>
-                    <a href="{{ route('products.index', ['category' => 'pekaruk']) }}" class="col text-secondary">Pékáruk</a>
-                    <a href="{{ route('products.index', ['category' => 'fuszerek-es-gyogynovenyek']) }}" class="col text-secondary">Fűszerek és gyógynövények</a>
-                    <a href="{{ route('products.index', ['category' => 'kezmuves-termekek']) }}" class="col text-secondary">Kézműves termékek</a>
-                </div>
+        <!-- Kategóriák szekció -->
+        <div class="bg-light py-3">
+            <div class="container d-flex justify-content-center flex-wrap gap-3">
+                <a href="{{ route('products.index', ['category' => 'gyumolcsok']) }}" class="btn btn-outline-success">Gyümölcsök</a>
+                <a href="{{ route('products.index', ['category' => 'zoldsegek']) }}" class="btn btn-outline-success">Zöldségek</a>
+                <a href="{{ route('products.index', ['category' => 'tejtermekek']) }}" class="btn btn-outline-success">Tejtermékek</a>
+                <a href="{{ route('products.index', ['category' => 'hus-es-huskeszitmenyek']) }}" class="btn btn-outline-success">Húsok</a>
+                <a href="{{ route('products.index', ['category' => 'mezek-es-lekvarok']) }}" class="btn btn-outline-success">Mézek</a>
+                <a href="{{ route('products.index', ['category' => 'pekaruk']) }}" class="btn btn-outline-success">Pékáruk</a>
+                <a href="{{ route('products.index', ['category' => 'fuszerek-es-gyogynovenyek']) }}" class="btn btn-outline-success">Fűszerek</a>
+                <a href="{{ route('products.index', ['category' => 'kezmuves-termekek']) }}" class="btn btn-outline-success">Kézműves termékek</a>
             </div>
         </div>
 
