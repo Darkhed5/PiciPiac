@@ -25,50 +25,61 @@
                     PiciPiac
                 </a>
 
-                <!-- Keresősáv -->
-                <form method="GET" action="{{ route('products.index') }}" class="d-flex w-50">
-                    <select name="category" class="form-select me-2">
-                        <option value="">Kategóriák</option>
-                        <option value="gyumolcsok">Gyümölcsök</option>
-                        <option value="zoldsegek">Zöldségek</option>
-                        <option value="tejtermekek">Tejtermékek</option>
-                        <option value="hus-es-huskeszitmenyek">Húsok és húskészítmények</option>
-                        <option value="mezek-es-lekvarok">Mézek és lekvárok</option>
-                        <option value="pekaruk">Pékáruk</option>
-                        <option value="fuszerek-es-gyogynovenyek">Fűszerek és gyógynövények</option>
-                        <option value="kezmuves-termekek">Kézműves termékek</option>
-                    </select>
-                    <input type="text" name="search" class="form-control me-2" placeholder="Keresés">
-                    <button class="btn btn-light">Keresés</button>
-                </form>
+                <!-- Hamburger Menü -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                <!-- Felhasználói opciók -->
-                <div class="d-flex">
-                    @guest
-                        <a href="{{ route('login') }}" class="btn btn-outline-light me-2">Bejelentkezés</a>
-                        <a href="{{ route('register') }}" class="btn btn-outline-warning">Regisztráció</a>
-                    @else
-                        <a href="{{ route('products.create') }}" class="btn btn-warning me-2">Hirdetés feladása</a>
-                        <div class="dropdown">
-                            <button class="btn btn-light dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ Auth::user()->name }}
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{{ route('order.history') }}">Rendeléseim</a></li>
-                                <li><a class="dropdown-item" href="{{ route('ads.index') }}">Hirdetéseim</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        Kijelentkezés
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </li>
-                            </ul>
+                <!-- Navigációs elemek -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <!-- Keresősáv -->
+                    <form method="GET" action="{{ route('products.index') }}" class="d-flex flex-column flex-lg-row w-100 mb-2 mb-lg-0">
+                        <div class="d-flex w-100">
+                            <select name="category" class="form-select me-2 mb-2 mb-lg-0">
+                                <option value="">Kategóriák</option>
+                                <option value="gyumolcsok">Gyümölcsök</option>
+                                <option value="zoldsegek">Zöldségek</option>
+                                <option value="tejtermekek">Tejtermékek</option>
+                                <option value="hus-es-huskeszitmenyek">Húsok és húskészítmények</option>
+                                <option value="mezek-es-lekvarok">Mézek és lekvárok</option>
+                                <option value="pekaruk">Pékáruk</option>
+                                <option value="fuszerek-es-gyogynovenyek">Fűszerek és gyógynövények</option>
+                                <option value="kezmuves-termekek">Kézműves termékek</option>
+                            </select>
+                            <input type="text" name="search" class="form-control me-2 mb-2 mb-lg-0" placeholder="Keresés">
+                            <button class="btn btn-light">Keresés</button>
                         </div>
-                    @endguest
+                    </form>
+
+                    <!-- Felhasználói opciók -->
+                    <ul class="navbar-nav ms-auto">
+                        @guest
+                            <li class="nav-item">
+                                <a href="{{ route('login') }}" class="btn btn-outline-light me-2">Bejelentkezés</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('register') }}" class="btn btn-outline-warning">Regisztráció</a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a href="{{ route('products.create') }}" class="btn btn-warning me-2">Hirdetés feladása</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="btn btn-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ Auth::user()->name }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="{{ route('order.history') }}">Rendeléseim</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('ads.index') }}">Hirdetéseim</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Kijelentkezés</a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endguest
+                    </ul>
                 </div>
             </div>
         </nav>

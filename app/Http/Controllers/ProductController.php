@@ -24,7 +24,7 @@ class ProductController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'LIKE', "%{$search}%")
                   ->orWhere('description', 'LIKE', "%{$search}%");
-            });
+            }); // Zárójel biztosan zárva
         }
 
         if ($category) {
@@ -43,16 +43,14 @@ class ProductController extends Controller
             $query->where('stock', '>', 0);
         }
 
-        $allowedColumns = ['name', 'price', 'created_at', 'stock'];
-        if (!in_array($orderBy, $allowedColumns)) {
-            $orderBy = 'name';
-        }
-
-        $query->orderBy($orderBy, $orderDirection === 'desc' ? 'desc' : 'asc');
+        $query->orderBy($orderBy, $orderDirection);
 
         $products = $query->paginate(10);
 
+        // Kategóriák lekérdezése
         $categories = Product::select('category')->distinct()->get();
+
+        // Népszerű termékek lekérdezése
         $popularProducts = Product::orderBy('views', 'desc')->take(4)->get();
 
         return view('home', compact(
@@ -67,10 +65,5 @@ class ProductController extends Controller
             'orderBy',
             'orderDirection'
         ));
-    }
-
-    public function create()
-    {
-        return view('products.create');
-    }
-}
+    } // <- Zárva a index metódus
+} // <- Zárva a ProductController osztály
