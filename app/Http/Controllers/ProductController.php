@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Auth;
 class ProductController extends Controller
 {
     public function index(Request $request)
-    {
-        $search = $request->input('search');
-        $category = $request->input('category');
-        $minPrice = $request->input('min_price');
-        $maxPrice = $request->input('max_price');
-        $inStock = $request->boolean('in_stock');
-        $orderBy = $request->input('order_by', 'name');
-        $orderDirection = $request->input('order_direction', 'asc');
+{
+    $search = $request->input('search');
+    $category = $request->input('category');
+    $minPrice = $request->input('min_price');
+    $maxPrice = $request->input('max_price');
+    $inStock = $request->boolean('in_stock');
+    $orderBy = $request->input('order_by', 'name'); // Alapértelmezett rendezés: név szerint
+    $orderDirection = $request->input('order_direction', 'asc'); // Alapértelmezett: növekvő
 
         $query = Product::query();
 
@@ -31,13 +31,13 @@ class ProductController extends Controller
             $query->where('category', $category);
         }
 
-        if ($minPrice) {
-            $query->where('price', '>=', (float) $minPrice);
-        }
+    if ($minPrice) {
+        $query->where('price', '>=', $minPrice);
+    }
 
-        if ($maxPrice) {
-            $query->where('price', '<=', (float) $maxPrice);
-        }
+    if ($maxPrice) {
+        $query->where('price', '<=', $maxPrice);
+    }
 
         if ($inStock) {
             $query->where('stock', '>', 0);
@@ -50,9 +50,8 @@ class ProductController extends Controller
         // Kategóriák lekérdezése
         $categories = Product::select('category')->distinct()->get();
 
-        // Népszerű termékek lekérdezése
-        $popularProducts = Product::orderBy('views', 'desc')->take(4)->get();
+    // Legnépszerűbb termékek lekérdezése
+    $popularProducts = Product::orderBy('views', 'desc')->take(4)->get();
 
-        return view('home', compact('products', 'categories', 'popularProducts', 'search', 'category', 'minPrice', 'maxPrice', 'inStock', 'orderBy', 'orderDirection'));
-    }
+    return view('home', compact('products', 'categories', 'popularProducts', 'search', 'category', 'minPrice', 'maxPrice', 'inStock', 'orderBy', 'orderDirection'));
 }
