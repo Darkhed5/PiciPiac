@@ -16,10 +16,22 @@ class Product extends Model
         'category',
         'user_id',
         'image_path',
+        'stock', // Hozzáadva a raktárkészlet kezelése miatt
     ];
 
+    /**
+     * Kapcsolat a User modellel.
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Kapcsolat a rendelési tételekkel (ha szükséges).
+     */
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

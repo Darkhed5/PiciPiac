@@ -8,13 +8,9 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdController;
 
-
-
 Auth::routes();
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [ProductController::class, 'index'])->name('home');
 
 Route::get('/profile', [ProfileController::class, 'edit'])->middleware('auth')->name('profile.edit');
 Route::post('/profile', [ProfileController::class, 'update'])->middleware('auth')->name('profile.update');
