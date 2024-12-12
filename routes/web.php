@@ -12,6 +12,7 @@ Auth::routes();
 
 // Home page
 Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::redirect('/home', '/');
 
 // Profile
 Route::get('/profile', [ProfileController::class, 'edit'])->middleware('auth')->name('profile.edit');

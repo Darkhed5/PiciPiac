@@ -11,10 +11,8 @@
     <!-- Kategóriák szekció -->
     <div class="categories-section mt-5">
         <h2 class="text-center mb-4">Kategóriák</h2>
-        @if ($categories->isEmpty())
-            <p class="text-center">Jelenleg nincsenek elérhető kategóriák.</p>
-        @else
-            <div class="row justify-content-center">
+        <div class="row justify-content-center">
+            @if($categories->isNotEmpty())
                 @foreach($categories as $category)
                     <div class="col-md-3 mb-3">
                         <div class="card text-center border-success">
@@ -25,17 +23,17 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
-        @endif
+            @else
+                <p class="text-center">Jelenleg nincsenek elérhető kategóriák.</p>
+            @endif
+        </div>
     </div>
 
     <!-- Népszerű termékek -->
     <div class="popular-products-section mt-5">
         <h2 class="text-center mb-4">Népszerű termékek</h2>
-        @if ($popularProducts->isEmpty())
-            <p class="text-center">Jelenleg nincsenek népszerű termékek.</p>
-        @else
-            <div class="row">
+        <div class="row">
+            @if($popularProducts->isNotEmpty())
                 @foreach($popularProducts as $product)
                     <div class="col-md-3 mb-3">
                         <div class="card">
@@ -48,8 +46,10 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
-        @endif
+            @else
+                <p class="text-center">Jelenleg nincsenek népszerű termékek.</p>
+            @endif
+        </div>
     </div>
 </div>
 @endsection
