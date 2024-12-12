@@ -20,14 +20,14 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3 position-relative">
+                        <div class="mb-3">
                             <label for="password" class="form-label">Jelszó:</label>
                             <div class="input-group">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
-                                <div class="form-check position-absolute">
-                                    <input type="checkbox" id="showPassword" class="form-check-input">
-                                    <label class="form-check-label" for="showPassword">Mutasd</label>
-                                </div>
+                            </div>
+                            <div class="form-check mt-2">
+                                <input type="checkbox" id="showPassword" class="form-check-input">
+                                <label class="form-check-label ms-2" for="showPassword">Mutasd</label>
                             </div>
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
