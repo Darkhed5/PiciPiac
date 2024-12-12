@@ -10,7 +10,6 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        // Lekérdezési paraméterek begyűjtése
         $search = $request->input('search', '');
         $category = $request->input('category', '');
         $minPrice = $request->input('min_price', 0);
@@ -19,7 +18,6 @@ class ProductController extends Controller
         $orderBy = $request->input('order_by', 'name');
         $orderDirection = $request->input('order_direction', 'asc');
 
-        // Biztonsági ellenőrzés az order_by és order_direction értékekre
         $allowedOrderBy = ['name', 'price', 'views'];
         $allowedOrderDirection = ['asc', 'desc'];
 
@@ -30,7 +28,6 @@ class ProductController extends Controller
             $orderDirection = 'asc';
         }
 
-        // Termékek lekérdezése
         $query = Product::query();
 
         if ($search) {
@@ -58,16 +55,12 @@ class ProductController extends Controller
 
         $query->orderBy($orderBy, $orderDirection);
 
-        // Eredmények
         $products = $query->paginate(10);
 
-        // Kategóriák lekérdezése
         $categories = Product::select('category')->distinct()->get();
 
-        // Népszerű termékek lekérdezése
         $popularProducts = Product::orderBy('views', 'desc')->take(4)->get();
 
-        // Nézet visszatérése adatokkal
         return view('home', compact(
             'products',
             'categories',
@@ -84,13 +77,11 @@ class ProductController extends Controller
 
     public function create()
     {
-        // Új termék létrehozására szolgáló nézet megjelenítése
         return view('products.create');
     }
 
     public function store(Request $request)
     {
-        // Új termék mentése
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -104,6 +95,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->price = $request->price;
         $product->category = $request->category;
+        $product->stock = $request->input('stock', 0);
         $product->user_id = Auth::id();
 
         if ($request->hasFile('image')) {
@@ -114,5 +106,60 @@ class ProductController extends Controller
         $product->save();
 
         return redirect()->route('products.index')->with('success', 'Termék sikeresen létrehozva!');
+    }
+
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+
+        return view('products.show', compact('product'));
+    }
+
+    public function edit($id)
+    {
+        $product = Product::findOrFail($id);
+
+        return view('products.edit', compact('product'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0',
+            'category' => 'required|string|max:255',
+            'stock' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->category = $request->category;
+        $product->stock = $request->stock;
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('products', 'public');
+            $product->image_path = $path;
+        }
+
+        $product->save();
+
+        return redirect()->route('products.index')->with('success', 'Termék sikeresen frissítve!');
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+
+        if ($product->image_path) {
+            \Storage::disk('public')->delete($product->image_path);
+        }
+
+        $product->delete();
+
+        return redirect()->route('products.index')->with('success', 'Termék sikeresen törölve!');
     }
 }
