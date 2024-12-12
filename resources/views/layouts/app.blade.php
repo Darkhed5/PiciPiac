@@ -19,10 +19,10 @@
 <body>
     <div id="app">
         <!-- Fejléc -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm py-3">
+        <nav class="navbar navbar-expand-lg navbar-light bg-success shadow-sm py-3">
             <div class="container">
                 <!-- Logo -->
-                <a href="{{ route('home') }}" class="navbar-brand text-success fs-3 fw-bold">
+                <a href="{{ route('home') }}" class="navbar-brand text-light fs-3 fw-bold">
                     PiciPiac
                 </a>
 
