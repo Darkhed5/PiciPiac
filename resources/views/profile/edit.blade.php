@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Profil Szerkesztése</h1>
+    <h1>Profil szerkesztése</h1>
 
     @if (session('status'))
         <div class="alert alert-success">
@@ -33,7 +33,7 @@
             <input type="text" name="phone_number" class="form-control" value="{{ old('phone_number', $user->phone_number) }}">
         </div>
 
-        <button type="submit" class="btn btn-primary mt-3">Profil Frissítése</button>
+        <button type="submit" class="btn btn-primary mt-3">Mentés</button>
     </form>
 </div>
 @endsection

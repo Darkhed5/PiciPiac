@@ -15,6 +15,7 @@
 
     <!-- Styles -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -36,7 +37,7 @@
                     <!-- Keresősáv -->
                     <form method="GET" action="{{ route('products.index') }}" class="d-flex flex-column flex-lg-row w-100 mb-2 mb-lg-0">
                         <div class="d-flex w-100">
-                            <select name="category" class="form-select me-2 mb-2 mb-lg-0">
+                            <select name="category" class="form-select me-3 mb-2 mb-lg-0">
                                 <option value="">Kategóriák</option>
                                 <option value="gyumolcsok">Gyümölcsök</option>
                                 <option value="zoldsegek">Zöldségek</option>
@@ -47,29 +48,40 @@
                                 <option value="fuszerek-es-gyogynovenyek">Fűszerek és gyógynövények</option>
                                 <option value="kezmuves-termekek">Kézműves termékek</option>
                             </select>
-                            <input type="text" name="search" class="form-control me-2 mb-2 mb-lg-0" placeholder="Keresés">
+                            <input type="text" name="search" class="form-control me-3 mb-2 mb-lg-0" placeholder="Termékek keresése">
                         </div>
-                        <button class="btn btn-primary">Keresés</button>
+                        <button class="btn btn-primary me-lg-4">Keresés</button>
                     </form>
 
                     <!-- Felhasználói opciók -->
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto align-items-center">
                         @guest
                             <li class="nav-item">
-                                <a href="{{ route('login') }}" class="btn btn-outline-secondary me-2">Bejelentkezés</a>
+                                <a href="{{ route('login') }}" class="btn btn-outline-secondary me-3">Bejelentkezés</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('register') }}" class="btn btn-outline-primary">Regisztráció</a>
+                                <a href="{{ route('register') }}" class="btn btn-outline-primary me-3">Regisztráció</a>
                             </li>
                         @else
+                            <!-- Hirdetésfeladás gomb -->
                             <li class="nav-item">
-                                <a href="{{ route('products.create') }}" class="btn btn-warning me-2">Hirdetés feladása</a>
+                                <a href="{{ route('products.create') }}" class="btn btn-warning me-3 ms-lg-4">Hirdetésfeladás</a>
                             </li>
+
+                            <!-- Kosár ikon -->
+                            <li class="nav-item me-3">
+                                <a href="{{ route('cart.index') }}" class="text-light fs-4">
+                                    <i class="bi bi-cart"></i>
+                                </a>
+                            </li>
+
+                            <!-- Felhasználói menü ikon -->
                             <li class="nav-item dropdown">
-                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ Auth::user()->name }}
+                                <a class="btn btn-secondary dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-circle"></i> <!-- Csak ikon jelenik meg -->
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profilom</a></li>
                                     <li><a class="dropdown-item" href="{{ route('order.history') }}">Rendeléseim</a></li>
                                     <li><a class="dropdown-item" href="{{ route('ads.index') }}">Hirdetéseim</a></li>
                                     <li><hr class="dropdown-divider"></li>

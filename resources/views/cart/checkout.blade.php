@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Rendelés Leadása</h1>
+    <h1>Rendelés leadása</h1>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -45,7 +45,7 @@
         </div>
 
         <div class="form-group mt-3">
-            <label for="notes">Megjegyzés az eladónak:</label>
+            <label for="notes">Megjegyzés:</label>
             <textarea name="notes" id="notes" class="form-control" placeholder="Adjon hozzá megjegyzést..."></textarea>
         </div>
 
