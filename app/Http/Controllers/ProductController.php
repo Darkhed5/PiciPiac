@@ -10,6 +10,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
+        // Lekérdezési paraméterek begyűjtése
         $search = $request->input('search', '');
         $category = $request->input('category', '');
         $minPrice = $request->input('min_price', 0);
@@ -18,6 +19,7 @@ class ProductController extends Controller
         $orderBy = $request->input('order_by', 'name');
         $orderDirection = $request->input('order_direction', 'asc');
 
+        // Biztonsági ellenőrzés az order_by és order_direction értékekre
         $allowedOrderBy = ['name', 'price', 'views'];
         $allowedOrderDirection = ['asc', 'desc'];
 
@@ -28,40 +30,51 @@ class ProductController extends Controller
             $orderDirection = 'asc';
         }
 
+        // Termékek lekérdezése
         $query = Product::query();
 
-        if ($search) {
+        // Keresési feltételek
+        if (!empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'LIKE', "%{$search}%")
                   ->orWhere('description', 'LIKE', "%{$search}%");
             });
         }
 
-        if ($category) {
+        // Kategória szűrés
+        if (!empty($category)) {
             $query->where('category', $category);
         }
 
-        if ($minPrice) {
+        // Ár szűrés
+        if ($minPrice > 0) {
             $query->where('price', '>=', (float) $minPrice);
         }
 
-        if ($maxPrice) {
+        if (!is_null($maxPrice)) {
             $query->where('price', '<=', (float) $maxPrice);
         }
 
+        // Készlet szűrés
         if ($inStock) {
             $query->where('stock', '>', 0);
         }
 
+        // Rendezés
         $query->orderBy($orderBy, $orderDirection);
 
+        // Eredmények
         $products = $query->paginate(10);
 
+        // Kategóriák lekérdezése
         $categories = Product::select('category')->distinct()->get();
 
+        // Népszerű termékek lekérdezése
         $popularProducts = Product::orderBy('views', 'desc')->take(4)->get();
 
-        return view('home', compact(
+        // Nézet visszatérése adatokkal
+
+        return view('products/index', compact(
             'products',
             'categories',
             'popularProducts',

@@ -57,10 +57,10 @@
                     <ul class="navbar-nav ms-auto align-items-center">
                         @guest
                             <li class="nav-item">
-                                <a href="{{ route('login') }}" class="btn btn-outline-secondary me-3">Bejelentkezés</a>
+                                <a href="{{ route('login') }}" class="btn btn-secondary me-3">Bejelentkezés</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('register') }}" class="btn btn-outline-primary me-3">Regisztráció</a>
+                                <a href="{{ route('register') }}" class="btn btn-primary me-3">Regisztráció</a>
                             </li>
                         @else
                             <!-- Hirdetésfeladás gomb -->

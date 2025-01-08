@@ -7,11 +7,12 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\HomeController;
 
 Auth::routes();
 
 // Home page
-Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::redirect('/home', '/');
 
 // Profile
@@ -19,7 +20,7 @@ Route::get('/profile', [ProfileController::class, 'edit'])->middleware('auth')->
 Route::post('/profile', [ProfileController::class, 'update'])->middleware('auth')->name('profile.update');
 
 // Products
-Route::resource('products', ProductController::class)->middleware('auth');
+Route::resource('/products', ProductController::class)->middleware('auth');
 
 // Cart routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index')->middleware('auth');
