@@ -8,9 +8,11 @@
         <!-- Termékkép megjelenítése -->
         <div>
             @if($product->image_path)
-                <img src="{{ asset('storage/' . $product->image_path) }}" alt="Termék képe" class="w-full rounded-lg shadow-lg">
+            <div class="mb-4 col-12 col-md-4 mx-auto">
+                <img src="{{ asset('storage/' . $product->image_path) }}" alt="Termék képe" class=" rounded shadow img-fluid">
+            </div>
             @else
-                <div class="text-center text-gray-500 bg-gray-100 p-6 rounded-lg">
+                <div class="text-center text-gray-500 bg-gray-100 p-6 rounded">
                     <p>Nincs kép feltöltve</p>
                 </div>
             @endif
@@ -18,7 +20,7 @@
 
         <!-- Termékinformációk -->
         <div>
-            <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="bg-white p-5 rounded shadow">
                 <p class="mb-4"><strong>Leírás:</strong> {{ $product->description }}</p>
                 <p class="mb-4"><strong>Ár:</strong> <span class="text-primary font-semibold">{{ number_format($product->price, 0, ',', ' ') }} Ft</span></p>
                 <p class="mb-4"><strong>Kategória:</strong> {{ $product->category }}</p>
@@ -32,7 +34,7 @@
             <!-- Műveletek -->
             <div class="mt-6 flex flex-wrap gap-4">
                 <!-- Szerkesztés gomb -->
-                <a href="{{ route('products.edit', $product->id) }}" class="btn bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark">
+                <a href="{{ route('products.edit', $product->id) }}" class="btn bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark">
                     Szerkesztés
                 </a>
 
@@ -40,7 +42,7 @@
                 <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn bg-danger text-white px-4 py-2 rounded-lg hover:bg-danger-dark"
+                    <button type="submit" class="btn bg-danger text-white px-4 py-2 rounded hover:bg-danger-dark"
                         onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket?')">
                         Törlés
                     </button>
@@ -49,7 +51,7 @@
 
             <!-- Vissza a termékekhez gomb -->
             <div class="mt-4">
-                <a href="{{ route('products.index') }}" class="btn bg-secondary text-white px-4 py-2 rounded-lg">
+                <a href="{{ route('products.index') }}" class="btn bg-secondary text-white px-4 py-2 rounded">
                     Vissza a termékekhez
                 </a>
             </div>
