@@ -58,6 +58,8 @@
                         @guest
                             <li class="nav-item">
                                 <a href="{{ route('login') }}" class="btn btn-secondary me-3">Bejelentkezés</a>
+
+                                
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('register') }}" class="btn btn-primary me-3">Regisztráció</a>
