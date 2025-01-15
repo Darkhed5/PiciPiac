@@ -32,7 +32,6 @@
     <!-- Népszerű termékek -->
     <div class="popular-products-section mt-5">
         <h2 class="text-center mb-4">Termékek</h2>
-        FASZOM!!!!
         <div class="row">
             @if($popularProducts->isNotEmpty())
                 @foreach($popularProducts as $product)
