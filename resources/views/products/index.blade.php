@@ -3,46 +3,8 @@
 @section('content')
 <div class="container py-4">
 
-    <!-- Keresősáv és szűrési opciók -->
-    <form method="GET" action="{{ url('/products') }}" class="mb-4 d-flex flex-wrap gap-3 justify-content-between align-items-center">
-        <input type="text" name="search" class="form-control w-50" placeholder="Keresés termékek között..." value="{{ request('search') }}">
-
-        <select name="category" class="form-select w-25">
-            <option value="">Minden kategóriában</option>
-            <option value="gyumolcsok" {{ request('category') == 'gyumolcsok' ? 'selected' : '' }}>Gyümölcsök</option>
-            <option value="zoldsegek" {{ request('category') == 'zoldsegek' ? 'selected' : '' }}>Zöldségek</option>
-            <option value="tejtermekek" {{ request('category') == 'tejtermekek' ? 'selected' : '' }}>Tejtermékek</option>
-            <option value="hus-es-huskeszitmenyek" {{ request('category') == 'hus-es-huskeszitmenyek' ? 'selected' : '' }}>Húsok és húskészítmények</option>
-            <option value="mezek-es-lekvarok" {{ request('category') == 'mezek-es-lekvarok' ? 'selected' : '' }}>Mézek és lekvárok</option>
-            <option value="pekaruk" {{ request('category') == 'pekaruk' ? 'selected' : '' }}>Pékáruk</option>
-            <option value="fuszerek-es-gyogynovenyek" {{ request('category') == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és gyógynövények</option>
-            <option value="kezmuves-termekek" {{ request('category') == 'kezmuves-termekek' ? 'selected' : '' }}>Kézműves termékek</option>
-        </select>
-
-        <input type="number" name="min_price" class="form-control w-25" placeholder="Min ár" value="{{ request('min_price') }}">
-        <input type="number" name="max_price" class="form-control w-25" placeholder="Max ár" value="{{ request('max_price') }}">
-
-        <div class="form-check">
-            <input type="checkbox" name="in_stock" class="form-check-input" id="in_stock" {{ request('in_stock') ? 'checked' : '' }}>
-            <label for="in_stock" class="form-check-label">Csak elérhető termékek</label>
-        </div>
-
-        <select name="order_by" class="form-select w-25">
-            <option value="name" {{ request('order_by') == 'name' ? 'selected' : '' }}>Név szerint</option>
-            <option value="price" {{ request('order_by') == 'price' ? 'selected' : '' }}>Ár szerint</option>
-            <option value="created_at" {{ request('order_by') == 'created_at' ? 'selected' : '' }}>Legújabbak</option>
-        </select>
-
-        <select name="order_direction" class="form-select w-25">
-            <option value="asc" {{ request('order_direction') == 'asc' ? 'selected' : '' }}>Növekvő</option>
-            <option value="desc" {{ request('order_direction') == 'desc' ? 'selected' : '' }}>Csökkenő</option>
-        </select>
-
-        <button type="submit" class="btn btn-primary">Szűrés</button>
-    </form>
-
     <!-- Termékek listája -->
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-md-4 g-4">
         @forelse($products as $product)
         <div class="col">
             <div class="card h-100">
@@ -52,9 +14,10 @@
                 <div class="text-center p-4">Nincs kép feltöltve</div>
                 @endif
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">{{ $product->name }}</h5>
-                    <p class="card-text text-truncate">{{ $product->description }}</p>
-                    <p class="text-muted">Ár: {{ $product->price }} Ft</p>
+                    <h5 class="card-title">
+                        <a href="{{ route('products.show', $product->id) }}" class="text-decoration-none text-dark">{{ $product->name }}</a>
+                    </h5>
+                    <p class="text-muted">{{ number_format($product->price, 0, '', ' ') }} Ft</p>
                 </div>
                 <div class="card-footer bg-white text-center">
                     <form action="{{ route('cart.add', $product->id) }}" method="POST">
@@ -65,7 +28,7 @@
             </div>
         </div>
         @empty
-        <p class="text-center text-danger">Nincsenek elérhető termékek a megadott feltételekkel.</p>
+        <p class="text-center text-danger">Nincsenek elérhető termékek.</p>
         @endforelse
     </div>
 

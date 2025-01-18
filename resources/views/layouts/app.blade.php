@@ -15,7 +15,80 @@
 
     <!-- Styles -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        .category-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e6efe9;
+            padding: 15px 10px;
+            gap: 20px;
+            flex-wrap: wrap; 
+            margin: 0 auto; 
+            border-radius: 10px;
+        }
+    
+        .category-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #3b7f4b;
+            font-weight: bold;
+            font-size: 0.8rem; /* Csökkentett szövegméret */
+            padding: 10px 15px;
+            border-radius: 8px; /* Lekerekített gombok */
+            background-color: white; /* Fehér háttér */
+            transition: all 0.3s ease;
+            width: 140px; /* Fix szélesség */
+            height: 100px;
+            text-align: center; /* Szöveg középre igazítása */
+        }
+    
+        .category-link i {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            transition: transform 0.3s ease;
+        }
+    
+        .category-link:hover {
+            color: #028a0f; /* Szöveg kiemelés színe */
+            background-color: #c7e3d2; /* Kiemelés háttérszíne */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Árnyék */
+        }
+    
+        .category-link:hover i {
+            transform: scale(1.2); /* Ikon növelése */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Szövegárnyék */
+        }
+    
+        /* Reszponzív dizájn kisebb képernyőkre */
+        @media (max-width: 768px) {
+            .category-link {
+                font-size: 0.9rem; /* Kisebb szöveg kisebb képernyőn */
+                width: 80px; /* Csökkentett szélesség */
+            }
+    
+            .category-link i {
+                font-size: 1.5rem; /* Kisebb ikon méret */
+            }
+        }
+    
+        @media (max-width: 480px) {
+            .category-link {
+                font-size: 0.8rem;
+                width: 70px; /* Tovább csökkentett szélesség */
+            }
+    
+            .category-link i {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+    
 </head>
 <body>
     <div id="app">
@@ -58,8 +131,6 @@
                         @guest
                             <li class="nav-item">
                                 <a href="{{ route('login') }}" class="btn btn-secondary me-3">Bejelentkezés</a>
-
-                                
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('register') }}" class="btn btn-primary me-3">Regisztráció</a>
@@ -80,7 +151,7 @@
                             <!-- Felhasználói menü ikon -->
                             <li class="nav-item dropdown">
                                 <a class="btn btn-secondary dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-person-circle"></i> <!-- Csak ikon jelenik meg -->
+                                    <i class="bi bi-person-circle"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profilom</a></li>
@@ -100,19 +171,39 @@
         </nav>
 
         <!-- Kategóriák -->
-        <div class="bg-light py-2">
-            <div class="container">
-                <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-2">
-                    <a href="{{ route('products.index', ['category' => 'gyumolcsok']) }}" class="col text-secondary">Gyümölcsök</a>
-                    <a href="{{ route('products.index', ['category' => 'zoldsegek']) }}" class="col text-secondary">Zöldségek</a>
-                    <a href="{{ route('products.index', ['category' => 'tejtermekek']) }}" class="col text-secondary">Tejtermékek</a>
-                    <a href="{{ route('products.index', ['category' => 'hus-es-huskeszitmenyek']) }}" class="col text-secondary">Húsok és húskészítmények</a>
-                    <a href="{{ route('products.index', ['category' => 'mezek-es-lekvarok']) }}" class="col text-secondary">Mézek és lekvárok</a>
-                    <a href="{{ route('products.index', ['category' => 'pekaruk']) }}" class="col text-secondary">Pékáruk</a>
-                    <a href="{{ route('products.index', ['category' => 'fuszerek-es-gyogynovenyek']) }}" class="col text-secondary">Fűszerek és gyógynövények</a>
-                    <a href="{{ route('products.index', ['category' => 'kezmuves-termekek']) }}" class="col text-secondary">Kézműves termékek</a>
-                </div>
-            </div>
+        <div class="category-bar">
+            <a href="{{ route('products.index', ['category' => 'gyumolcsok']) }}" class="category-link">
+                <i class="fas fa-apple-alt"></i>
+                <span>Gyümölcsök</span>
+            </a>
+            <a href="{{ route('products.index', ['category' => 'zoldsegek']) }}" class="category-link">
+                <i class="fas fa-carrot"></i>
+                <span>Zöldségek</span>
+            </a>
+            <a href="{{ route('products.index', ['category' => 'tejtermekek']) }}" class="category-link">
+                <i class="fas fa-cheese"></i>
+                <span>Tejtermékek</span>
+            </a>
+            <a href="{{ route('products.index', ['category' => 'hus-es-huskeszitmenyek']) }}" class="category-link">
+                <i class="fas fa-drumstick-bite"></i>
+                <span>Húsok és húskészítmények</span>
+            </a>
+            <a href="{{ route('products.index', ['category' => 'mezek-es-lekvarok']) }}" class="category-link">
+                <i class="fa-solid fa-face-grin-tongue"></i>
+                <span>Mézek és lekvárok</span>
+            </a>
+            <a href="{{ route('products.index', ['category' => 'pekaruk']) }}" class="category-link">
+                <i class="fas fa-bread-slice"></i>
+                <span>Pékáruk</span>
+            </a>
+            <a href="{{ route('products.index', ['category' => 'fuszerek-es-gyogynovenyek']) }}" class="category-link">
+                <i class="fas fa-leaf"></i>
+                <span>Fűszerek és gyógynövények</span>
+            </a>
+            <a href="{{ route('products.index', ['category' => 'kezmuves-termekek']) }}" class="category-link">
+                <i class="fas fa-hand-holding-heart"></i>
+                <span>Kézműves termékek</span>
+            </a>
         </div>
 
         <!-- Fő tartalom -->
