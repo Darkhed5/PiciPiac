@@ -17,7 +17,9 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $ad->name }}</h5>
                             <p class="card-text">{{ $ad->description }}</p>
-                            <p class="card-text"><strong>Ár:</strong> {{ $ad->price }} Ft</p>
+                            <p class="card-text">
+                                <strong>Ár:</strong> {{ number_format($ad->price, 0, ',', ' ') }} Ft
+                            </p>
                             <a href="{{ route('products.edit', $ad->id) }}" class="btn btn-primary">Szerkesztés</a>
                             <form action="{{ route('products.destroy', $ad->id) }}" method="POST" class="d-inline">
                                 @csrf

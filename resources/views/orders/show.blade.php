@@ -12,11 +12,11 @@
         @foreach ($order->items as $item)
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 {{ $item->product->name }} (x{{ $item->quantity }})
-                <span>{{ number_format($item->price * $item->quantity, 0, ',', ' ') }} Ft</span>
+                <span>{{ number_format($item->price * $item->quantity, 0, ' ', ' ') }} Ft</span>
             </li>
         @endforeach
     </ul>
 
-    <h3 class="mt-4">Teljes összeg: {{ number_format($order->total_price, 0, ',', ' ') }} Ft</h3>
+    <h3 class="mt-4">Teljes összeg: {{ number_format($order->total_price, 0, ' ', ' ') }} Ft</h3>
 </div>
 @endsection

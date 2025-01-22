@@ -80,7 +80,7 @@
 
         <!-- Beküldés -->
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">Termék Hozzáadása</button>
+            <button type="submit" class="btn btn-primary">Termék hozzáadása</button>
         </div>
     </form>
 </div>

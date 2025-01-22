@@ -9,7 +9,7 @@
         <div>
             @if($product->image_path)
             <div class="mb-4 col-12 col-md-4 mx-auto">
-                <img src="{{ asset('storage/' . $product->image_path) }}" alt="Termék képe" class=" rounded shadow img-fluid">
+                <img src="{{ asset('storage/' . $product->image_path) }}" alt="Termék képe" class="rounded shadow img-fluid">
             </div>
             @else
                 <div class="text-center text-gray-500 bg-gray-100 p-6 rounded">
@@ -22,7 +22,11 @@
         <div>
             <div class="bg-white p-5 rounded shadow">
                 <p class="mb-4"><strong>Leírás:</strong> {{ $product->description }}</p>
-                <p class="mb-4"><strong>Ár:</strong> <span class="text-primary font-semibold">{{ number_format($product->price, 0, ',', ' ') }} Ft</span></p>
+                <p class="mb-4"><strong>Ár:</strong> 
+                    <span class="text-primary font-semibold">
+                        {{ number_format($product->price, 0, ' ', ' ') }} Ft
+                    </span>
+                </p>
                 <p class="mb-4"><strong>Kategória:</strong> {{ $product->category }}</p>
                 <p class="mb-4"><strong>Készlet:</strong> 
                     <span class="{{ $product->stock > 0 ? 'text-green-600' : 'text-red-600' }}">

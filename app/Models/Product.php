@@ -9,22 +9,25 @@ class Product extends Model
 {
     use HasFactory;
 
+    /**
+     * A kitölthető mezők listája.
+     */
     protected $fillable = [
         'name',
         'description',
         'price',
         'category',
-        'user_id',
-        'image_path',
-        'stock', // Hozzáadva a raktárkészlet kezelése miatt
+        'user_id', // Az eladó azonosítója
+        'image_path', // A termékkép elérési útja
+        'stock', // Raktárkészlet
     ];
 
     /**
-     * Kapcsolat a User modellel.
+     * Kapcsolat a User modellel (az eladó adataihoz).
      */
-    public function user()
+    public function seller()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**

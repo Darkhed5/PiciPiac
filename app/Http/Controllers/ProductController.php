@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
+    // Termékek listázása
     public function index(Request $request)
     {
-        // Lekérdezési paraméterek begyűjtése
         $search = $request->input('search', '');
         $category = $request->input('category', '');
         $minPrice = $request->input('min_price', 0);
@@ -19,7 +19,6 @@ class ProductController extends Controller
         $orderBy = $request->input('order_by', 'name');
         $orderDirection = $request->input('order_direction', 'asc');
 
-        // Biztonsági ellenőrzés az order_by és order_direction értékekre
         $allowedOrderBy = ['name', 'price', 'views'];
         $allowedOrderDirection = ['asc', 'desc'];
 
@@ -30,10 +29,8 @@ class ProductController extends Controller
             $orderDirection = 'asc';
         }
 
-        // Termékek lekérdezése
         $query = Product::query();
 
-        // Keresési feltételek
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'LIKE', "%{$search}%")
@@ -41,12 +38,10 @@ class ProductController extends Controller
             });
         }
 
-        // Kategória szűrés
         if (!empty($category)) {
             $query->where('category', $category);
         }
 
-        // Ár szűrés
         if ($minPrice > 0) {
             $query->where('price', '>=', (float) $minPrice);
         }
@@ -55,28 +50,24 @@ class ProductController extends Controller
             $query->where('price', '<=', (float) $maxPrice);
         }
 
-        // Készlet szűrés
         if ($inStock) {
             $query->where('stock', '>', 0);
         }
 
-        // Rendezés
         $query->orderBy($orderBy, $orderDirection);
 
-        // Eredmények
         $products = $query->paginate(10);
 
-        // Kategóriák lekérdezése
-        $categories = Product::select('category')->distinct()->get();
+        $categoryCounts = Product::select('category', \DB::raw('COUNT(*) as count'))
+            ->groupBy('category')
+            ->pluck('count', 'category')
+            ->toArray();
 
-        // Népszerű termékek lekérdezése
         $popularProducts = Product::orderBy('views', 'desc')->take(4)->get();
 
-        // Nézet visszatérése adatokkal
-
-        return view('products/index', compact(
+        return view('products.index', compact(
             'products',
-            'categories',
+            'categoryCounts',
             'popularProducts',
             'search',
             'category',
@@ -88,11 +79,13 @@ class ProductController extends Controller
         ));
     }
 
+    // Termék létrehozási oldal
     public function create()
     {
         return view('products.create');
     }
 
+    // Új termék mentése
     public function store(Request $request)
     {
         $request->validate([
@@ -112,7 +105,7 @@ class ProductController extends Controller
         $product->user_id = Auth::id();
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('products', 'public');
+            $path = $request->file('image')->store('images', 'public');
             $product->image_path = $path;
         }
 
@@ -121,6 +114,7 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Termék sikeresen létrehozva!');
     }
 
+    // Termék megjelenítése
     public function show($id)
     {
         $product = Product::findOrFail($id);
@@ -128,6 +122,7 @@ class ProductController extends Controller
         return view('products.show', compact('product'));
     }
 
+    // Termék szerkesztési oldal
     public function edit($id)
     {
         $product = Product::findOrFail($id);
@@ -135,6 +130,7 @@ class ProductController extends Controller
         return view('products.edit', compact('product'));
     }
 
+    // Termék frissítése
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -154,7 +150,7 @@ class ProductController extends Controller
         $product->stock = $request->stock;
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('products', 'public');
+            $path = $request->file('image')->store('images', 'public');
             $product->image_path = $path;
         }
 
@@ -163,6 +159,7 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Termék sikeresen frissítve!');
     }
 
+    // Termék törlése
     public function destroy($id)
     {
         $product = Product::findOrFail($id);

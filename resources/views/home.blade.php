@@ -2,47 +2,171 @@
 
 @section('content')
 <div class="container">
-    <h1 class="text-center mt-5">Üdvözlünk a PiciPiacon!</h1>
-    <p class="text-center">
-        A PiciPiac egy online piactér, amely összekapcsolja a helyi termelőket és vásárlókat.
-        Fedezd fel friss, helyi termékeinket! 
-    </p>
+    <!-- Üdvözlő szöveg -->
+    <div class="text-center my-4">
+        <h1 class="mt-5">Üdvözlünk a PiciPiacon!</h1>
+        <p>
+            A PiciPiac egy online piactér, amely összekapcsolja a helyi termelőket és vásárlókat.
+            Fedezd fel friss, helyi termékeinket!
+        </p>
+    </div>
 
-    <!-- Népszerű termékek -->
-    <div class="popular-products-section mt-5">
-        <h2 class="text-center mb-4">Termékek</h2>
-        <div class="row">
-            @if($popularProducts->isNotEmpty())
-                @foreach($popularProducts as $product)
-                    <div class="col-md-3 mb-3">
-                        <div class="card h-100">
-                            <!-- Termékkép -->
-                            <img src="{{ asset('storage/' . $product->image_path) }}" class="card-img-top" alt="{{ $product->name }}">
+    <!-- Fejléc és tartományválasztás -->
+    <div class="d-flex justify-content-between align-items-center mb-3" style="background-color: #f5c500; padding: 10px;">
+        <!-- Navigációs gombok és tartományválasztó -->
+        <div class="d-flex align-items-center">
+            <!-- Ugrás az elejére -->
+            <button class="btn btn-light me-1 {{ $products->onFirstPage() ? 'disabled' : '' }}" onclick="navigateToPage('first')">
+                <i class="fas fa-fast-backward"></i>
+            </button>
 
-                            <div class="card-body text-center d-flex flex-column">
-                                <!-- Terméknév link -->
-                                <h5 class="card-title">
-                                    <a href="{{ route('products.show', $product->id) }}" class="text-decoration-none text-success fw-bold">
-                                        {{ $product->name }}
-                                    </a>
-                                </h5>
-                                
-                                <!-- Termék ár -->
-                                <p class="card-text text-success fw-bold mb-3">{{ $product->price }} Ft</p>
-                                
-                                <!-- Kosárba gomb -->
-                                <form action="{{ route('cart.add', $product->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success w-100 mt-auto">Kosárba</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Egyel vissza -->
+            <button class="btn btn-light me-1 {{ $products->onFirstPage() ? 'disabled' : '' }}" onclick="navigateToPage('previous')">
+                <i class="fas fa-backward"></i>
+            </button>
+
+            <!-- Tartományválasztó -->
+            @php
+                $totalItems = $products->total();
+                $perPage = $products->perPage();
+                $ranges = [];
+                if ($totalItems > 0) {
+                    for ($start = 1; $start <= $totalItems; $start += $perPage) {
+                        $end = min($start + $perPage - 1, $totalItems);
+                        $ranges[] = ['start' => $start, 'end' => $end];
+                    }
+                }
+            @endphp
+            <select id="item-range-selector" class="form-select me-3" style="width: auto;" onchange="updateRange()">
+                @foreach($ranges as $range)
+                    <option value="{{ $range['start'] }}-{{ $range['end'] }}">
+                        {{ $range['start'] }} - {{ $range['end'] }}
+                    </option>
                 @endforeach
-            @else
-                <p class="text-center">Jelenleg nincsenek termékek.</p>
-            @endif
+            </select>
+
+            <!-- Egyel előre -->
+            <button class="btn btn-light me-1 {{ $products->currentPage() >= $products->lastPage() ? 'disabled' : '' }}" onclick="navigateToPage('next')">
+                <i class="fas fa-forward"></i>
+            </button>
+
+            <!-- Ugrás a végére -->
+            <button class="btn btn-light {{ $products->currentPage() >= $products->lastPage() ? 'disabled' : '' }}" onclick="navigateToPage('last')">
+                <i class="fas fa-fast-forward"></i>
+            </button>
         </div>
+
+        <!-- Ugrás az aljára -->
+        <button class="btn btn-light" onclick="navigateToPage('bottom')">
+            <i class="bi bi-chevron-double-down"></i>
+        </button>
+    </div>
+
+    <!-- Terméklista -->
+    <div class="list-group">
+        @forelse($products as $product)
+            <div class="list-group-item d-flex align-items-center">
+                <!-- Termékkép -->
+                <a href="{{ route('products.show', $product->id) }}" class="me-3">
+                    <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" style="width: 80px; height: 80px; object-fit: cover;">
+                </a>
+
+                <!-- Termék leírás -->
+                <div class="flex-grow-1">
+                    <h5 class="mb-1">
+                        <a href="{{ route('products.show', $product->id) }}" class="text-decoration-none text-primary">
+                            {{ $product->name }}
+                        </a>
+                    </h5>
+                    <small class="text-muted">Eladó: {{ $product->seller->name ?? 'Ismeretlen' }}</small>
+                </div>
+
+                <!-- Ár -->
+                <div class="text-end text-danger fw-bold me-3" style="min-width: 80px;">
+                    {{ number_format($product->price, 0, ',', ' ') }} Ft
+                </div>
+
+                <!-- Kosárba gomb -->
+                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="mb-0">
+                    @csrf
+                    <button type="submit" class="btn btn-success">Kosárba</button>
+                </form>
+            </div>
+        @empty
+            <p class="text-center">Jelenleg nincsenek termékek.</p>
+        @endforelse
+    </div>
+
+    <!-- Lábléc tartomány és navigáció -->
+    <div class="d-flex justify-content-between align-items-center mt-3" style="background-color: #f5c500; padding: 10px;">
+        <!-- Navigációs gombok és tartományválasztó -->
+        <div class="d-flex align-items-center">
+            <!-- Ugrás az elejére -->
+            <button class="btn btn-light me-1 {{ $products->onFirstPage() ? 'disabled' : '' }}" onclick="navigateToPage('first')">
+                <i class="fas fa-fast-backward"></i>
+            </button>
+
+            <!-- Egyel vissza -->
+            <button class="btn btn-light me-1 {{ $products->onFirstPage() ? 'disabled' : '' }}" onclick="navigateToPage('previous')">
+                <i class="fas fa-backward"></i>
+            </button>
+
+            <!-- Tartományválasztó -->
+            <select id="item-range-selector-footer" class="form-select me-3" style="width: auto;" onchange="updateRange()">
+                @foreach($ranges as $range)
+                    <option value="{{ $range['start'] }}-{{ $range['end'] }}">
+                        {{ $range['start'] }} - {{ $range['end'] }}
+                    </option>
+                @endforeach
+            </select>
+
+            <!-- Egyel előre -->
+            <button class="btn btn-light me-1 {{ $products->currentPage() >= $products->lastPage() ? 'disabled' : '' }}" onclick="navigateToPage('next')">
+                <i class="fas fa-forward"></i>
+            </button>
+
+            <!-- Ugrás a végére -->
+            <button class="btn btn-light {{ $products->currentPage() >= $products->lastPage() ? 'disabled' : '' }}" onclick="navigateToPage('last')">
+                <i class="fas fa-fast-forward"></i>
+            </button>
+        </div>
+
+        <!-- Ugrás a tetejére -->
+        <button class="btn btn-light" onclick="navigateToPage('top')">
+            <i class="bi bi-chevron-double-up"></i>
+        </button>
+    </div>
+
+    <!-- Lapozás -->
+    <div class="d-flex justify-content-center mt-4">
+        {{ $products->onEachSide(1)->links('pagination::bootstrap-4') }}
     </div>
 </div>
+
+<script>
+    function navigateToPage(action) {
+        switch(action) {
+            case 'first':
+                window.location.href = '?page=1';
+                break;
+            case 'previous':
+                const prevPage = {{ $products->currentPage() > 1 ? $products->currentPage() - 1 : 1 }};
+                window.location.href = `?page=${prevPage}`;
+                break;
+            case 'next':
+                const nextPage = {{ $products->currentPage() < $products->lastPage() ? $products->currentPage() + 1 : $products->lastPage() }};
+                window.location.href = `?page=${nextPage}`;
+                break;
+            case 'last':
+                window.location.href = `?page={{ $products->lastPage() }}`;
+                break;
+            case 'top':
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                break;
+            case 'bottom':
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                break;
+        }
+    }
+</script>
 @endsection
