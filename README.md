@@ -28,13 +28,14 @@ Egy Laravel alapú online piactér, amely lehetővé teszi kézműves termékek,
 3. Állítsd be a környezeti változókat:
    
     cp .env.example .env
+   
     php artisan key:generate
  
-4. Futtasd a migrációkat:
+5. Futtasd a migrációkat:
     
     php artisan migrate --seed
   
-5. Indítsd el a fejlesztői szervert:
+6. Indítsd el a fejlesztői szervert:
    
     php artisan serve
  
