@@ -18,7 +18,7 @@ Egy Laravel alapú online piactér, amely lehetővé teszi kézműves termékek,
 ## Telepítés
 1. Klónozd a repót:
     
-    git clone https://github.com/felhasznalo/PiciPiac.git
+    git clone https://github.com/Darkhed5/PiciPiac
     cd PiciPiac
     
 2. Telepítsd a PHP függőségeket:
