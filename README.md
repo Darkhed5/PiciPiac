@@ -1,8 +1,6 @@
 
 # PiciPiac
 
-# PiciPiac
-
 Egy Laravel alapú online piactér, amely lehetővé teszi kézműves termékek, zöldségek és gyümölcsök árusítását és vásárlását.
 
 ## Főbb Funkciók
