@@ -7,7 +7,7 @@ Egy Laravel alapú online piactér, amely lehetővé teszi kézműves termékek,
 - Termékek böngészése kategóriák szerint.
 - Regisztráció és bejelentkezés.
 - Kosár és rendeléskezelés.
-- Adminisztrációs felület az eladóknak és adminisztrátoroknak.
+- Adminisztrációs felület az eladóknak és vásárlóknak.
 
 ## Követelmények
 - PHP 8.0 
