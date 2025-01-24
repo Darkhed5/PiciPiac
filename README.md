@@ -1,3 +1,56 @@
+
+# PiciPiac
+
+Egy Laravel alapú online piactér, amely lehetővé teszi kézműves termékek, zöldségek és gyümölcsök árusítását és vásárlását.
+
+## Főbb Funkciók
+- Termékek böngészése kategóriák szerint.
+- Regisztráció és bejelentkezés.
+- Kosár és rendeléskezelés.
+- Adminisztrációs felület az eladóknak és adminisztrátoroknak.
+
+## Követelmények
+- PHP 8.0 
+- Composer 2.0
+- MySQL 5.7 
+- Node.js 14.1 és npm
+
+## Telepítés
+1. Klónozd a repót:
+    
+    git clone https://github.com/Darkhed5/PiciPiac
+    cd PiciPiac
+    
+2. Telepítsd a PHP függőségeket:
+    
+    composer install
+    
+3. Állítsd be a környezeti változókat:
+   
+    cp .env.example .env
+   
+    php artisan key:generate
+ 
+5. Futtasd a migrációkat:
+    
+    php artisan migrate --seed
+  
+6. Indítsd el a fejlesztői szervert:
+   
+    php artisan serve
+ 
+
+## Használat
+- Látogasd meg a `http://localhost:8000` címet a böngészőben.
+- Regisztrálj egy új felhasználót, vagy használd az alapértelmezett admin belépési adatokat:
+  - **Email:** admin@example.com
+  - **Jelszó:** password
+
+## Licenc
+MIT licenc alatt elérhető. Lásd a [LICENSE](LICENSE) fájlt a részletekért.
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -64,4 +117,3 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# PiciPiac
