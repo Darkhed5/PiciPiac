@@ -13,7 +13,9 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_admin')->default(false);
+            // Cím és telefonszám mezők hozzáadása
+            $table->string('address')->nullable()->after('email');
+            $table->string('phone_number')->nullable()->after('address');
         });
     }
 
@@ -25,7 +27,9 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_admin');
+            // Cím és telefonszám mezők eltávolítása
+            $table->dropColumn('address');
+            $table->dropColumn('phone_number');
         });
     }
 };
