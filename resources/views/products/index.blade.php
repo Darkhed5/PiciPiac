@@ -3,7 +3,6 @@
 @section('content')
 <div class="container py-4">
 
-    <!-- Termékek listája -->
     <div class="row row-cols-1 row-cols-md-4 g-4">
         @forelse($products as $product)
         <div class="col">
@@ -18,6 +17,7 @@
                         <a href="{{ route('products.show', $product->id) }}" class="text-decoration-none text-dark">{{ $product->name }}</a>
                     </h5>
                     <p class="text-muted">{{ number_format($product->price, 0, '', ' ') }} Ft</p>
+                    <p class="text-muted">{{ $product->quantity }} {{ $product->unit }}</p>
                 </div>
                 <div class="card-footer bg-white text-center">
                     <form action="{{ route('cart.add', $product->id) }}" method="POST">
@@ -32,7 +32,6 @@
         @endforelse
     </div>
 
-    <!-- Lapozás -->
     <div class="d-flex justify-content-center mt-4">
         {{ $products->onEachSide(1)->links('pagination::bootstrap-4') }}
     </div>

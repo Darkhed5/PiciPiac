@@ -79,7 +79,6 @@
             opacity: 1;
         }
 
-        /* Reszponzív dizájn kisebb képernyőkre */
         @media (max-width: 768px) {
             .category-link {
                 font-size: 0.9rem;

@@ -17,10 +17,22 @@ class HomeController extends Controller
             ->groupBy('category')
             ->pluck('count', 'category');
 
-        // Minden termék lapozva (opcionális, ha a terméklista szükséges)
-        $products = Product::paginate(10); // 10 termék/oldal
+        // Minden termék lapozva (10 termék/oldal)
+        $products = Product::paginate(10);
+
+        // Tartományok generálása a lapozáshoz
+        $totalItems = $products->total();
+        $perPage = $products->perPage();
+        $ranges = [];
+
+        if ($totalItems > 0) {
+            for ($start = 1; $start <= $totalItems; $start += $perPage) {
+                $end = min($start + $perPage - 1, $totalItems);
+                $ranges[] = ['start' => $start, 'end' => $end];
+            }
+        }
 
         // Nézet visszatérése adatokkal
-        return view('home', compact('popularProducts', 'categoryCounts', 'products'));
+        return view('home', compact('popularProducts', 'categoryCounts', 'products', 'ranges'));
     }
 }

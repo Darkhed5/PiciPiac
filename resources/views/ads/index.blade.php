@@ -24,6 +24,7 @@
                             <form action="{{ route('products.destroy', $ad->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
+                                <input type="hidden" name="redirect_to" value="{{ url()->full() }}">
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket?')">Törlés</button>
                             </form>
                         </div>

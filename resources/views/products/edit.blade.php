@@ -1,122 +1,83 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    ::-webkit-file-upload-button {
-   display: none;
-}
-::file-selector-button {
-  display: none;
-}
-</style>
-    <div class="container mx-auto px-4">
-        <h1 class="text-center font-bold my-5">Termék szerkesztése</h1>
+<div class="container">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-        <!-- Hibák megjelenítése -->
-        @if ($errors->any())
-            <div class="bg-red-100 text-red-700 p-4 rounded mb-5">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+    <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data" class="bg-white p-5 rounded shadow-lg">
+        @csrf
+        @method('PUT')
+
+        <div class="mb-4">
+            <label for="image" class="form-label">Új fénykép feltöltése</label>
+            <input type="file" id="image" name="image" class="form-control" accept="image/*">
+        </div>
+
+        @if($product->image_path)
+            <div class="mb-4">
+                <label class="form-label">Jelenlegi kép:</label>
+                <div>
+                    <img src="{{ asset('storage/' . $product->image_path) }}" alt="Termék képe" class="img-fluid rounded shadow">
+                </div>
             </div>
         @endif
 
-        <!-- Szerkesztő űrlap -->
+        <div class="mb-4">
+            <label for="name" class="form-label">Termék neve:</label>
+            <input type="text" id="name" name="name" class="form-control" required value="{{ old('name', $product->name) }}">
+        </div>
 
-        <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data"
-            class="bg-white p-4 rounded shadow">
-            @csrf
-            @method('PUT')
-            <div class="container">
-                <!-- Termék neve -->
-                <div class="input-group mb-4">
-                    <span for="name" class="input-group-text">Termék neve:</span>
-                    <input type="text" id="name" name="name" value="{{ old('name', $product->name) }}"
-                        class="form-control form-control-sm" required>
-                </div>
+        <div class="mb-4">
+            <label for="description" class="form-label">Leírás:</label>
+            <textarea id="description" name="description" class="form-control" rows="4">{{ old('description', $product->description) }}</textarea>
+        </div>
 
-                <!-- Leírás -->
-                <div class="input-group mb-4">
-                    <span for="description" class="input-group-text">Leírás:</span>
-                    <textarea id="description" name="description" class="form-control form-control-sm" rows="4">{{ old('description', $product->description) }}</textarea>
-                </div>
+        <div class="mb-4">
+            <label for="price" class="form-label">Ár (Ft):</label>
+            <input type="number" id="price" name="price" class="form-control" required min="0" step="1" value="{{ old('price', $product->price) }}">
+        </div>
 
-                <!-- Ár -->
-                <div class="input-group mb-4">
-                    <span for="price" class="input-group-text">Ár (Ft):</span>
-                    <input type="number" id="price" name="price" value="{{ old('price', $product->price) }}"
-                        class="form-control form-control-sm" required min="0" step="0.01">
-                </div>
+        <div class="mb-4">
+            <label for="quantity" class="form-label">Mennyiség:</label>
+            <input type="number" id="quantity" name="quantity" class="form-control" min="0" step="0.01" required value="{{ old('quantity', $product->quantity) }}">
+        </div>
 
-                <!-- Kategória -->
-                <div class="input-group mb-4">
-                    <span for="category" class="input-group-text">Kategória:</span>
-                    <select id="category" name="category" class="form-control form-control-sm" required>
-                        <option value="gyumolcsok"
-                            {{ old('category', $product->category) == 'gyumolcsok' ? 'selected' : '' }}>
-                            Gyümölcsök</option>
-                        <option value="zoldsegek"
-                            {{ old('category', $product->category) == 'zoldsegek' ? 'selected' : '' }}>
-                            Zöldségek</option>
-                        <option value="tejtermekek"
-                            {{ old('category', $product->category) == 'tejtermekek' ? 'selected' : '' }}>Tejtermékek
-                        </option>
-                        <option value="hus-es-huskeszitmenyek"
-                            {{ old('category', $product->category) == 'hus-es-huskeszitmenyek' ? 'selected' : '' }}>
-                            Hús és
-                            húskészítmények</option>
-                        <option value="kezmuves-termekek"
-                            {{ old('category', $product->category) == 'kezmuves-termekek' ? 'selected' : '' }}>
-                            Kézműves termékek
-                        </option>
-                        <option value="mezek-es-lekvarok"
-                            {{ old('category', $product->category) == 'mezek-es-lekvarok' ? 'selected' : '' }}>
-                            Mézek és
-                            lekvárok</option>
-                        <option value="pekaruk" {{ old('category', $product->category) == 'pekaruk' ? 'selected' : '' }}>
-                            Pékáruk</option>
-                        <option value="fuszerek-es-gyogynovenyek"
-                            {{ old('category', $product->category) == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>
-                            Fűszerek
-                            és gyógynövények</option>
-                    </select>
-                </div>
+        <div class="mb-4">
+            <label for="unit" class="form-label">Kiszerelés:</label>
+            <select id="unit" name="unit" class="form-select" required>
+                <option value="g" {{ old('unit', $product->unit) == 'g' ? 'selected' : '' }}>gramm</option>
+                <option value="kg" {{ old('unit', $product->unit) == 'kg' ? 'selected' : '' }}>kilogramm</option>
+                <option value="l" {{ old('unit', $product->unit) == 'l' ? 'selected' : '' }}>liter</option>
+                <option value="db" {{ old('unit', $product->unit) == 'db' ? 'selected' : '' }}>darab</option>
+                <option value="csomag" {{ old('unit', $product->unit) == 'csomag' ? 'selected' : '' }}>csomag</option>
+            </select>
+        </div>
 
-                <!-- Készlet -->
-                <div class="input-group mb-4">
-                    <span for="stock" class="input-group-text">Készlet:</span>
-                    <input type="number" id="stock" name="stock" value="{{ old('stock', $product->stock) }}"
-                        class="form-control form-control-sm" required min="0">
-                </div>
+        <div class="mb-4">
+            <label for="category" class="form-label">Kategória:</label>
+            <select id="category" name="category" class="form-select" required>
+                <option value="gyumolcsok" {{ old('category', $product->category) == 'gyumolcsok' ? 'selected' : '' }}>Gyümölcsök</option>
+                <option value="zoldsegek" {{ old('category', $product->category) == 'zoldsegek' ? 'selected' : '' }}>Zöldségek</option>
+                <option value="tejtermekek" {{ old('category', $product->category) == 'tejtermekek' ? 'selected' : '' }}>Tejtermékek</option>
+                <option value="hus-es-huskeszitmenyek" {{ old('category', $product->category) == 'hus-es-huskeszitmenyek' ? 'selected' : '' }}>Húsok és húskészítmények</option>
+                <option value="mezek-es-lekvarok" {{ old('category', $product->category) == 'mezek-es-lekvarok' ? 'selected' : '' }}>Mézek és lekvárok</option>
+                <option value="pekaruk" {{ old('category', $product->category) == 'pekaruk' ? 'selected' : '' }}>Pékáruk</option>
+                <option value="fuszerek-es-gyogynovenyek" {{ old('category', $product->category) == 'fuszerek-es-gyogynovenyek' ? 'selected' : '' }}>Fűszerek és gyógynövények</option>
+                <option value="kezmuves-termekek" {{ old('category', $product->category) == 'kezmuves-termekek' ? 'selected' : '' }}>Kézműves termékek</option>
+            </select>
+        </div>
 
-                <!-- Új kép feltöltése -->
-                <div class="input-group mb-4">
-                    <span for="image" class="input-group-text">Új kép
-                        feltöltése:</span>
-                    <input type="file" id="image" name="image"
-                        class="p-2 border rounded shadow-sm focus:ring focus:ring-primary form-control form-control-sm"
-                        accept="image/*">
-                </div>
-
-                <!-- Jelenlegi kép -->
-                @if ($product->image_path)
-                    <div class="mb-4 col-12 col-md-4 mx-auto">
-                        <img src="{{ asset('storage/' . $product->image_path) }}" alt="Termék képe"
-                            class="rounded shadow img-fluid">
-                    </div>
-                @endif
-
-                <!-- Beküldés gomb -->
-                <div class="text-center">
-                    <button type="submit"
-                        class="w-full bg-primary text-white py-2 px-4 rounded hover:bg-primary-dark transition">
-                        Termék frissítése
-                    </button>
-                </div>
-            </div>
-        </form>
-
-    </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Termék frissítése</button>
+        </div>
+    </form>
+</div>
 @endsection

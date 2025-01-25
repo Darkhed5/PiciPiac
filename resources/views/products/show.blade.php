@@ -29,33 +29,12 @@
                 </p>
                 <p class="mb-4"><strong>Kategória:</strong> {{ $product->category }}</p>
                 <p class="mb-4"><strong>Készlet:</strong> 
-                    <span class="{{ $product->stock > 0 ? 'text-green-600' : 'text-red-600' }}">
-                        {{ $product->stock > 0 ? 'Raktáron' : 'Elfogyott' }}
-                    </span>
+                    {{ number_format($product->quantity, 0, '', ' ') }} {{ $product->unit }}
                 </p>
             </div>
 
-            <!-- Műveletek -->
-            <div class="mt-6 flex flex-wrap gap-4">
-                <!-- Szerkesztés gomb -->
-                <a href="{{ route('products.edit', $product->id) }}" class="btn bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark">
-                    Szerkesztés
-                </a>
-
-                <!-- Törlés gomb -->
-                <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn bg-danger text-white px-4 py-2 rounded hover:bg-danger-dark"
-                        onclick="return confirm('Biztosan törölni szeretnéd ezt a terméket?')">
-                        Törlés
-                    </button>
-                </form>
-            </div>
-
-            <!-- Vissza a termékekhez gomb -->
             <div class="mt-4">
-                <a href="{{ route('products.index') }}" class="btn bg-secondary text-white px-4 py-2 rounded">
+                <a href="{{ route('products.index') }}" class="btn bg-primary text-white px-4 py-2 rounded">
                     Vissza a termékekhez
                 </a>
             </div>
