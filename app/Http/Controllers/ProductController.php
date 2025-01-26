@@ -41,7 +41,23 @@ class ProductController extends Controller
 
         $products = $query->paginate(10);
 
-        return view('products.index', compact('products'));
+        // Ranges kiszámítása lapozáshoz
+        $totalItems = $products->total();
+        $perPage = $products->perPage();
+        $ranges = [];
+        if ($totalItems > 0) {
+            for ($start = 1; $start <= $totalItems; $start += $perPage) {
+                $end = min($start + $perPage - 1, $totalItems);
+                $ranges[] = ['start' => $start, 'end' => $end];
+            }
+        }
+
+        // Kategóriánkénti termékek száma
+        $categoryCounts = Product::select('category', \DB::raw('COUNT(*) as count'))
+            ->groupBy('category')
+            ->pluck('count', 'category');
+
+        return view('products.index', compact('products', 'ranges', 'categoryCounts'));
     }
 
     // Termék létrehozási oldal
@@ -58,7 +74,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category' => 'required|string|max:255',
-            'quantity' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:0',
             'unit' => 'required|string|max:10',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -106,7 +122,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category' => 'required|string|max:255',
-            'quantity' => 'required|numeric|min:0',
+            'quantity' => 'required|integer|min:0',
             'unit' => 'required|string|max:10',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);

@@ -17,6 +17,7 @@
             <thead>
                 <tr>
                     <th>Termék</th>
+                    <th>Kiszerelés</th>
                     <th>Darabszám</th>
                     <th>Ár</th>
                     <th>Műveletek</th>
@@ -25,7 +26,12 @@
             <tbody>
                 @foreach($cartItems as $cartItem)
                     <tr>
-                        <td>{{ $cartItem->product->name }}</td>
+                        <td>
+                            <a href="{{ route('products.show', $cartItem->product->id) }}" class="text-decoration-none text-primary">
+                                {{ $cartItem->product->name }}
+                            </a>
+                        </td>                        
+                        <td>{{ $cartItem->product->unit }}</td> <!-- Kiszerelés megjelenítése -->
                         <td>
                             <form action="{{ route('cart.update', $cartItem->id) }}" method="POST">
                                 @csrf

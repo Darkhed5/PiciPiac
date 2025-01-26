@@ -43,7 +43,7 @@
         <div class="mb-4">
             <label for="unit" class="form-label">Kiszerelés:</label>
             <select id="unit" name="unit" class="form-select" required>
-                <option value="" disabled selected>Válassz kiszerlést</option>
+                <option value="" disabled selected>Válassz kiszerelést</option>
                 <option value="g" {{ old('unit') == 'g' ? 'selected' : '' }}>gramm</option>
                 <option value="kg" {{ old('unit') == 'kg' ? 'selected' : '' }}>kilogramm</option>
                 <option value="l" {{ old('unit') == 'l' ? 'selected' : '' }}>liter</option>

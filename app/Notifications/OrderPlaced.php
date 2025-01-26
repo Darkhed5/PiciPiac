@@ -26,13 +26,13 @@ class OrderPlaced extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Rendelés Visszaigazolása')
+                    ->subject('Rendelés visszaigazolása')
                     ->greeting('Kedves ' . $notifiable->name . '!')
-                    ->line('Köszönjük, hogy rendelést adott le a PiciPiacon!')
-                    ->line('Rendelésének azonosítója: #' . $this->order->id)
+                    ->line('Köszönjük, hogy rendelést adtál le a PiciPiacon!')
+                    ->line('Rendelésed azonosítója: #' . $this->order->id)
                     ->line('Összesen: ' . $this->order->total_price . ' Ft')
                     ->line('Rendelés állapota: ' . $this->order->status)
-                    ->action('Rendelési Előzmények Megtekintése', route('order.history'))
-                    ->line('Köszönjük, hogy minket választott!');
+                    ->action('Rendelési előzmények megtekintése', route('order.history'))
+                    ->line('Köszönjük, hogy minket választottál!');
     }
 }

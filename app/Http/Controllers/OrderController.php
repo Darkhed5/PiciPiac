@@ -46,7 +46,6 @@ class OrderController extends Controller
         $order->total_price = $totalPrice;
         $order->save();
 
-        // Értesítés küldése rendelés leadásakor
         $user = Auth::user();
         $user->notify(new OrderPlaced($order));
 
@@ -55,9 +54,20 @@ class OrderController extends Controller
 
     public function history()
     {
-        $orders = Order::where('user_id', Auth::id())->with('items.product')->orderBy('created_at', 'desc')->get();
+        // Általam leadott rendelések
+        $myOrders = Order::where('user_id', Auth::id())
+            ->with('items.product')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        return view('orders.history', compact('orders'));
+        // Tőlem rendelt termékek
+        $ordersToMe = Order::whereHas('items.product', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->with('items.product')
+          ->orderBy('created_at', 'desc')
+          ->get();
+
+        return view('orders.history', compact('myOrders', 'ordersToMe'));
     }
 
     public function updateStatus(Request $request, $id)
@@ -67,6 +77,17 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id);
+
+        // Ellenőrizze, hogy te vagy-e a termék eladója
+        $isSeller = $order->items->contains(function ($item) {
+            return $item->product->user_id === Auth::id();
+        });
+
+        // Csak akkor engedélyezze a státusz frissítését, ha az order-hez tartozik olyan termék, amit te árulsz
+        if ($order->user_id !== Auth::id() && !$isSeller) {
+            return redirect()->back()->with('error', 'Nincs jogosultságod frissíteni ezt a rendelést.');
+        }
+
         $order->status = $request->status;
         $order->save();
 
@@ -75,12 +96,6 @@ class OrderController extends Controller
         return redirect()->back()->with('status', 'Rendelési státusz frissítve!');
     }
 
-    /**
-     * Megjeleníti egy rendelés részleteit.
-     *
-     * @param int $id
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
     public function show($id)
     {
         $order = Order::where('user_id', Auth::id())
