@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Profil szerkesztése</h1>
+    <h1 class="mb-4"><u>Profil szerkesztése</u></h1>
 
     @if (session('status'))
         <div class="alert alert-success">

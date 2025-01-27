@@ -59,16 +59,22 @@ class OrderController extends Controller
             ->with('items.product')
             ->orderBy('created_at', 'desc')
             ->get();
-
+    
         // Tőlem rendelt termékek
         $ordersToMe = Order::whereHas('items.product', function ($query) {
             $query->where('user_id', Auth::id());
         })->with('items.product')
           ->orderBy('created_at', 'desc')
           ->get();
-
-        return view('orders.history', compact('myOrders', 'ordersToMe'));
+    
+        // Kategóriánkénti termékek száma
+        $categoryCounts = Product::select('category', \DB::raw('COUNT(*) as count'))
+            ->groupBy('category')
+            ->pluck('count', 'category');
+    
+        return view('orders.history', compact('myOrders', 'ordersToMe', 'categoryCounts'));
     }
+    
 
     public function updateStatus(Request $request, $id)
     {

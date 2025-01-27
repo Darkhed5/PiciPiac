@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Rendelési előzmények</h1>
+    <h1 class="mb-4"><u>Rendelési előzmények</u></h1>
 
     <!-- Általam leadott rendelések -->
     <h2 class="mt-4">Általam leadott rendelések</h2>
@@ -69,4 +69,20 @@
         @endforeach
     @endif
 </div>
+
+<!-- Kategória gombok hover-stílus -->
+<style>
+    .category-count-hover:hover::after {
+        content: attr(data-count);
+        position: absolute;
+        left: 100%;
+        margin-left: 10px;
+        background-color: #ffc107;
+        padding: 5px;
+        border-radius: 3px;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        z-index: 10;
+    }
+</style>
 @endsection

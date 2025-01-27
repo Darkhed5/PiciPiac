@@ -12,9 +12,12 @@ class CartController extends Controller
     public function index()
     {
         $cartItems = Cart::where('user_id', Auth::id())->get();
-        return view('cart.index', compact('cartItems'));
+    
+        $categoryCounts = $cartItems->groupBy(fn($item) => $item->product->category)
+            ->map(fn($items) => $items->count());
+    
+        return view('cart.index', compact('cartItems', 'categoryCounts'));
     }
-
     public function add(Request $request, $productId)
     {
         $cartItem = Cart::firstOrCreate(

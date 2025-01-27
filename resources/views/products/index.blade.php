@@ -81,10 +81,10 @@
                 </div>
 
                 <!-- Kosárba gomb -->
-                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="mb-0">
+                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="mb-0 add-to-cart-form">
                     @csrf
-                    <button type="submit" class="btn btn-success">Kosárba</button>
-                </form>
+                    <button type="button" class="btn btn-success add-to-cart" data-url="{{ route('cart.add', $product->id) }}">Kosárba</button>
+                </form>                
             </div>
         @empty
             <p class="text-center">Jelenleg nincsenek termékek ebben a kategóriában.</p>
@@ -178,4 +178,36 @@
         }
     }
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cartButtons = document.querySelectorAll('.add-to-cart');
+
+        cartButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const url = this.getAttribute('data-url');
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Termék sikeresen hozzáadva a kosárhoz!');
+                    } else {
+                        alert('Hiba történt a termék kosárhoz adásakor.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Hiba:', error);
+                    alert('Hiba történt a termék kosárhoz adásakor.');
+                });
+            });
+        });
+    });
+</script>
+
 @endsection
