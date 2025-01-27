@@ -41,7 +41,7 @@
             padding: 15px;
             border-radius: 10px;
             transition: all 0.3s ease;
-            width: 120px;
+            width: 160px;
             height: 130px;
             text-align: center;
         }
