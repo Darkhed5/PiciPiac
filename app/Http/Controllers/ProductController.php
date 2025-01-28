@@ -15,27 +15,14 @@ class ProductController extends Controller
         $category = $request->input('category', '');
         $minPrice = $request->input('min_price', 0);
         $maxPrice = $request->input('max_price', null);
-        $inStock = $request->boolean('in_stock', false);
         $orderBy = $request->input('order_by', 'name');
         $orderDirection = $request->input('order_direction', 'asc');
-
-        $allowedOrderBy = ['name', 'price', 'views'];
-        $allowedOrderDirection = ['asc', 'desc'];
-
-        if (!in_array($orderBy, $allowedOrderBy)) {
-            $orderBy = 'name';
-        }
-        if (!in_array($orderDirection, $allowedOrderDirection)) {
-            $orderDirection = 'asc';
-        }
 
         $query = Product::query();
 
         if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'LIKE', "%{$search}%")
+            $query->where('name', 'LIKE', "%{$search}%")
                   ->orWhere('description', 'LIKE', "%{$search}%");
-            });
         }
 
         if (!empty($category)) {
@@ -50,33 +37,27 @@ class ProductController extends Controller
             $query->where('price', '<=', (float) $maxPrice);
         }
 
-        if ($inStock) {
-            $query->where('stock', '>', 0);
-        }
-
         $query->orderBy($orderBy, $orderDirection);
 
         $products = $query->paginate(10);
 
+        // Ranges kiszámítása lapozáshoz
+        $totalItems = $products->total();
+        $perPage = $products->perPage();
+        $ranges = [];
+        if ($totalItems > 0) {
+            for ($start = 1; $start <= $totalItems; $start += $perPage) {
+                $end = min($start + $perPage - 1, $totalItems);
+                $ranges[] = ['start' => $start, 'end' => $end];
+            }
+        }
+
+        // Kategóriánkénti termékek száma
         $categoryCounts = Product::select('category', \DB::raw('COUNT(*) as count'))
             ->groupBy('category')
-            ->pluck('count', 'category')
-            ->toArray();
+            ->pluck('count', 'category');
 
-        $popularProducts = Product::orderBy('views', 'desc')->take(4)->get();
-
-        return view('products.index', compact(
-            'products',
-            'categoryCounts',
-            'popularProducts',
-            'search',
-            'category',
-            'minPrice',
-            'maxPrice',
-            'inStock',
-            'orderBy',
-            'orderDirection'
-        ));
+        return view('products.index', compact('products', 'ranges', 'categoryCounts'));
     }
 
     // Termék létrehozási oldal
@@ -90,9 +71,11 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category' => 'required|string|max:255',
+            'quantity' => 'required|integer|min:0',
+            'unit' => 'required|string|max:10',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -101,7 +84,8 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->price = $request->price;
         $product->category = $request->category;
-        $product->stock = $request->input('stock', 0);
+        $product->quantity = $request->quantity;
+        $product->unit = $request->unit;
         $product->user_id = Auth::id();
 
         if ($request->hasFile('image')) {
@@ -135,10 +119,11 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category' => 'required|string|max:255',
-            'stock' => 'required|integer|min:0',
+            'quantity' => 'required|integer|min:0',
+            'unit' => 'required|string|max:10',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -147,7 +132,8 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->price = $request->price;
         $product->category = $request->category;
-        $product->stock = $request->stock;
+        $product->quantity = $request->quantity;
+        $product->unit = $request->unit;
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('images', 'public');
@@ -160,7 +146,7 @@ class ProductController extends Controller
     }
 
     // Termék törlése
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $product = Product::findOrFail($id);
 
@@ -170,6 +156,8 @@ class ProductController extends Controller
 
         $product->delete();
 
-        return redirect()->route('products.index')->with('success', 'Termék sikeresen törölve!');
+        $redirectTo = $request->input('redirect_to', route('products.index'));
+
+        return redirect($redirectTo)->with('success', 'Termék sikeresen törölve!');
     }
 }

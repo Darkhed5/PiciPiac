@@ -8,11 +8,13 @@ class ProfileController extends Controller
 {
     public function edit()
     {
+        // Felhasználó adatainak lekérése és az edit nézet megjelenítése
         return view('profile.edit', ['user' => auth()->user()]);
     }
 
     public function update(Request $request)
     {
+        // Validáció a mezőkre
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . auth()->id(),
@@ -20,6 +22,7 @@ class ProfileController extends Controller
             'phone_number' => 'nullable|string|max:20',
         ]);
 
+        // Aktuális felhasználó frissítése
         $user = auth()->user();
         $user->update($request->only('name', 'email', 'address', 'phone_number'));
 

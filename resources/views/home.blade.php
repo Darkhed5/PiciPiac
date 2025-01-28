@@ -13,30 +13,16 @@
 
     <!-- Fejléc és tartományválasztás -->
     <div class="d-flex justify-content-between align-items-center mb-3" style="background-color: #f5c500; padding: 10px;">
-        <!-- Navigációs gombok és tartományválasztó -->
         <div class="d-flex align-items-center">
             <!-- Ugrás az elejére -->
             <button class="btn btn-light me-1 {{ $products->onFirstPage() ? 'disabled' : '' }}" onclick="navigateToPage('first')">
                 <i class="fas fa-fast-backward"></i>
             </button>
-
             <!-- Egyel vissza -->
             <button class="btn btn-light me-1 {{ $products->onFirstPage() ? 'disabled' : '' }}" onclick="navigateToPage('previous')">
                 <i class="fas fa-backward"></i>
             </button>
-
             <!-- Tartományválasztó -->
-            @php
-                $totalItems = $products->total();
-                $perPage = $products->perPage();
-                $ranges = [];
-                if ($totalItems > 0) {
-                    for ($start = 1; $start <= $totalItems; $start += $perPage) {
-                        $end = min($start + $perPage - 1, $totalItems);
-                        $ranges[] = ['start' => $start, 'end' => $end];
-                    }
-                }
-            @endphp
             <select id="item-range-selector" class="form-select me-3" style="width: auto;" onchange="updateRange()">
                 @foreach($ranges as $range)
                     <option value="{{ $range['start'] }}-{{ $range['end'] }}">
@@ -44,18 +30,15 @@
                     </option>
                 @endforeach
             </select>
-
             <!-- Egyel előre -->
             <button class="btn btn-light me-1 {{ $products->currentPage() >= $products->lastPage() ? 'disabled' : '' }}" onclick="navigateToPage('next')">
                 <i class="fas fa-forward"></i>
             </button>
-
             <!-- Ugrás a végére -->
             <button class="btn btn-light {{ $products->currentPage() >= $products->lastPage() ? 'disabled' : '' }}" onclick="navigateToPage('last')">
                 <i class="fas fa-fast-forward"></i>
             </button>
         </div>
-
         <!-- Ugrás az aljára -->
         <button class="btn btn-light" onclick="navigateToPage('bottom')">
             <i class="bi bi-chevron-double-down"></i>
@@ -65,7 +48,7 @@
     <!-- Terméklista -->
     <div class="list-group">
         @forelse($products as $product)
-            <div class="list-group-item d-flex align-items-center">
+            <div class="list-group-item d-flex align-items-center hover-highlight">
                 <!-- Termékkép -->
                 <a href="{{ route('products.show', $product->id) }}" class="me-3">
                     <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}" style="width: 80px; height: 80px; object-fit: cover;">
@@ -75,7 +58,8 @@
                 <div class="flex-grow-1">
                     <h5 class="mb-1">
                         <a href="{{ route('products.show', $product->id) }}" class="text-decoration-none text-primary">
-                            {{ $product->name }}
+                            {{ $product->name }} 
+                            <span class="text-muted">| Kiszerelés: {{ $product->unit }}</span>
                         </a>
                     </h5>
                     <small class="text-muted">Eladó: {{ $product->seller->name ?? 'Ismeretlen' }}</small>
@@ -87,10 +71,10 @@
                 </div>
 
                 <!-- Kosárba gomb -->
-                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="mb-0">
+                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="mb-0 add-to-cart-form">
                     @csrf
-                    <button type="submit" class="btn btn-success">Kosárba</button>
-                </form>
+                    <button type="button" class="btn btn-success add-to-cart" data-url="{{ route('cart.add', $product->id) }}">Kosárba</button>
+                </form>                
             </div>
         @empty
             <p class="text-center">Jelenleg nincsenek termékek.</p>
@@ -99,18 +83,15 @@
 
     <!-- Lábléc tartomány és navigáció -->
     <div class="d-flex justify-content-between align-items-center mt-3" style="background-color: #f5c500; padding: 10px;">
-        <!-- Navigációs gombok és tartományválasztó -->
         <div class="d-flex align-items-center">
             <!-- Ugrás az elejére -->
             <button class="btn btn-light me-1 {{ $products->onFirstPage() ? 'disabled' : '' }}" onclick="navigateToPage('first')">
                 <i class="fas fa-fast-backward"></i>
             </button>
-
             <!-- Egyel vissza -->
             <button class="btn btn-light me-1 {{ $products->onFirstPage() ? 'disabled' : '' }}" onclick="navigateToPage('previous')">
                 <i class="fas fa-backward"></i>
             </button>
-
             <!-- Tartományválasztó -->
             <select id="item-range-selector-footer" class="form-select me-3" style="width: auto;" onchange="updateRange()">
                 @foreach($ranges as $range)
@@ -119,18 +100,15 @@
                     </option>
                 @endforeach
             </select>
-
             <!-- Egyel előre -->
             <button class="btn btn-light me-1 {{ $products->currentPage() >= $products->lastPage() ? 'disabled' : '' }}" onclick="navigateToPage('next')">
                 <i class="fas fa-forward"></i>
             </button>
-
             <!-- Ugrás a végére -->
             <button class="btn btn-light {{ $products->currentPage() >= $products->lastPage() ? 'disabled' : '' }}" onclick="navigateToPage('last')">
                 <i class="fas fa-fast-forward"></i>
             </button>
         </div>
-
         <!-- Ugrás a tetejére -->
         <button class="btn btn-light" onclick="navigateToPage('top')">
             <i class="bi bi-chevron-double-up"></i>
@@ -143,9 +121,17 @@
     </div>
 </div>
 
+<style>
+    .hover-highlight:hover {
+        background-color: #f1f8ff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+</style>
+
 <script>
     function navigateToPage(action) {
-        switch(action) {
+        switch (action) {
             case 'first':
                 window.location.href = '?page=1';
                 break;
@@ -169,4 +155,36 @@
         }
     }
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cartButtons = document.querySelectorAll('.add-to-cart');
+
+        cartButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const url = this.getAttribute('data-url');
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Termék sikeresen hozzáadva a kosárhoz!');
+                    } else {
+                        alert('Hiba történt a termék kosárhoz adásakor.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Hiba:', error);
+                    alert('Hiba történt a termék kosárhoz adásakor.');
+                });
+            });
+        });
+    });
+</script>
+
 @endsection

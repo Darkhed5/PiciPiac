@@ -21,6 +21,7 @@
             <thead>
                 <tr>
                     <th>Termék</th>
+                    <th>Kiszerelés</th>
                     <th>Darabszám</th>
                     <th>Egységár</th>
                     <th>Összeg</th>
@@ -30,8 +31,9 @@
                 @foreach($cartItems as $cartItem)
                     <tr>
                         <td>{{ $cartItem->product->name }}</td>
+                        <td>{{ $cartItem->product->unit }}</td> <!-- Kiszerelés megjelenítése -->
                         <td>{{ $cartItem->quantity }}</td>
-                        <td>{{ $cartItem->product->price }} Ft</td>
+                        <td>{{ number_format($cartItem->product->price, 0, ',', ' ') }} Ft</td>
                         <td>{{ $cartItem->quantity * $cartItem->product->price }} Ft</td>
                     </tr>
                     <input type="hidden" name="items[{{ $cartItem->id }}][product_id]" value="{{ $cartItem->product_id }}">
