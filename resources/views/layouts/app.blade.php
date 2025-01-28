@@ -25,23 +25,31 @@
             align-items: center;
             background-color: #e6efe9;
             flex-wrap: wrap;
-            gap: 10px; /* Távolság az ikonok között */
             margin: 0 auto;
             border-radius: 10px;
-            padding: 15px;
         }
 
         .category-link {
+            position: relative; /* A darabszám pozícionálásához */
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             text-decoration: none;
             color: #3b7f4b;
-            font-size: 2.5rem; /* Ikon méret */
-            width: 100px; /* Fix szélesség */
-            height: 100px; /* Fix magasság */
+            font-weight: bold;
+            font-size: 0.8rem;
+            padding: 15px;
             border-radius: 10px;
             transition: all 0.3s ease;
+            width: 160px;
+            height: 130px;
+            text-align: center;
+        }
+
+        .category-link i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
         }
 
         .category-link:hover {
@@ -50,19 +58,46 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+        .category-link:hover i {
+            transform: scale(1.2);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-count {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s ease-in-out;
+            font-size: 0.75rem;
+        }
+
+        .category-link:hover .category-count {
+            visibility: visible;
+            opacity: 1;
+        }
+
         @media (max-width: 768px) {
             .category-link {
-                width: 80px; /* Kisebb ikonok mobilon */
-                height: 80px;
-                font-size: 2rem;
+                font-size: 0.9rem;
+                width: 80px;
+            }
+
+            .category-link i {
+                font-size: 1.5rem;
             }
         }
 
         @media (max-width: 480px) {
             .category-link {
-                width: 70px; /* Még kisebb ikonok kis képernyőn */
-                height: 70px;
-                font-size: 1.8rem;
+                font-size: 0.8rem;
+                width: 70px;
+            }
+
+            .category-link i {
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -138,27 +173,43 @@
         <div class="category-bar">
             <a href="{{ route('products.index', ['category' => 'gyumolcsok']) }}" class="category-link">
                 <i class="fas fa-apple-alt"></i>
+                <span>Gyümölcsök</span>
+                <small class="category-count text-muted">{{ $categoryCounts['gyumolcsok'] ?? 0 }}</small>
             </a>
             <a href="{{ route('products.index', ['category' => 'zoldsegek']) }}" class="category-link">
                 <i class="fas fa-carrot"></i>
+                <span>Zöldségek</span>
+                <small class="category-count text-muted">{{ $categoryCounts['zoldsegek'] ?? 0 }}</small>
             </a>
             <a href="{{ route('products.index', ['category' => 'tejtermekek']) }}" class="category-link">
                 <i class="fas fa-cheese"></i>
+                <span>Tejtermékek</span>
+                <small class="category-count text-muted">{{ $categoryCounts['tejtermekek'] ?? 0 }}</small>
             </a>
             <a href="{{ route('products.index', ['category' => 'hus-es-huskeszitmenyek']) }}" class="category-link">
                 <i class="fas fa-drumstick-bite"></i>
+                <span>Húsok és húskészítmények</span>
+                <small class="category-count text-muted">{{ $categoryCounts['hus-es-huskeszitmenyek'] ?? 0 }}</small>
             </a>
             <a href="{{ route('products.index', ['category' => 'mezek-es-lekvarok']) }}" class="category-link">
                 <i class="fa-solid fa-face-grin-tongue"></i>
+                <span>Mézek és lekvárok</span>
+                <small class="category-count text-muted">{{ $categoryCounts['mezek-es-lekvarok'] ?? 0 }}</small>
             </a>
             <a href="{{ route('products.index', ['category' => 'pekaruk']) }}" class="category-link">
                 <i class="fas fa-bread-slice"></i>
+                <span>Pékáruk</span>
+                <small class="category-count text-muted">{{ $categoryCounts['pekaruk'] ?? 0 }}</small>
             </a>
             <a href="{{ route('products.index', ['category' => 'fuszerek-es-gyogynovenyek']) }}" class="category-link">
                 <i class="fas fa-leaf"></i>
+                <span>Fűszerek és gyógynövények</span>
+                <small class="category-count text-muted">{{ $categoryCounts['fuszerek-es-gyogynovenyek'] ?? 0 }}</small>
             </a>
             <a href="{{ route('products.index', ['category' => 'kezmuves-termekek']) }}" class="category-link">
                 <i class="fas fa-hand-holding-heart"></i>
+                <span>Kézműves termékek</span>
+                <small class="category-count text-muted">{{ $categoryCounts['kezmuves-termekek'] ?? 0 }}</small>
             </a>
         </div>
 
