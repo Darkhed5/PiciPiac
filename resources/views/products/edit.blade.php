@@ -24,7 +24,7 @@
         @if($product->image_path)
             <div class="mb-4">
                 <label class="form-label">Jelenlegi kép:</label>
-                <div>
+                <div class="mb-4 col-12 col-md-4 mx-auto">
                     <img src="{{ asset('storage/' . $product->image_path) }}" alt="Termék képe" class="img-fluid rounded shadow">
                 </div>
             </div>
