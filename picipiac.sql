@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Jan 22. 18:54
--- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Jan 28, 2025 at 08:48 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Adatbázis: `picipiac`
+-- Database: `picipiac`
 --
 CREATE DATABASE IF NOT EXISTS `picipiac` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `picipiac`;
@@ -26,7 +26,7 @@ USE `picipiac`;
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `cache`
+-- Table structure for table `cache`
 --
 
 CREATE TABLE `cache` (
@@ -36,19 +36,17 @@ CREATE TABLE `cache` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- A tábla adatainak kiíratása `cache`
+-- Dumping data for table `cache`
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('asd@gmail.com|127.0.0.1', 'i:1;', 1737564611),
-('asd@gmail.com|127.0.0.1:timer', 'i:1737564611;', 1737564611),
-('picipiacteszt@valami.hu|127.0.0.1', 'i:1;', 1736878244),
-('picipiacteszt@valami.hu|127.0.0.1:timer', 'i:1736878244;', 1736878244);
+('picipiac69@gmail.com|127.0.0.1', 'i:1;', 1737217951),
+('picipiac69@gmail.com|127.0.0.1:timer', 'i:1737217951;', 1737217951);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `cache_locks`
+-- Table structure for table `cache_locks`
 --
 
 CREATE TABLE `cache_locks` (
@@ -60,7 +58,7 @@ CREATE TABLE `cache_locks` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `carts`
+-- Table structure for table `carts`
 --
 
 CREATE TABLE `carts` (
@@ -73,17 +71,17 @@ CREATE TABLE `carts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- A tábla adatainak kiíratása `carts`
+-- Dumping data for table `carts`
 --
 
 INSERT INTO `carts` (`id`, `user_id`, `product_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(1, 3, 6, 1, '2025-01-15 15:50:29', '2025-01-15 15:50:29'),
-(2, 3, 7, 1, '2025-01-22 15:55:37', '2025-01-22 15:55:37');
+(16, 2, 24, 5, '2025-01-28 18:42:11', '2025-01-28 18:43:22'),
+(17, 2, 15, 1, '2025-01-28 18:44:03', '2025-01-28 18:44:03');
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `failed_jobs`
+-- Table structure for table `failed_jobs`
 --
 
 CREATE TABLE `failed_jobs` (
@@ -99,7 +97,7 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `jobs`
+-- Table structure for table `jobs`
 --
 
 CREATE TABLE `jobs` (
@@ -115,7 +113,7 @@ CREATE TABLE `jobs` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `job_batches`
+-- Table structure for table `job_batches`
 --
 
 CREATE TABLE `job_batches` (
@@ -134,7 +132,7 @@ CREATE TABLE `job_batches` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `migrations`
+-- Table structure for table `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -144,29 +142,30 @@ CREATE TABLE `migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- A tábla adatainak kiíratása `migrations`
+-- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '0001_01_01_000000_create_users_table', 1),
-(2, '0001_01_01_000001_create_cache_table', 1),
-(3, '0001_01_01_000002_create_jobs_table', 1),
-(4, '2024_11_01_160816_create_products_table', 1),
-(5, '2024_11_05_173755_create_carts_table', 1),
-(6, '2024_11_05_183057_create_orders_table', 1),
-(7, '2024_11_05_183720_create_order_items_table', 1),
-(8, '2024_11_07_184836_add_image_path_to_products_table', 1),
-(9, '2024_11_09_183508_add_address_and_phone_to_users_table', 1),
-(10, '2024_11_11_183333_add_status_to_orders_table', 1),
-(11, '2024_11_11_205654_add_notes_to_orders_table', 1),
-(12, '2024_11_12_162656_update_category_default_in_products_table', 1),
-(13, '2024_12_10_184755_add_stock_to_products_table', 1),
-(14, '2024_12_10_185415_add_views_to_products_table', 1);
+(19, '0001_01_01_000000_create_users_table', 1),
+(20, '0001_01_01_000001_create_cache_table', 1),
+(21, '0001_01_01_000002_create_jobs_table', 1),
+(22, '2024_11_01_160816_create_products_table', 1),
+(23, '2024_11_05_173755_create_carts_table', 1),
+(24, '2024_11_05_183057_create_orders_table', 1),
+(26, '2024_11_05_183720_create_order_items_table', 2),
+(27, '2024_11_07_184836_add_image_path_to_products_table', 2),
+(29, '2024_11_11_183333_add_status_to_orders_table', 2),
+(30, '2024_11_11_205654_add_notes_to_orders_table', 2),
+(31, '2024_11_12_162656_update_category_default_in_products_table', 2),
+(32, '2024_12_10_184755_add_stock_to_products_table', 3),
+(33, '2024_12_10_185415_add_views_to_products_table', 3),
+(34, '2024_11_09_183508_add_address_and_phone_to_users_table', 4),
+(35, '2025_01_25_192358_add_quantity_and_unit_to_products_table', 5);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `orders`
+-- Table structure for table `orders`
 --
 
 CREATE TABLE `orders` (
@@ -180,21 +179,21 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- A tábla adatainak kiíratása `orders`
+-- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `status`, `total_price`, `notes`, `created_at`, `updated_at`) VALUES
-(1, 3, 'feldolgozás alatt', 500.00, NULL, '2025-01-15 15:50:39', '2025-01-15 15:50:39'),
-(2, 3, 'feldolgozás alatt', 4500.00, NULL, '2025-01-22 15:55:45', '2025-01-22 15:55:45'),
-(3, 3, 'feldolgozás alatt', 4500.00, NULL, '2025-01-22 16:00:08', '2025-01-22 16:00:08'),
-(4, 3, 'feldolgozás alatt', 4500.00, NULL, '2025-01-22 16:00:14', '2025-01-22 16:00:14'),
-(5, 3, 'feldolgozás alatt', 4500.00, NULL, '2025-01-22 16:00:30', '2025-01-22 16:00:30'),
-(6, 3, 'feldolgozás alatt', 4500.00, NULL, '2025-01-22 16:00:53', '2025-01-22 16:00:53');
+(1, 2, 'feldolgozás alatt', 6000.00, NULL, '2025-01-15 15:52:43', '2025-01-15 15:52:43'),
+(2, 2, 'feldolgozás alatt', 7200.00, 'semmi', '2025-01-22 15:56:17', '2025-01-22 15:56:17'),
+(3, 2, 'feldolgozás alatt', 8800.00, NULL, '2025-01-26 17:41:54', '2025-01-26 17:41:54'),
+(4, 4, 'feldolgozás alatt', 2200.00, NULL, '2025-01-26 18:13:20', '2025-01-26 18:13:20'),
+(5, 4, 'átvehető', 2500.00, NULL, '2025-01-26 18:16:08', '2025-01-26 18:24:41'),
+(6, 2, 'feldolgozás alatt', 2500.00, NULL, '2025-01-28 18:43:31', '2025-01-28 18:43:31');
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `order_items`
+-- Table structure for table `order_items`
 --
 
 CREATE TABLE `order_items` (
@@ -208,26 +207,16 @@ CREATE TABLE `order_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- A tábla adatainak kiíratása `order_items`
+-- Dumping data for table `order_items`
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-(1, 1, 6, 1, 500.00, '2025-01-15 15:50:39', '2025-01-15 15:50:39'),
-(2, 2, 6, 1, 500.00, '2025-01-22 15:55:45', '2025-01-22 15:55:45'),
-(3, 2, 7, 1, 4000.00, '2025-01-22 15:55:45', '2025-01-22 15:55:45'),
-(4, 3, 6, 1, 500.00, '2025-01-22 16:00:08', '2025-01-22 16:00:08'),
-(5, 3, 7, 1, 4000.00, '2025-01-22 16:00:08', '2025-01-22 16:00:08'),
-(6, 4, 6, 1, 500.00, '2025-01-22 16:00:14', '2025-01-22 16:00:14'),
-(7, 4, 7, 1, 4000.00, '2025-01-22 16:00:14', '2025-01-22 16:00:14'),
-(8, 5, 6, 1, 500.00, '2025-01-22 16:00:30', '2025-01-22 16:00:30'),
-(9, 5, 7, 1, 4000.00, '2025-01-22 16:00:30', '2025-01-22 16:00:30'),
-(10, 6, 6, 1, 500.00, '2025-01-22 16:00:53', '2025-01-22 16:00:53'),
-(11, 6, 7, 1, 4000.00, '2025-01-22 16:00:53', '2025-01-22 16:00:53');
+(10, 6, 24, 5, 500.00, '2025-01-28 18:43:31', '2025-01-28 18:43:31');
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `password_reset_tokens`
+-- Table structure for table `password_reset_tokens`
 --
 
 CREATE TABLE `password_reset_tokens` (
@@ -239,7 +228,7 @@ CREATE TABLE `password_reset_tokens` (
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `products`
+-- Table structure for table `products`
 --
 
 CREATE TABLE `products` (
@@ -247,6 +236,8 @@ CREATE TABLE `products` (
   `name` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `price` decimal(8,2) NOT NULL,
+  `quantity` decimal(8,2) DEFAULT NULL,
+  `unit` varchar(10) DEFAULT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `category` varchar(255) NOT NULL DEFAULT 'egyéb',
   `image_path` varchar(255) DEFAULT NULL,
@@ -257,20 +248,17 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- A tábla adatainak kiíratása `products`
+-- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `description`, `price`, `user_id`, `category`, `image_path`, `stock`, `created_at`, `updated_at`, `views`) VALUES
-(1, 'teakeverék', 'nyugtató teakeverék', 1500.00, 3, 'fuszerek-es-gyogynovenyek', 'products/3PKfozPty9O400PBb1EdPAQk80yCc8faLiFdN3MS.jpg', 0, '2025-01-14 17:12:12', '2025-01-14 17:12:12', 0),
-(3, 'paradicsom', 'savmentes paradicsom', 350.00, 3, 'zoldsegek', 'products/59pecfXWGMPatm2W893kakf4tQ8VwasUUxKebKQp.jpg', 0, '2025-01-14 17:13:01', '2025-01-14 17:13:01', 0),
-(5, 'gyümölcskosár', 'magyar gyümölcskosár', 3500.00, 3, 'gyumolcsok', 'products/1t81ZtRloa1rXlmNUVxVcmyPhQStL8sdF99QwvH8.jpg', 0, '2025-01-14 17:13:33', '2025-01-14 17:13:33', 0),
-(6, 'péksütemény', 'édes péksütemény', 500.00, 3, 'pekaruk', 'products/9UcthoL1xXNcHe6QP8qc4mZ8rqCtxPHSvexhui0J.jpg', 0, '2025-01-14 17:14:02', '2025-01-14 17:14:02', 0),
-(7, 'méz', 'nagyon finom', 4000.00, 3, 'mezek-es-lekvarok', 'images/YRuFenVq3qFx4RuzEE0wMQliVWjRE5ZdDVfjThSG.jpg', 0, '2025-01-22 15:55:02', '2025-01-22 15:55:17', 0);
+INSERT INTO `products` (`id`, `name`, `description`, `price`, `quantity`, `unit`, `user_id`, `category`, `image_path`, `stock`, `created_at`, `updated_at`, `views`) VALUES
+(15, 'virsli', 'asdfgh', 400.00, 400.00, 'kg', 4, 'hus-es-huskeszitmenyek', NULL, 0, '2025-01-26 18:15:44', '2025-01-26 18:15:44', 0),
+(24, 'körte', 'ckiaijff', 500.00, 100.00, 'kg', 2, 'gyumolcsok', 'images/93b0zSGVJh4vIDnsnnHWz8x1hFlYT9LOvshxLiv9.jpg', 0, '2025-01-28 15:43:18', '2025-01-28 18:43:03', 0);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `sessions`
+-- Table structure for table `sessions`
 --
 
 CREATE TABLE `sessions` (
@@ -283,23 +271,24 @@ CREATE TABLE `sessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- A tábla adatainak kiíratása `sessions`
+-- Dumping data for table `sessions`
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('i7v0Fk9L8iKdCeFvsVKXU9qYkWwsBgK8Ikvjx8Or', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoidmg0YkNZMWYwZ1ZqV1pnczZDOVhNbXpUd2U1Zmh1QXp0em1ldFBuMiI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM3OiJodHRwOi8vbG9jYWxob3N0OjgwMDAvcHJvZHVjdHMvY3JlYXRlIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MztzOjQ6ImF1dGgiO2E6MTp7czoyMToicGFzc3dvcmRfY29uZmlybWVkX2F0IjtpOjE3MzY5NTkxNDQ7fX0=', 1736968734),
-('OSi4WNB8uqs8O0xiOFE1cYe8gqkQMnRZsRu7duYe', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoicTJPVjdZNUtvSTZQWGxaM0pjWGxCd2VwdnRyaTRaQ0c1YlpLRld0MSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjM7czo0OiJhdXRoIjthOjE6e3M6MjE6InBhc3N3b3JkX2NvbmZpcm1lZF9hdCI7aToxNzM3NTY0NTgzO319', 1737566119);
+('BJVDHvvYbRTiyJ0HrvDZZJGh0yKELO8xsfjabIFa', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoidmtVampuSlhlT0FlUzBCZTdvd2ZRNnZLd0E1M1o0Nk84WWdLZlBQZyI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjI2OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvY2FydCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7czo0OiJhdXRoIjthOjE6e3M6MjE6InBhc3N3b3JkX2NvbmZpcm1lZF9hdCI7aToxNzM4MDgyMjc3O319', 1738093450);
 
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(255) DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
@@ -309,30 +298,33 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- A tábla adatainak kiíratása `users`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `is_admin`) VALUES
-(3, 'ppteszt', 'ppteszt@gmail.com', NULL, '$2y$12$0Ts/eGV4741Rsi9HNQC1AOhSCHDDtsOJHYRffkC.LhkQMTL.5L00q', NULL, '2025-01-14 17:10:31', '2025-01-14 17:10:31', 0);
+INSERT INTO `users` (`id`, `name`, `email`, `address`, `phone_number`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `is_admin`) VALUES
+(1, 'Zsót', 'zsoti94@gmail.com', NULL, NULL, NULL, '$2y$12$P5CQpbIHMJo7e8eX416h7emPMwPlVrshss1LapM0giQdKTYQLY9Ci', NULL, '2024-12-01 18:06:16', '2024-12-01 18:06:16', 0),
+(2, 'Gyuri', 'zsot2024@gmail.com', '2252 Pityputy, Bánat utca 2', '06308082299', NULL, '$2y$12$N3lHOUP7Vg5OrvlI9jBYL.1mwtrxymAl/GjDgGybKOWXDfNOCjoq.', NULL, '2024-12-03 16:41:14', '2025-01-28 18:09:42', 0),
+(3, 'Gyulus', 'nemtudom@gmail.com', NULL, NULL, NULL, '$2y$12$3VT1AjCvekbz9aZr0OOZ4.qqJhQryE3jeK8sh7GQmtCniCvk7FJoW', NULL, '2025-01-22 17:20:13', '2025-01-22 17:20:13', 0),
+(4, 'Feri', 'feri@fiszmail.com', NULL, NULL, NULL, '$2y$12$Svym4sMEFFBR0pAAwTdVz.7TnqVXHNARB6zb2Wu/6pREwzP1B5roC', NULL, '2025-01-26 18:12:51', '2025-01-26 18:12:51', 0);
 
 --
--- Indexek a kiírt táblákhoz
+-- Indexes for dumped tables
 --
 
 --
--- A tábla indexei `cache`
+-- Indexes for table `cache`
 --
 ALTER TABLE `cache`
   ADD PRIMARY KEY (`key`);
 
 --
--- A tábla indexei `cache_locks`
+-- Indexes for table `cache_locks`
 --
 ALTER TABLE `cache_locks`
   ADD PRIMARY KEY (`key`);
 
 --
--- A tábla indexei `carts`
+-- Indexes for table `carts`
 --
 ALTER TABLE `carts`
   ADD PRIMARY KEY (`id`),
@@ -340,40 +332,40 @@ ALTER TABLE `carts`
   ADD KEY `carts_product_id_foreign` (`product_id`);
 
 --
--- A tábla indexei `failed_jobs`
+-- Indexes for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
--- A tábla indexei `jobs`
+-- Indexes for table `jobs`
 --
 ALTER TABLE `jobs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `jobs_queue_index` (`queue`);
 
 --
--- A tábla indexei `job_batches`
+-- Indexes for table `job_batches`
 --
 ALTER TABLE `job_batches`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `migrations`
+-- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- A tábla indexei `orders`
+-- Indexes for table `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
   ADD KEY `orders_user_id_foreign` (`user_id`);
 
 --
--- A tábla indexei `order_items`
+-- Indexes for table `order_items`
 --
 ALTER TABLE `order_items`
   ADD PRIMARY KEY (`id`),
@@ -381,20 +373,20 @@ ALTER TABLE `order_items`
   ADD KEY `order_items_product_id_foreign` (`product_id`);
 
 --
--- A tábla indexei `password_reset_tokens`
+-- Indexes for table `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
--- A tábla indexei `products`
+-- Indexes for table `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
   ADD KEY `products_user_id_foreign` (`user_id`);
 
 --
--- A tábla indexei `sessions`
+-- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`),
@@ -402,90 +394,90 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
--- A tábla indexei `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
--- A kiírt táblák AUTO_INCREMENT értéke
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT a táblához `carts`
+-- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- AUTO_INCREMENT a táblához `failed_jobs`
+-- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `jobs`
+-- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT a táblához `migrations`
+-- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
--- AUTO_INCREMENT a táblához `orders`
+-- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT a táblához `order_items`
+-- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT a táblához `products`
+-- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT a táblához `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Megkötések a kiírt táblákhoz
+-- Constraints for dumped tables
 --
 
 --
--- Megkötések a táblához `carts`
+-- Constraints for table `carts`
 --
 ALTER TABLE `carts`
   ADD CONSTRAINT `carts_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `carts_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Megkötések a táblához `orders`
+-- Constraints for table `orders`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Megkötések a táblához `order_items`
+-- Constraints for table `order_items`
 --
 ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `order_items_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 --
--- Megkötések a táblához `products`
+-- Constraints for table `products`
 --
 ALTER TABLE `products`
   ADD CONSTRAINT `products_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
