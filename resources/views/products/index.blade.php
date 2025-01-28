@@ -69,7 +69,7 @@
                     <h5 class="mb-1">
                         <a href="{{ route('products.show', $product->id) }}" class="text-decoration-none text-primary">
                             {{ $product->name }} 
-                            <span class="text-muted">| Kiszerelés: {{ $product->unit }}</span>
+                            <span class="text-muted">({{ $product->unit }})</span>
                         </a>
                     </h5>
                     <small class="text-muted">Eladó: {{ $product->seller->name ?? 'Ismeretlen' }}</small>
@@ -150,6 +150,19 @@
         white-space: nowrap;
         z-index: 10;
     }
+
+    /* Mobilnézet szövegek méretének csökkentése */
+    @media (max-width: 768px) {
+        h5 {
+            font-size: 1rem !important; /* Termék nevek kisebb méretben */
+        }
+        .list-group-item .text-muted {
+            font-size: 0.875rem !important; /* Kis szövegek méretének csökkentése */
+        }
+        .text-end {
+            font-size: 0.9rem !important; /* Ár kisebb méretben */
+        }
+    }
 </style>
 
 <script>
@@ -160,14 +173,14 @@
                 break;
             case 'previous':
                 const prevPage = {{ $products->currentPage() > 1 ? $products->currentPage() - 1 : 1 }};
-                window.location.href = `?page=${prevPage}`;
+                window.location.href = ?page=${prevPage};
                 break;
             case 'next':
                 const nextPage = {{ $products->currentPage() < $products->lastPage() ? $products->currentPage() + 1 : $products->lastPage() }};
-                window.location.href = `?page=${nextPage}`;
+                window.location.href = ?page=${nextPage};
                 break;
             case 'last':
-                window.location.href = `?page={{ $products->lastPage() }}`;
+                window.location.href = ?page={{ $products->lastPage() }};
                 break;
             case 'top':
                 window.scrollTo({ top: 0, behavior: 'smooth' });

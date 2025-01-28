@@ -27,7 +27,7 @@
                         <h5 class="mb-1">
                             <a href="{{ route('products.show', $ad->id) }}" class="text-decoration-none text-primary">
                                 {{ $ad->name }} 
-                                <span class="text-muted">| Kiszerelés: {{ $ad->unit }}</span>
+                                <span class="text-muted">({{ $ad->unit }})</span>
                             </a>
                         </h5>
                     </div>
@@ -57,6 +57,18 @@
         background-color: #f1f8ff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: background-color 0.3s, box-shadow 0.3s;
+    }
+            /* Mobilnézet szövegek méretének csökkentése */
+            @media (max-width: 768px) {
+        h5 {
+            font-size: 1rem !important; /* Termék nevek kisebb méretben */
+        }
+        .list-group-item .text-muted {
+            font-size: 0.875rem !important; /* Kis szövegek méretének csökkentése */
+        }
+        .text-end {
+            font-size: 0.9rem !important; /* Ár kisebb méretben */
+        }
     }
 </style>
 

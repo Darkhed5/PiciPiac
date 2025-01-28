@@ -19,6 +19,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
+        /* Kategória sáv beállításai */
         .category-bar {
             display: flex;
             justify-content: center;
@@ -27,42 +28,56 @@
             flex-wrap: wrap;
             margin: 0 auto;
             border-radius: 10px;
+            padding: 10px;
         }
-
+    
+        /* Kategória gombok */
         .category-link {
-            position: relative; /* A darabszám pozícionálásához */
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-decoration: none;
             color: #3b7f4b;
             font-weight: bold;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             padding: 15px;
             border-radius: 10px;
             transition: all 0.3s ease;
             width: 160px;
             height: 130px;
             text-align: center;
+            justify-content: center;
         }
-
+    
+        /* Kategória ikon */
         .category-link i {
             font-size: 2.5rem;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             transition: transform 0.3s ease;
         }
-
+    
+        /* Kategória szöveg */
+        .category-link span {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 5px; /* Távolság az ikon és a szöveg között */
+            line-height: 1.4;
+        }
+    
+        /* Kategória gomb hover effekt */
         .category-link:hover {
             color: #028a0f;
             background-color: #c7e3d2;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
+    
         .category-link:hover i {
             transform: scale(1.2);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
-
+    
+        /* Kategória termékszámláló */
         .category-count {
             position: absolute;
             bottom: 5px;
@@ -73,34 +88,49 @@
             transition: visibility 0s, opacity 0.3s ease-in-out;
             font-size: 0.75rem;
         }
-
+    
+        /* Számláló hover */
         .category-link:hover .category-count {
             visibility: visible;
             opacity: 1;
         }
-
+    
+        /* Mobilnézet finomhangolás */
         @media (max-width: 768px) {
             .category-link {
-                font-size: 0.9rem;
-                width: 80px;
+                width: 100px;
+                height: 110px;
+                font-size: 0.85rem;
             }
-
+    
             .category-link i {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
+            }
+    
+            .category-link span {
+                font-size: 0.7rem; /* Kisebb betűméret mobilon */
+                margin-top: 8px;
             }
         }
-
+    
+        /* Extra kis képernyők (pl. mobiltelefonok) */
         @media (max-width: 480px) {
             .category-link {
-                font-size: 0.8rem;
-                width: 70px;
+                width: 90px;
+                height: 100px;
             }
-
+    
             .category-link i {
-                font-size: 1.2rem;
+                font-size: 1.6rem;
+            }
+    
+            .category-link span {
+                font-size: 0.7rem; /* Még kisebb betűméret kis kijelzőn */
+                margin-top: 8px;
             }
         }
     </style>
+    
 </head>
 <body>
     <div id="app">
