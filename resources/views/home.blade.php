@@ -59,7 +59,7 @@
                     <h5 class="mb-1">
                         <a href="{{ route('products.show', $product->id) }}" class="text-decoration-none text-primary">
                             {{ $product->name }} 
-                            <span class="text-muted">| Kiszerelés: {{ $product->unit }}</span>
+                            <span class="text-muted">({{ $product->unit }})</span>
                         </a>
                     </h5>
                     <small class="text-muted">Eladó: {{ $product->seller->name ?? 'Ismeretlen' }}</small>
@@ -122,12 +122,35 @@
 </div>
 
 <style>
+    /* Hover effektek a terméklistában */
     .hover-highlight:hover {
         background-color: #f1f8ff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: background-color 0.3s, box-shadow 0.3s;
     }
+
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 1.5rem !important; /* Főcím méretének csökkentése */
+        }
+        h5 {
+            font-size: 1rem !important; /* Termék nevek kisebb méretben */
+        }
+        p, span, small {
+            font-size: 0.875rem !important; /* Általános szövegek csökkentése */
+        }
+        .btn {
+            font-size: 0.85rem !important; /* Gombok kisebb betűmérete */
+        }
+        .list-group-item {
+            padding: 10px !important; /* Kevesebb belső térköz a mobilon */
+        }
+        .text-end {
+            font-size: 0.9rem !important; /* Árak méretének csökkentése */
+        }
+    }
 </style>
+
 
 <script>
     function navigateToPage(action) {
